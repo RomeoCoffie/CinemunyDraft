@@ -1,0 +1,119 @@
+.groups-section {
+  margin: 5rem auto;
+  padding: 1rem;
+  line-height: 1rem;
+  justify-content: center;
+}
+.groups-head {
+  font-size: medium;
+  margin: 1rem auto;
+}
+
+.underline {
+  margin: 1.3rem auto;
+}
+
+.groups {
+  margin-top: 0rem;
+  margin-left: 0px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  line-height: 1rem;
+}
+.members {
+  color: green;
+  font-size: small;
+  font-style: italic;
+}
+.join {
+  color: green;
+  font-weight: bold;
+}
+
+.show {
+  font-size: smaller;
+}
+
+.difficult {
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.words {
+  padding: 5px;
+  width: 100%;
+  margin: 0 auto;
+}
+.selection {
+  padding: 1px;
+  display: inline-block;
+  font-size: small;
+}
+
+.quiz {
+  grid-template-columns: span 2;
+  padding: 1rem;
+  margin-left: 0px;
+}
+
+.container {
+  grid-column: span 2;
+  padding: 1rem;
+}
+
+.container h4 {
+  padding: 1rem;
+  display: inline;
+  color: black;
+}
+
+.container span {
+  padding: 0.5rem;
+  font-size: x-large;
+  color: green;
+}
+.question {
+  padding: 1rem;
+  font-style: normal;
+}
+.answerbtn {
+  width: 100%;
+  margin: 0.75rem auto;
+  background: var(--clr-primary-7);
+  border-radius: var(--radius);
+  border-color: transparent;
+  color: black;
+  letter-spacing: var(--spacing);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.1rem 0;
+  transition: var(--transition);
+}
+.answerbtn:hover {
+  background: green;
+  color: white;
+}
+
+.questioncard {
+  padding: 0.5rem;
+  border: 0.5rem solid crimson;
+  margin-bottom: 1rem;
+}
+
+.submit-btn {
+  border-radius: var(--radius);
+  border-color: transparent;
+  padding: 0.25rem 0.5rem;
+  display: block;
+  width: 35%;
+  margin-left: auto;
+  margin-top: 2rem;
+  text-transform: capitalize;
+  font-weight: 700;
+  letter-spacing: var(--spacing);
+  font-size: 1rem;
+  background: #ffb100;
+  color: var(--clr-black);
+  transition: var(--transition);
+  cursor: pointer;
+}

@@ -1,0 +1,18 @@
+.timer {
+  position: fixed;
+  margin-left: 0.3rem;
+  margin-top: 0rem;
+  border-radius: 5px;
+  border-color: red;
+  border: 1px solid green;
+  padding: 0.5rem;
+}
+
+.timeup {
+  color: red;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.counter {
+  color: red;
+}

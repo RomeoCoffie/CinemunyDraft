@@ -1,0 +1,41 @@
+.addmovie-section {
+  margin-top: 5rem;
+  margin-right: 2rem;
+  margin-left: 0px;
+  margin-bottom: 0rem;
+  width: 50rem;
+  height: 50rem;
+  padding: 1rem;
+  justify-content: left;
+  box-sizing: border-box;
+}
+
+.addmovie-main {
+  margin-left: 0px;
+}
+
+.form-container {
+  padding: 0.5rem;
+  /* border: 0.1rem solid #212121; */
+  border-radius: 1rem;
+  margin: 1rem auto;
+}
+
+.btnoptions {
+  border: 0.1rem solid crimson;
+  padding: 0.7rem;
+  margin-right: 1rem;
+  background-color: green;
+  color: white;
+  border-radius: 0.3rem;
+  width: 2.5rem;
+  display: block;
+}
+
+.salute {
+  margin-top: 10rem;
+  text-align: right;
+}
+.title {
+  margin-top: 5rem;
+}

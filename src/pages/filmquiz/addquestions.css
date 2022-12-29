@@ -1,0 +1,54 @@
+.addmovie-section {
+  margin-top: 5rem;
+  margin-right: 2rem;
+  margin-left: 0px;
+  margin-bottom: 3rem;
+  width: 50rem;
+  height: 30rem;
+  align-items: center;
+}
+
+.form-container {
+  max-width: 50%;
+  padding: 1rem;
+  border: 0.1rem solid #212121;
+  border-radius: 1rem;
+  margin-top: 0px;
+}
+.form-row {
+  padding: 1rem;
+  font-size: 1.3em;
+}
+
+.form-row span {
+  display: block;
+  padding: 0.5rem;
+}
+
+.form-row input {
+  width: 70%;
+  padding: 0.5rem;
+}
+.form-row textarea {
+  width: 70%;
+  height: 45%;
+  padding: 0.5rem;
+}
+
+.btnoptions {
+  border: 0.1rem solid crimson;
+  padding: 0.7rem;
+  margin-left: 1rem;
+  background-color: green;
+  color: white;
+  border-radius: 0.3rem;
+  width: 2.5rem;
+}
+
+.salute {
+  margin-top: 10rem;
+  text-align: right;
+}
+.title {
+  margin-top: 5rem;
+}

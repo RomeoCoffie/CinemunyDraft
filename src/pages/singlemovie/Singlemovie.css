@@ -1,0 +1,96 @@
+.singlemovietitle {
+  margin-top: 10rem;
+  color: black;
+  font-weight: bolder;
+}
+
+.singlemovieimg {
+  margin-top: 9rem;
+  padding: 0rem;
+  margin-left: 0px;
+}
+
+.movie-info {
+  padding: 0.1rem 0px;
+  margin-left: 0px;
+}
+
+.movie-info p {
+  padding: 0.3rem;
+  line-height: 0.85;
+  text-align: left;
+  margin-left: 0px;
+}
+
+.actors {
+  display: inline-block;
+  padding: 0px;
+}
+
+div span {
+  padding: 0.2rem;
+  text-align: left;
+  margin-left: 0px;
+  font-style: italic;
+}
+.keys {
+  font-weight: bold;
+}
+
+div img {
+  width: 15rem;
+  border: 0.3rem solid crimson;
+  margin: 1rem auto;
+  object-fit: contain;
+}
+
+.trailer {
+  color: crimson;
+  font-size: larger;
+  font-weight: bolder;
+}
+.plot {
+  line-height: 1rem;
+}
+
+.available {
+  padding: 0.5rem;
+  margin-left: 2.5rem;
+  color: white;
+  border: 0.2rem solid black;
+  background-color: crimson;
+  border-radius: 0.3rem;
+  width: 10rem;
+  font-weight: bold;
+}
+
+.available:hover {
+  background: var(--primaryColor);
+  color: var(--mainWhite);
+}
+.wide {
+  width: 12rem;
+}
+/* Responsive design */
+
+@media screen and (max-width: 600px) {
+  .div img {
+    width: 40%;
+    width: 5rem;
+
+    object-fit: contain;
+    border-top-left-radius: var(--mainBorderRadius);
+    border-top-right-radius: var(--mainBorderRadius);
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .movie img {
+    width: 40%;
+    width: 4rem;
+
+    object-fit: contain;
+    border-top-left-radius: var(--mainBorderRadius);
+    border-top-right-radius: var(--mainBorderRadius);
+  }
+}

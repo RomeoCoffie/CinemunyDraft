@@ -1,0 +1,75 @@
+.section {
+  margin-top: 10rem;
+  margin-right: 2rem;
+  margin-left: 0px;
+  width: 50rem;
+  height: 30rem;
+  align-items: center;
+}
+
+.btn {
+  border: 0.2rem solid crimson;
+  padding: 0.7rem;
+  background-color: green;
+  color: white;
+  border-radius: 1.5rem;
+  width: 5rem;
+}
+
+.form {
+  max-width: 50%;
+  padding: 1rem;
+  border: 0.3rem solid #212121;
+  border-radius: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.form-row {
+  padding: 1rem;
+  font-size: 1.3em;
+}
+
+.form-row label {
+  padding: 1rem;
+}
+
+form h4 {
+  text-align: center;
+  color: green;
+}
+.form-row label,
+input {
+  padding: 0.5rem;
+}
+
+.form-input {
+  width: 70%;
+}
+
+.btn:hover {
+  background: aqua;
+  color: green;
+}
+
+/* Responsive design */
+
+@media screen and (max-width: 600px) {
+  .form {
+    margin-top: 10rem;
+    margin-right: 2rem;
+    margin-left: 0px;
+  }
+
+  .section {
+    align-items: left;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .form {
+    margin-top: 15rem;
+    margin-right: 2rem;
+    margin-left: 0px;
+  }
+}

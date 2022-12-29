@@ -1,0 +1,7 @@
+.footclass {
+  grid-column: span 3;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  padding: 20px;
+  margin-top: 70rem;
+}

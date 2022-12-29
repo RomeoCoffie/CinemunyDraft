@@ -1,0 +1,793 @@
+{
+  "questions": [
+    {
+      "question": "Who is the directed of Avtar ?",
+      "option": ["Steven Spielberg", "James Cameron", "Martin Scorsese"],
+      "correctAnswer": "James Cameron",
+      "id": 1
+    },
+    {
+      "question": "What is the highest grossing movie in Hollywood ?",
+      "option": ["Avatar", "Avengers", "Titanic"],
+      "correctAnswer": "Avengers",
+      "id": 2
+    },
+    {
+      "question": "What is the alter ego of Batman called ?",
+      "option": ["Bruce Wayne", "Clerk Kent", "Bruce Banner"],
+      "correctAnswer": "Bruce Wayne",
+      "id": 3
+    },
+    {
+      "question": "Who was the first Black person to win an Oscar?",
+      "option": ["Hattie McDaniel", "Sidney Poitier", "James Earl Jones"],
+      "correctAnswer": "Hattie McDaniel",
+      "id": 4
+    },
+    {
+      "question": "What is the name of the fictional land where Frozen takes place?",
+      "option": ["Florin", "Arendelle", "Naples"],
+      "correctAnswer": "Arendelle",
+      "id": 5
+    },
+    {
+      "question": "Which of these actors has never won an oscar",
+      "option": ["Leonardo Dicaprio", "Lupita Nyongo", "Samuel L. Jackson"],
+      "correctAnswer": "Samuel L. Jackson",
+      "id": 6
+    },
+    {
+      "question": "What are the dying words of Charles Foster Kane in Citizen Kane?",
+      "option": ["I love you", "Rosebud", "I will be back"],
+      "correctAnswer": "Rosebud",
+      "id": 7
+    },
+    {
+      "question": "What was the first feature-length animated movie ever released?",
+      "option": [
+        "Snow White and the Seven Dwarfs",
+        "The Lion King",
+        "Mickey Mouse"
+      ],
+      "correctAnswer": "Snow White and the Seven Dwarfs",
+      "id": 8
+    },
+    {
+      "question": "In The Matrix, does Neo take the blue pill or the red pill?",
+      "option": ["Blue", "Red", "Neither"],
+      "correctAnswer": "Red",
+      "id": 9
+    },
+    {
+      "question": "What's the name of the skyscraper in Die Hard?",
+      "option": ["Nakatomi Plaza", "LA Plaza", "Pent House Plaza"],
+      "correctAnswer": "Nakatomi Plaza",
+      "id": 10
+    },
+    {
+      "question": "What American writer/director starred in several iconic European-produced \"Spaghetti Westerns\"?",
+      "option": ["Martin Scorsese", "Clint Eastwood", "Quentin Tarantino"],
+      "correctAnswer": "Clint Eastwood",
+      "id": 11
+    },
+    {
+      "question": "In what 1976 thriller does Robert De Niro famously say \"You talkin' to me?\"",
+      "option": ["The Godfather", "Taxi Driver", "The Casino"],
+      "correctAnswer": "Taxi Driver",
+      "id": 12
+    },
+    {
+      "question": "For what movie did Steven Spielberg win his first Oscar for Best Director?",
+      "option": ["Jaws", "Schindler's List", "Saving Private Ryan"],
+      "correctAnswer": "Schindler's List",
+      "id": 13
+    },
+    {
+      "question": "Who directed Parasite – the first foreign-language film to win the Academy Award for Best Picture?",
+      "option": ["Bong Joon-ho", "John Woo", "Kim Jee-woon"],
+      "correctAnswer": "Bong Joon-ho",
+      "id": 14
+    },
+    {
+      "question": "What Hollywood movie star plays himself in Zombieland?",
+      "option": ["Samuel L. Jackson", "Bill Murray", "Amber Heard"],
+      "correctAnswer": "Bill Murray",
+      "id": 15
+    },
+    {
+      "question": "In 2013, Lupita Nyong'o became the first Kenyan and Mexican actress to win an Academy Award – which film did she win it for?",
+      "option": ["Queen of Katwe", "Us", "12 Years A Slave"],
+      "correctAnswer": "12 Years A Slave",
+      "id": 16
+    },
+    {
+      "question": "For which 1964 musical blockbuster did Julie Andrews win the Academy Award for Best Actress?",
+      "option": ["The Sound Of Music", "Cinderella", "Mary Poppins"],
+      "correctAnswer": "Mary Poppins",
+      "id": 17
+    },
+    {
+      "question": "Which movie was incorrectly announced as the winner of Best Picture at the 2017 Academy Awards, during the greatest Oscars flub of all time?",
+      "option": ["Get Out", "Wonder", "La La Land"],
+      "correctAnswer": "La La Land",
+      "id": 18
+    },
+    {
+      "question": "Aaron Sorkin won an Oscar for writing what 2010 drama about the creation of Facebook?",
+      "option": ["Shutter Island", "Money Ball", "The Social Network"],
+      "correctAnswer": "The Social Network",
+      "id": 19
+    },
+    {
+      "question": "Joaquin Phoenix received his first Oscar nomination for playing Roman emperor Commodus in what 2000 Oscar-winning epic?",
+      "option": ["Gladiator", "The Yards", "The Master"],
+      "correctAnswer": "Gladiator",
+      "id": 20
+    },
+    {
+      "question": "What is the title of the first film in the Fast and Furious franchise?",
+      "option": [
+        "2 Fast 2 Furious",
+        "The Fast and The Furious",
+        "The Turbo Charged"
+      ],
+      "correctAnswer": "The Fast and The Furious",
+      "id": 21
+    },
+    {
+      "question": "what was the last fast and furious film, Paul Walker appeared in before his passing  in 2015 ?",
+      "option": ["Fast Five", "Furious 7", "Fast & Furious 6"],
+      "correctAnswer": "Furious 7",
+      "id": 22
+    },
+    {
+      "question": "Which of these movies is starring Heath Ledger ?",
+      "option": [
+        "The Dark Knight Rises",
+        "A Knight's Tale",
+        "Gone in 60 Seconds"
+      ],
+      "correctAnswer": "A Knight's Tale",
+      "id": 23
+    },
+    {
+      "question": "The Battle of Thermopylae served as the basis of what highly stylized 2006 smash hit swords-and-sandals action flick?",
+      "option": ["Apocalypto", "300", "Prince of Persia"],
+      "correctAnswer": "300",
+      "id": 24
+    },
+    {
+      "question": "Which Alfred Hitchcock thriller is notorious for its shocking \"shower scene\"?",
+      "option": ["Rear Window", "To Catch a Thief", "Psycho"],
+      "correctAnswer": "Psycho",
+      "id": 25
+    },
+    {
+      "question": "Three of Jim Carrey's blockbusters—The Mask, Dumb and Dumber and Ace Ventura: Pet Detective—were all released in what year?",
+      "option": ["1994", "1995", "1996"],
+      "correctAnswer": "1994",
+      "id": 26
+    },
+    {
+      "question": "Who is the first and only woman of color to win the Oscar for Best Actress?",
+      "option": ["Viola Davis", "Halley Berry", "Angela Bassett"],
+      "correctAnswer": "Halley Berry",
+      "id": 27
+    },
+    {
+      "question": "Which movie character is associated with the phrase \"I drink and I know things\" ?",
+      "option": ["The Godfather", "Tyrion Lannister", "Tywin Lannister"],
+      "correctAnswer": "Tyrion Lannister",
+      "id": 28
+    },
+    {
+      "question": "In which animated fantasy film is the following dialogue from ?\n\"Give him a gold piece and send him home, he has a story to tell ...\"",
+      "option": ["Afro Sumurai", "Beowulf", "Soul"],
+      "correctAnswer": "Beowulf",
+      "id": 29
+    },
+    {
+      "question": "How many Oscars has Meryl Streep won?",
+      "option": ["1", "2", "3"],
+      "correctAnswer": "3",
+      "id": 30
+    },
+    {
+      "question": "What is the name of Riley's imaginary friend in Inside Out?",
+      "option": ["Toto", "Bing Bong", "Luna"],
+      "correctAnswer": "Bing Bong",
+      "id": 32
+    },
+    {
+      "question": "What internationally esteemed Malaysian actress has starred in a Bond film, Crouching Tiger, Hidden Dragon, Crazy Rich Asians, Shang-Chi and the Legend of the Ten Rings and more?",
+      "option": ["Michelle Chen", "Michelle Lee", "Michelle Yeoh"],
+      "correctAnswer": "Michelle Yeoh",
+      "id": 33
+    },
+    {
+      "question": "What is the first fantasy movie to win Best Picture at the Oscars?",
+      "option": [
+        "Harry Potter",
+        "The Lord of the Rings: The Return of the King",
+        "300"
+      ],
+      "correctAnswer": "The Lord of the Rings: The Return of the King",
+      "id": 34
+    },
+    {
+      "question": "Who won Best Supporting Actor Oscars for both Moonlight and Green Book?",
+      "option": ["Mahershala Ali", "Naomie Harris", "Viggo Mortensen"],
+      "correctAnswer": "Mahershala Ali",
+      "id": 35
+    },
+    {
+      "question": "What is the name of the fictional boy band in Pixar's 2022 animation film - Turning Red?",
+      "option": ["Cool boys", "4*Town", "New Kids on The block"],
+      "correctAnswer": "4*Town",
+      "id": 36
+    },
+    {
+      "question": "How many angry men are there in the 1957 American courtroom drama film directed by Sidney Lumet?",
+      "option": ["7", "10", "12"],
+      "correctAnswer": "12",
+      "id": 37
+    },
+    {
+      "question": "After which movie did the sale of pet rats increase rapidly?",
+      "option": ["Flushed Away", "Ratatouille", "Mouse Hunt"],
+      "correctAnswer": " Ratatouille",
+      "id": 38
+    },
+    {
+      "question": "Name the 2015 film spinoff to the Rocky series starring Michael B. Jordan",
+      "option": ["Just Mercy", "Creed", "Black Panther"],
+      "correctAnswer": "Creed",
+      "id": 39
+    },
+    {
+      "question": "How many films have Kate Winslet and Leonardo DiCaprio starred in together?",
+      "option": ["1", "2", "3"],
+      "correctAnswer": "2",
+      "id": 40
+    },
+    {
+      "question": "Who plays king T'Challa in 2018 superhero film Black Panther?",
+      "option": ["Michael B. Jordan", "Chadwick Boseman", "Daniel Kaluuya"],
+      "correctAnswer": "Chadwick Boseman",
+      "id": 41
+    },
+    {
+      "question": "Whats the title of Daniel Craig's first James Bond film ?",
+      "option": ["Specter", "Skyfall", "Quantum of Solace"],
+      "correctAnswer": "Quantum of Solace",
+      "id": 42
+    },
+    {
+      "question": "‘Frankly my dear, I don’t give a damn’ is an iconic line from which classic film?",
+      "option": ["All About Eve", "Strangers On a Train", "Gone With The Wind"],
+      "correctAnswer": "Gone With The Wind",
+      "id": 43
+    },
+    {
+      "question": "What game does Rachel play with Nick's mom at the end of \"Crazy Rich Asians\"?",
+      "option": ["Pin Pong", "Mahjong", "Chess"],
+      "correctAnswer": "Mahjong",
+      "id": 44
+    },
+    {
+      "question": "Which actress plays Ryan Gosling's character's love interest in \"Crazy, Stupid, Love\"?",
+      "option": ["Emma Stone", "Rachel Mcadams", "Jennifer Lawrence"],
+      "correctAnswer": "Emma Stone",
+      "id": 45
+    },
+    {
+      "question": "What is Elle and Lee's favorite game in \"The Kissing Booth\"?",
+      "option": ["Dance Dance Revolution", "Hula Hoop", "Kissing"],
+      "correctAnswer": "Dance Dance Revolution",
+      "id": 46
+    },
+    {
+      "question": "Who destroys Thor's hammer?",
+      "option": ["Loki", "Thanos", "Hela"],
+      "correctAnswer": "Hela",
+      "id": 47
+    },
+    {
+      "question": "What metal is Wakanda's most precious resource?",
+      "option": ["Iron", "Vibranium", "Steel"],
+      "correctAnswer": "Vibranium",
+      "id": 48
+    },
+    {
+      "question": "Which James Bond movie was the first for Pierce Brosnan as 007?",
+      "option": ["Die Another Day", "Tomorrow Never Comes", "Golden Eye"],
+      "correctAnswer": "Golden Eye",
+      "id": 49
+    },
+    {
+      "question": "How many Oscars did the film Schindler’s List win?",
+      "option": ["1", "4", "7"],
+      "correctAnswer": "7",
+      "id": 50
+    },
+    {
+      "question": "Which Disney princess dresses up as a man to save her father?",
+      "option": ["Jasmine", "Merida", "Mulan"],
+      "correctAnswer": "Mulan",
+      "id": 51
+    },
+    {
+      "question": "What is Indiana Jones’ weapon of choice?",
+      "option": ["A Gun", "A Sword", "A Whip"],
+      "correctAnswer": "A Whip",
+      "id": 52
+    },
+    {
+      "question": "Who was the first solo female host of the Oscars?",
+      "option": ["Demi Moore", "Whoopi Goldberg", "Julia Roberts"],
+      "correctAnswer": "Whoopi Goldberg",
+      "id": 53
+    },
+    {
+      "question": "How many times has the movie A Star is Born been remade?",
+      "option": ["2", "3", "4"],
+      "correctAnswer": "4",
+      "id": 54
+    },
+    {
+      "question": "What does 'Dracarys' mean in Dothraki from the critical acclaim tv show Game of Thrones?",
+      "option": ["Dragon Strike", "Dragon Fire", "Dragon Ice"],
+      "correctAnswer": "Dragon Fire",
+      "id": 55
+    },
+    {
+      "question": "Who starred as Private Ryan in the movie Saving Private Ryan?",
+      "option": ["Mark Wahlberg", "Matt Damon", "Tom Hanks"],
+      "correctAnswer": "Matt Damon",
+      "id": 56
+    },
+    {
+      "question": "What is the youngest child’s name in the von Trapp family in the film The Sound of Music?",
+      "option": ["Marta", "Gretl", "Brigitta"],
+      "correctAnswer": "Gretl",
+      "id": 57
+    },
+    {
+      "question": "In which country was the classic musical The Sound of Music filmed ?",
+      "option": ["Nazi Germany", "Austria", "Vienna"],
+      "correctAnswer": "Austria",
+      "id": 58
+    },
+    {
+      "question": "How long did Forrest run in the film, Forrest Gump?",
+      "option": [
+        "3 years & 2 months",
+        "3 years",
+        "3 years, 2 months, 14 days, & 16 hours"
+      ],
+      "correctAnswer": "3 years, 2 months, 14 days, & 16 hours",
+      "id": 59
+    },
+    {
+      "question": "In Back to the Future, what type of car is the time machine?",
+      "option": [" Convertible", " Benz", " DeLorean"],
+      "correctAnswer": " DeLorean",
+      "id": 60
+    },
+    {
+      "question": "Which 2018 film features the actor John Krasinski starring alongside his real-life wife, Emily Blunt?",
+      "option": ["Fantastic Four", "A Quiet Place", "Girl On A Train"],
+      "correctAnswer": "A Quiet Place",
+      "id": 61
+    },
+    {
+      "question": "Which of these actresses is not starring in the movie Hidden Figures ?",
+      "option": ["Taraji P. Henson", "Janelle Monáe", "Viola Davis"],
+      "correctAnswer": "Viola Davis",
+      "id": 62
+    },
+    {
+      "question": "Which of these actors portrayed the characters Randy Watson, Clarence and Saul in the 1988 classic comedy Coming To America ? ",
+      "option": ["Arsenio Hall", "John Amos", "Eddie Murphy "],
+      "correctAnswer": "Eddie Murphy ",
+      "id": 63
+    }
+  ],
+
+  "films": [
+    {
+      "title": "The Grayman",
+      "img": "/img/greyman.jpg",
+      "description": "When the CIA's top asset -- his identity known to no one -- uncovers agency secrets, he triggers a global hunt by assassins set loose by his ex-colleague.",
+      "rating": 6.5,
+      "year": 2022,
+      "director": ["Joe Russo", "Anthony Russo"],
+      "writer": ["Joe Russo", "Christopher Markus", "Stephen McFeely"],
+      "producers": ["Joe Russo", "Anthony Russo", "Joe Roth"],
+      "cast": [
+        "Ryan Gosling",
+        "Chris Evans",
+        "Anna de Armas",
+        "Rege-Jean Page",
+        "Billy Bob Thornton"
+      ],
+      "genre": ["Action", "Thriller"],
+      "budget": "200 million USD",
+      "box office": "",
+      "trailer": "https://www.youtube.com/watch?v=BmllggGO4pM",
+      "companies": ["AGBO", "Roth Films"],
+      "index": "2022",
+      "id": 1
+    },
+    {
+      "title": "The Man from Toronto",
+      "img": "/img/mantoronto.jpg",
+      "description": "A case of mistaken identity forces a bumbling entrepreneur to team up with a notorious assassin in hopes of staying alive.",
+      "rating": 5.8,
+      "year": 2022,
+      "director": ["Patrick Hughes"],
+      "writer": ["Patrick Hughes", "Robbie Fox", "Chris Bremner"],
+      "producers": ["Todd Black", "Jason Blumenth"],
+      "cast": ["Kevin Hart", "Woody Harrelson", "Kaley Cuoco"],
+      "genre": ["Action", "Comedy"],
+      "budget": "75 million USD",
+      "box office": "",
+      "trailer": "https://www.youtube.com/watch?v=urqy8DrcGBs",
+      "companies": ["Sony Pictures", "Bron Creative"],
+      "index": "2022",
+      "id": 2
+    },
+    {
+      "title": "The Adam Project",
+      "img": "/img/adamproject.jpg",
+      "description": "After accidentally crash-landing in 2022, time-traveling fighter pilot Adam Reed teams up with his 12-year-old self for a mission to save the future.",
+      "rating": 6.7,
+      "year": 2022,
+      "director": ["Shawn Levy"],
+      "writer": ["Jonathan Tropper", "T.S. Nowlin", "Mark Levin"],
+      "producers": [
+        "David Ellison",
+        "Dana Goldberg",
+        "Ryan Reynolds",
+        "Don Granger"
+      ],
+      "cast": [
+        "Ryan Reynolds",
+        "Walker Scobell",
+        "Zoe Saldana",
+        "Jennifer Garner",
+        "Mark Ruffalo",
+        "Catherine Keener"
+      ],
+      "genre": ["Sci-Fi", "Action"],
+      "budget": "116 million USD",
+      "box office": "",
+      "trailer": "https://www.youtube.com/watch?v=IE8HIsIrq4o",
+      "companies": ["Skydance", "Maximu Effort", "21 Laps Entertainment"],
+      "index": "2022",
+      "id": 3
+    },
+    {
+      "title": "Marry Me",
+      "img": "/img/marryme.jpg",
+      "description": "A case of mistaken identity forces a bumbling entrepreneur to team up with a notorious assassin in hopes of staying alive.",
+      "rating": 6.1,
+      "year": 2022,
+      "director": ["Kat Coiro"],
+      "writer": ["John Rogers", "Tami Sagher", "Harper Dill"],
+      "producers": ["Elaine Goldsmith-Thomas", "Jennifer Lopez"],
+      "cast": ["Jennifer Lopez", "Owen Wilson", "Maluma", "Sarah Silverman"],
+      "genre": ["Romance", "Comedy"],
+      "budget": "23 million USD",
+      "box office": "50 million USD",
+      "trailer": "https://www.youtube.com/watch?v=Ebv9_rNb5Ig",
+      "companies": ["Nuyorican Productions", "Perfect World Pictures"],
+      "index": "bestromantic2022",
+      "id": 4
+    },
+    {
+      "title": "Shawshank Redemption",
+      "img": "/img/shawshank.jpg",
+      "description": "Andy Dufresne, a successful banker, is arrested for the murders of his wife and her lover, and is sentenced to life imprisonment at the Shawshank prison. He becomes the most unconventional prisoner.",
+      "rating": 9.3,
+      "year": 1994,
+      "director": ["Frank Darabout"],
+      "writer": ["Frank Darabout"],
+      "producers": ["Frank Darabout"],
+      "cast": ["Morgan Freeman", "Tim Robbins"],
+      "genre": ["Drama", "Crime"],
+      "budget": "25 million USD",
+      "box office": "73 million USD",
+      "trailer": "https://www.youtube.com/watch?v=6hB3S9bIaco",
+      "companies": ["Castle Rock Entertainment"],
+      "index": "great",
+      "id": 5
+    },
+    {
+      "title": "Apocalypto",
+      "img": "/img/apocalypto.jpg",
+      "description": "Jaguar Paw, a young man, is captured by rulers of the Mayan kingdom. When they decide to sacrifice him, he makes a plan to escape death.",
+      "rating": 7.8,
+      "year": 2006,
+      "director": ["Mel Gibson"],
+      "writer": ["Mel Gibson", "Farhad Safinia"],
+      "producers": ["Mel Gibson", "Bruce Davey"],
+      "cast": ["Rudy Youngblood", "Dalia Hernandez", "Raoul Trujillo"],
+      "genre": ["Adventure", "Action"],
+      "budget": "40-50 million USD",
+      "box office": "120 million USD",
+      "trailer": "https://www.youtube.com/watch?v=ngWBddVNVZs",
+      "companies": ["Touchstone Pictures", "Icon Productions"],
+      "index": "bestadventure",
+      "id": 6
+    },
+    {
+      "title": "Me Before You",
+      "img": "/img/mebeforeyou.jpg",
+      "description": "Louisa Clark accepts the job of being a caretaker of Will Traynor, a rigid man who has paralysis. However, her life transforms as the two, gradually, form a bond and later fall in love.",
+      "rating": 7.4,
+      "year": 2016,
+      "director": ["Thea Sharrock"],
+      "writer": ["Jojo Moyes"],
+      "producers": ["Karen Rosenfelt", "Alison Owen"],
+      "cast": ["Sam Claflin", "Emilia Clarke", "Charles Dance"],
+      "genre": ["Romance", "Drama"],
+      "budget": "20 million USD",
+      "box office": "208 million USD",
+      "trailer": "https://www.youtube.com/watch?v=T0MmkG_nG1U",
+      "companies": ["New Line Cinema", "MGM"],
+      "index": "bestromantic",
+      "id": 7
+    },
+    {
+      "title": "Inception",
+      "img": "/img/inception.jpg",
+      "description": "Cobb steals information from his targets by entering their dreams. Saito offers to wipe clean Cobb's criminal history as payment for performing an inception on his sick competitor's son.",
+      "rating": 8.8,
+      "year": 2010,
+      "director": ["Christopher Nolan"],
+      "writer": ["christopher Nolan"],
+      "producers": ["Christopher Nolan", "Emma Thomas"],
+      "cast": [
+        "Leonardo DiCaprio",
+        "Cillian Murphy",
+        "Tom Hardy",
+        "Marion Cotilard",
+        "Ken Watanabe",
+        "Joseph Gordon-Levit"
+      ],
+      "genre": ["Action", "Sci-Fi"],
+      "budget": "160 million USD",
+      "box office": "836 million USD",
+      "trailer": "https://www.youtube.com/watch?v=5EiV_HXIIGs",
+      "companies": ["Warner Bros. Pictures", "Legendary Pictures"],
+      "index": "bestscifi",
+      "id": 8
+    },
+    {
+      "title": "Turning Red",
+      "img": "/img/red.jpg",
+      "description": "A thirteen-year-old girl is torn between staying her mother's dutiful daughter and the changes of adolescence. And as if the challenges were not enough, whenever she gets overly excited she transforms into a giant red panda.",
+      "rating": 7,
+      "year": 2022,
+      "director": ["Domee Shi"],
+      "writer": ["Julia Cho", "Domee Shi"],
+      "producers": ["Lindsey Collins"],
+      "cast": ["Rosalie Chiang", "Sandra Oh", "James Hong"],
+      "genre": ["Comedy", "Fantasy"],
+      "budget": "175 million USD",
+      "box office": "20 million USD",
+      "trailer": "https://www.youtube.com/watch?v=XdKzUbAiswE",
+      "companies": ["Walt Disney Pictures", "Pixar Animation Studios"],
+      "index": "2022",
+      "id": 9
+    },
+    {
+      "title": "Taken",
+      "img": "/img/taken.jpg",
+      "description": "An ex-Secret Service agent's teenage daughter is abducted by human traffickers while on a trip to Paris. With almost no information on her whereabouts, he travels to Paris to find and save her.",
+      "rating": 8.8,
+      "year": 2008,
+      "director": ["Pierre Morel"],
+      "writer": ["Pierre Morel", "Luc Besson", "Robert Mark Kamen"],
+      "producers": ["Christopher Nolan", "Emma Thomas"],
+      "cast": [
+        "Liam Nesson",
+        "Maggie Grace",
+        "Famke Janssen",
+        "Xander Berkeley"
+      ],
+      "genre": ["Action", "Thriller"],
+      "budget": "25 million USD",
+      "box office": "226.8 million USD",
+      "trailer": "https://www.youtube.com/watch?v=Gi7mWSpQbIg",
+      "companies": ["EuropaCorp", "M6 Films"],
+      "index": "greatestaction",
+      "id": 10
+    }
+  ],
+  "series": [
+    {
+      "title": "Reacher",
+      "img": "/img/reacher.jpg",
+      "description": "Jack Reacher, a veteran military police investigator, has recently entered civilian life when he is falsely accused of murder.",
+      "rating": 8.8,
+      "year": 2022,
+      "end year": "Ongoing",
+      "developed by": ["Nick Santora"],
+      "producers": ["Christopher Nolan", "Emma Thomas"],
+      "cast": [
+        "Alan Ritchson",
+        "Malcolm Goodwin",
+        "Willa Fitzgerald",
+        "Brue McGill"
+      ],
+      "genre": ["Action", "Thriller", "Crime", "Detective"],
+      "No. of seasons": 1,
+      "No. of episodes": 8,
+      "trailer": "https://www.youtube.com/watch?v=aDekbN4EtaE",
+      "companies": ["Amazon Prime"],
+      "index": ["best"],
+      "id": 1
+    },
+
+    {
+      "title": "The Rings of Power",
+      "img": "/img/ringsofpower.jpg",
+      "description": "This series brings to screens for the very first time the heroic legends of the fabled Second Age of Middle-earth's history. This epic drama is set thousands of years before the events of J.R.R. Tolkien's The Hobbit and The Lord of the Rings, and takes viewers back to an era in which great powers were forged, kingdoms rose to glory and fell to ruin, unlikely heroes were tested, hope hung by the finest of threads and the greatest villain that ever flowed from Tolkien's pen threatened to cover all the world in darkness.",
+      "rating": 6.9,
+      "year": 2022,
+      "end year": "Ongoing",
+      "developed by": ["J.D.Payne", "Patrick McKay"],
+      "cast": ["Morfydd Clark", "Nomvete", "Robert Aramayo", "Tyroe Muhafidin"],
+      "genre": ["Action", "Adventure", "Fantasy", "Drama"],
+      "No. of seasons": 1,
+      "No. of episodes": 8,
+      "trailer": "https://www.youtube.com/watch?v=x8UAUAuKNcU",
+      "companies": ["Amazon Prime"],
+      "index": ["best"],
+      "id": 2
+    },
+    {
+      "title": "The Sandman",
+      "img": "/img/thesandman.jpg",
+      "description": "When the Sandman, aka Dream, the cosmic being who controls all dreams, is captured and held prisoner for more than a century, he must journey across different worlds and timelines to fix the chaos his absence has caused..",
+      "rating": 7.7,
+      "year": 2022,
+      "end year": "Ongoing",
+      "developed by": ["Neil Gaiman", "David S. Goyer", "Allan Heinberg"],
+      "cast": [
+        "Tom Sturridge",
+        "Boyd Holbrook",
+        "Vivienne Acheampong",
+        "Patton Oswalt",
+        "Gwendoline Christie"
+      ],
+      "genre": ["Action", "Adventure", "Fantasy", "Drama"],
+      "No. of seasons": 1,
+      "No. of episodes": 11,
+      "trailer": "https://www.youtube.com/watch?v=83ClbRPRDXU",
+      "companies": ["Netflix"],
+      "index": ["best"],
+      "id": 3
+    },
+    {
+      "title": "Wednesday",
+      "img": "/img/wednes.jpg",
+      "description": "While attending Nevermore Academy, Wednesday Addams attempts to master her emerging psychic ability, thwart a killing spree and solve the mystery that embroiled her parents 25 years ago.",
+      "rating": 8.4,
+      "year": 2022,
+      "end year": "Ongoing",
+      "developed by": ["Nick Santora"],
+      "cast": [
+        "Jenna Ortega",
+        "Gwendoline Christie",
+        "Riki Lindhome",
+        "Jamie Mcshane"
+      ],
+      "genre": ["Comedy", "Horror"],
+      "No. of seasons": 1,
+      "No. of episodes": 8,
+      "trailer": "https://www.youtube.com/watch?v=Q73UhUTs6y0",
+      "companies": ["Netflix"],
+      "index": ["best"],
+      "id": 4
+    },
+    {
+      "title": "Game of Thrones",
+      "img": "/img/gameof.jpg",
+      "description": "Nine noble families wage war against each other in order to gain control over the mythical land of Westeros. Meanwhile, a force is rising after millenniums and threatens the existence of living men.",
+      "rating": 9.2,
+      "year": 2011,
+      "end year": 2019,
+      "developed by": ["David Benioff", "D.B. Weiss"],
+      "cast": [
+        "Emilia Clarke",
+        "Gwendoline Christie",
+        "Maisie Williams",
+        "Kit Harington",
+        "Lena Headey",
+        "Jason Momoa"
+      ],
+      "genre": ["Action", "Adventure", "Fantasy", "Drama"],
+      "No. of seasons": 8,
+      "No. of episodes": 73,
+      "trailer": "https://www.youtube.com/watch?v=Q73UhUTs6y0",
+      "companies": ["HBO"],
+      "index": ["greatest", "best"],
+      "id": 5
+    },
+    {
+      "title": "Breaking Bad",
+      "img": "/img/breaking.jpg",
+      "description": "Walter White, a chemistry teacher, discovers that he has cancer and decides to get into the meth-making business to repay his medical debts. His priorities begin to change when he partners with Jesse.",
+      "rating": 9.5,
+      "year": 2008,
+      "end year": 2013,
+      "developed by": ["Vince Gilligan"],
+      "cast": [
+        "Bryan Cranston",
+        "Aaron Paul",
+        "Anna Gunn",
+        "Dean Norris",
+        "Bob Odenkirk"
+      ],
+      "genre": ["Thriller", "Black Comedy", "Crime", "Drama"],
+      "No. of seasons": 5,
+      "No. of episodes": 62,
+      "trailer": "https://www.youtube.com/watch?v=HhesaQXLuRY",
+      "companies": ["Netflix"],
+      "index": ["greatest", "best"],
+      "id": 6
+    }
+  ],
+
+  "groups": [
+    {
+      "name": "IFMA Community",
+      "about": "stay updated on your favorite movies",
+      "members": 3561,
+      "url": "https://chat.whatsapp.com/Hhyiwp0UPzX3VDXLwY7oi6",
+      "img": "/img/community.jpg",
+      "platform": "WhatsApp",
+      "category": "Relationships"
+    },
+
+    {
+      "name": "Piegonet.tv",
+      "about": "The House of Education and Relationship Content",
+      "members": 305,
+      "url": "https://t.me/pigeonettv",
+      "img": "/img/pigeon.jpeg",
+      "platform": "Telegram",
+      "category": "Relationships"
+    },
+    {
+      "name": "Talking Movies",
+      "about": "Get links to your favorite movies and tv shows",
+      "members": 500,
+      "url": "https://chat.whatsapp.com/Hhyiwp0UPzX3VDXLwY7oi6",
+      "img": "/img/talking.jpeg",
+      "platform": "WhatsApp",
+      "category": "movies"
+    },
+    {
+      "name": "Pump up Crypto",
+      "about": "A group for crypto and experts and anybody looking to know more about crypto",
+      "members": 700,
+      "url": "https://t.me/nfyta_coin",
+      "img": "/img/crypto.jpeg",
+      "platform": "Telegram",
+      "category": "Business"
+    },
+    {
+      "name": "Unganda Market",
+      "about": "Buy and sell in Uganda Market",
+      "members": 10500,
+      "url": "https://t.me/Ugmarkets",
+      "img": "/img/uganda.jpeg",
+      "platform": "Telegram",
+      "category": "Business"
+    }
+  ]
+}

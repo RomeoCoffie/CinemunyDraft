@@ -1,0 +1,53 @@
+.signup {
+  max-width: 50%;
+  margin: 1rem auto;
+  padding: 1rem;
+  font-size: 1.1rem;
+  border-radius: 1rem;
+
+  border: 0.1rem solid #212121;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+/* .signuparticle {
+  margin: 0px auto;
+}
+ */
+.signup label {
+  display: block;
+  margin: 30px auto;
+}
+
+.signup span {
+  display: block;
+  padding: 0.5em;
+}
+
+.signup input {
+  padding: auto;
+  font-size: 1em;
+  width: 90%;
+  padding: 0.4rem;
+}
+
+.btn {
+  margin: 1em auto;
+  width: 90%;
+  color: green;
+  padding: 00.5em;
+  font-size: 1.2rem;
+}
+
+.caption {
+  margin-top: 7rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.underline {
+  width: 7rem;
+  height: 0.25rem;
+  background: green;
+  margin: 1.7rem auto;
+}
