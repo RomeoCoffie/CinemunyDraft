@@ -33,16 +33,29 @@ export const links = [
     url: '/filmquiz',
     text: 'Film Quiz',
   },
-  {
-    id: 7,
-    url: '/addmovie',
-    text: 'Admin',
-  },
 
   {
     id: 7,
+    url: '/addmovie',
+    text: 'Add movie',
+  },
+
+  {
+    id: 8,
     url: '/addquestion',
     text: 'Add Question',
+  },
+
+  {
+    id: 9,
+    url: '/addpost',
+    text: 'Add Post',
+  },
+
+  {
+    id: 10,
+    url: '/admin',
+    text: 'Admin',
   },
 ];
 
@@ -59,6 +72,13 @@ export const profile = [
     text: 'Login',
   },
 ];
+
+export const urlPatterns = {
+  youtube: '^(https?://)?(www.youtube.com|youtu.be)/.+$',
+  facebook: '^(https?://)?(www.facebook.com)/.+$',
+  whatsapp: '^(https?://)?(chat.whatsapp.com)/.+$',
+  telegram: '^(https?://)?(t.me).+$',
+};
 
 export const indices = [
   {

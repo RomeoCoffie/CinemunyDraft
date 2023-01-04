@@ -16,6 +16,8 @@ import Singlemovie from './pages/singlemovie/Singlemovie';
 import Proroutes from './pages/protectedroutes/proroutes';
 import Addmovie from './pages/addmovie/Addmovie';
 import Addquestion from './pages/filmquiz/addquestions';
+import Addgroup from './pages/addgroup/Addgroup';
+import Addpost from './pages/addpost/Addpost';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -33,7 +35,6 @@ function App() {
                 <Route path="movies/:id" element={<Singlemovie />} />
                 <Route path="tvshows" element={<Tvshows />} />
                 <Route path="requests" element={<Requests />} />
-                <Route path="groups" element={<Groups />} />
                 <Route path="filmquiz" element={<Filmquiz />} />
 
                 <Route
@@ -52,6 +53,11 @@ function App() {
                     </Proroutes>
                   }
                 />
+
+                <Route path="addpost" element={<Addpost />} />
+
+                <Route path="groups" element={<Groups />} />
+                <Route path="groups/:addgroup" element={<Addgroup />} />
 
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Signup />} />

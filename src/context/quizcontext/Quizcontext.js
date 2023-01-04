@@ -1,19 +1,16 @@
 import React, { useState, useEffect, createContext } from 'react';
-import useFetch from '../../Hooks/useFetch';
+//import useFetch from '../../Hooks/useFetch';
 import { useCollection } from '../../Hooks/useCollection';
 import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../../components/firebase/config';
 
 const QuizContext = createContext();
 
-//Provider, Consumer -TkimoviesContext.Provider
-
+//create a provider function from Quizcontext
 const QuizContextProvider = ({ children }) => {
   //   const { data, error, ispending } = useFetch(
   //     'http://localhost:3000/questions'
   //   );
-
-  const { data } = useFetch('http://localhost:3000/groups');
 
   const [waiting, setWaiting] = useState(true);
   const [Loading, setLoading] = useState(false);
@@ -31,11 +28,12 @@ const QuizContextProvider = ({ children }) => {
   const [remainingTime, setRemainingTime] = useState(null);
   const [difficultyLevel, setDifficultyLevel] = useState(null);
   const [groups, setGroups] = useState(null);
-  //Interruption when time is up
-  const [interrupt, setInteruption] = useState(false);
-  const url = 'http://localhost:3000/questions';
+  const [interrupt, setInteruption] = useState(false); //Interruption when time is up
   const { documents: thesequestions } = useCollection('questions');
+  const { documents: data } = useCollection('Groups'); //get groups on render
   const [myQuestions, setMyQuestions] = useState(null);
+  // const url = 'http://localhost:3000/questions';
+  //const { data } = useFetch('http://localhost:3000/groups');
 
   //Shuffling questions
   const getShuffledArr = (arr) => {
@@ -49,15 +47,7 @@ const QuizContextProvider = ({ children }) => {
     }
   };
 
-  /* const collectAnswer = (indie) => {
-    let newAnswers = [...userAnswers];
-    newAnswers[indie] = answer;
-
-    //setUserAnswers((oldstate) => [...answer, oldstate]);
-    setUserAnswers(newAnswers);
-    console.log(userAnswers);
-  }; */
-
+  //checking answer and increasing score
   const checkAnswer = (value) => {
     if (value) {
       setScore((oldstate) => oldstate + 1);

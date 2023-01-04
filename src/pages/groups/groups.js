@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, Link } from 'react';
 import { QuizContext } from '../../context/quizcontext/Quizcontext';
 
 import useFetch from '../../Hooks/useFetch';
@@ -10,47 +10,51 @@ export default function Groups() {
 
   if (data) {
     setGroups(data);
-    console.log(data, groups, 'hi');
+    // console.log(data, groups, 'hi');
   }
 
   return (
     <section className="groups-section">
-      <div className="groups-head">
-        <h2>Groups</h2>
+      <main>
+        <div className="groups-head">
+          <h2>Groups</h2>
+        </div>
+
         <div className="underline"></div>
 
-        <div>
-          {groups &&
-            groups.map((group) => {
-              const { name, img, url, about, members } = group;
-              return (
-                <article className="groups">
-                  <img src={img} alt={name} />
-                  <footer>
-                    <div>
-                      <h4>{name}</h4>
-                      <p className="members">{members} &nbsp; people online</p>
-                    </div>
-                    <p>
-                      {readMore ? about : `${about.substring(0, 200)}...`}
-                      &nbsp;
-                      <button
-                        className="show"
-                        onClick={() => setReadMore(!readMore)}
-                      >
-                        {readMore ? 'show less' : '  read more'}
-                      </button>
-                    </p>
-                    <a className="join" href={url}>
-                      {' '}
-                      Join
-                    </a>
-                  </footer>
-                </article>
-              );
-            })}
-        </div>
-      </div>
+        {groups &&
+          groups.map((group) => {
+            const { grpName, img, url, about, ppleOnline } = group;
+            return (
+              <article className="groups">
+                <img src={img} alt={grpName} />
+                <footer>
+                  <div>
+                    <h4>{grpName}</h4>
+                    <p className="members">{ppleOnline} &nbsp; people online</p>
+                  </div>
+                  <p>
+                    {readMore ? about : `${about.substring(0, 200)}...`}
+                    &nbsp;
+                    <button
+                      className="show"
+                      onClick={() => setReadMore(!readMore)}
+                    >
+                      {readMore ? 'show less' : '  read more'}
+                    </button>
+                  </p>
+                  <a className="join" href={url}>
+                    Join
+                  </a>
+                  <a href="groups/addgroup" className="addgroup">
+                    Add group
+                  </a>
+                </footer>
+                <hr className="horizon" />
+              </article>
+            );
+          })}
+      </main>
     </section>
   );
 }

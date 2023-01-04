@@ -7,6 +7,7 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 let initialState = {
   document: null,
@@ -45,6 +46,7 @@ const firestoreReducer = (state, action) => {
 export const useFiresotre = (c) => {
   const [response, dispatch] = useReducer(firestoreReducer, initialState);
   const [isCancelled, setIsCancelled] = useState(false);
+  const [theDocument, setTheDocment] = useState(null);
 
   //Only dispatch if not cancelled
   const dispatchIfNotCancelled = (action) => {
@@ -61,14 +63,19 @@ export const useFiresotre = (c) => {
     try {
       const createdAt = Timestamp.fromDate(new Date());
       const addedDocument = await addDoc(ref, { ...doc, createdAt });
+
       dispatchIfNotCancelled({
         type: 'ADDED_DOCUMENT',
-        payload: addedDocument,
+        payload: addedDocument.id,
       });
+
+      console.log(addedDocument.id, theDocument);
     } catch (error) {
       dispatchIfNotCancelled({ type: 'ERROR' });
     }
   };
+
+  console.log(response);
 
   //delete a document
   const deleteDocument = async (id) => {
@@ -87,5 +94,5 @@ export const useFiresotre = (c) => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { addDocument, deleteDocument, response };
+  return { addDocument, deleteDocument, response, theDocument };
 };

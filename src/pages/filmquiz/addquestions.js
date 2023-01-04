@@ -1,15 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { useState, useRef } from 'react';
-import useFetch from '../../Hooks/useFetch';
-import { db } from '../../components/firebase/config';
-import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
+//import useFetch from '../../Hooks/useFetch';
+//import { db } from '../../components/firebase/config';
+//import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import { useCollection } from '../../Hooks/useCollection';
 import { useFiresotre } from '../../Hooks/useFirestore';
-import { myquestions } from '../../data/datalinks';
+//import { myquestions } from '../../data/datalinks';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { storage } from '../../components/firebase/config';
 import { getDownloadURL, ref } from '@firebase/storage';
-import { useAddImage } from '../../Hooks/useAddImage';
+//import { useAddImage } from '../../Hooks/useAddImage'; didnt work
 
 import './addquestions.css';
 import { uploadBytesResumable } from 'firebase/storage';
@@ -128,23 +128,17 @@ export default function Addquestion() {
   };
 
   // console.log(questionImgUrl);
-  console.log(thumbnail);
+  console.log(thumbnail, response.document);
 
   //Getting documents from firebase collection
-  useEffect(() => {
-    /* if (thesequestions) {
-      setTitle(thesequestions);
-    } */
-    /* const ref = collection(db, 'movies');
 
-    getDocs(ref).then((snapshot) => {
+  /* getDocs(ref).then((snapshot) => {
       let results = [];
       snapshot.docs.forEach((doc) => {
         results.push({ id: doc.id, ...doc.data() });
       });
       setTitle(results);
-    }); */
-  }, [thesequestions]);
+    });  */
 
   return (
     <section className="addmovie-section">
