@@ -2,6 +2,8 @@ import React, { useState, useEffect, createContext } from 'react';
 //import { useFetch } from '../../Hooks/useFetch';
 import useFetch from '../../Hooks/useFetch';
 import { indices } from '../../data/datalinks';
+import { useCollection } from '../../Hooks/useCollection';
+import { collection, getDocs } from 'firebase/firestore';
 
 const TkimoviesContext = createContext();
 
@@ -9,9 +11,11 @@ const TkimoviesContext = createContext();
 
 const TkimoviesProvider = ({ children }) => {
   const { data, error, ispending } = useFetch('http://localhost:3000/films');
+  const { documents: news } = useCollection('Posts');
 
   const [movieIndex, setMovieIndex] = useState([]);
   const [films, setFilms] = useState([]);
+  const [posts, setPosts] = useState(null);
 
   //const { id, text, index } = indices;
 
@@ -34,16 +38,20 @@ const TkimoviesProvider = ({ children }) => {
       /*  const filtering = data.filter((film) => film.index === movieIndex);
       setFilms(filtering); */
       setFilms(data.filter((film) => film.index.includes(movieIndex)));
-
-      /* console.log(indices, indices[2], indices[1], 'hi');
-      setFilms(() => data.filter((index) => index.include[movieIndex]));
-      console.log(films); if indices were arrays*/
     }
   }, [movieIndex, data]);
 
   return (
     <TkimoviesContext.Provider
-      value={{ films, movieIndex, setMovieIndex, indices }}
+      value={{
+        films,
+        movieIndex,
+        setMovieIndex,
+        indices,
+        news,
+        posts,
+        setPosts,
+      }}
     >
       {children}
     </TkimoviesContext.Provider>

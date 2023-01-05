@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext } from 'react';
 //import useFetch from '../../Hooks/useFetch';
 import { useCollection } from '../../Hooks/useCollection';
-import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../components/firebase/config';
 
 const QuizContext = createContext();

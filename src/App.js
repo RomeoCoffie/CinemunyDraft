@@ -18,6 +18,7 @@ import Addmovie from './pages/addmovie/Addmovie';
 import Addquestion from './pages/filmquiz/addquestions';
 import Addgroup from './pages/addgroup/Addgroup';
 import Addpost from './pages/addpost/Addpost';
+import Posts from './pages/posts/Posts';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -30,7 +31,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/" element={<Home />}>
-                <Route index element={<Movies />} />
+                <Route index element={<Posts />} />
                 <Route path="movies" element={<Movies />} />
                 <Route path="movies/:id" element={<Singlemovie />} />
                 <Route path="tvshows" element={<Tvshows />} />

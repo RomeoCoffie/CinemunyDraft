@@ -147,6 +147,7 @@ export default function Addpost() {
     setDescription('');
     setSource('');
     setPostImges([]);
+
     // navigate('/groups');
     //inputClear.current.value = '';
   };
@@ -205,7 +206,7 @@ export default function Addpost() {
 
           {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 
-          {response && (
+          {response && !youTubeLink && (
             <div className="grpimg">
               <span className="addimg">Add Image:</span>
               <input
@@ -217,13 +218,15 @@ export default function Addpost() {
               />
             </div>
           )}
-          {!response && <button className="btn">Add Image</button>}
+          {!response && <button className="btn">submit</button>}
 
-          {postImgUrl && (
-            <button onClick={resetFields} className="submit-btn ">
+          {/* {youTubeLink && <button className="btn">submit</button>} */}
+
+          {/* {postImgUrl && !youTubeLink && (
+            <button  className="submit-btn ">
               submit
             </button>
-          )}
+          )} */}
         </form>
       </main>
     </section>
