@@ -65,6 +65,27 @@ textarea {
   padding: 0.1rem;
 }
 
+.form-input {
+  border: none;
+  background: var(--clr-grey-10);
+
+  padding: 0.25rem 0.5rem;
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+.form-control {
+  margin-bottom: 2rem;
+}
+.form-control label {
+  display: block;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: var(--clr-grey-3);
+  margin-bottom: 0.5rem;
+  padding: 0.3rem;
+}
+
 hr {
   border: solid white 0.1rem;
   width: 100%;

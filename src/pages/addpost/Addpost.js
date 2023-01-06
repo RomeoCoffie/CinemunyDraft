@@ -19,9 +19,10 @@ import { urlPatterns } from '../../data/datalinks';
 import { async } from '@firebase/util';
 
 export default function Addpost() {
-  const [postTilte, setPostTitle] = useState();
-  const [description, setDescription] = useState();
-  const [postImgUrl, setPostImgUrl] = useState([]);
+  const [postTilte, setPostTitle] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [postType, setPostType] = useState('images');
+  const [postImgUrl, setPostImgUrl] = useState(null);
   const [postImges, setPostImges] = useState([]);
   const [source, setSource] = useState('');
   const [copyright, setCopyright] = useState(null);
@@ -29,7 +30,7 @@ export default function Addpost() {
   const [groupThumbnail, setGroupThumbnail] = useState(null);
   const [thumbnailError, setThumbnailError] = useState(null);
   const [grpLinkError, setGrpLinkError] = useState(null);
-  const [progress, setProgress] = useState(null);
+  // const [progress, setProgress] = useState(null);
   const optionsInput = useRef(null);
   //const { documents: Groups } = useCollection('Groups');
   const { addDocument, response } = useAddDocs('Posts');
@@ -44,14 +45,19 @@ export default function Addpost() {
 
     if (youTubeLink) {
       if (youTubeLink.match(urlPatterns.youtube)) {
+        setPostImgUrl(youTubeLink);
         await addDocument({
           postTilte,
           description,
           source,
           youTubeLink,
+          postImgUrl,
           copyright,
           person,
+          postType,
         });
+
+        navigate('/');
       } else {
         setYouTubeLink('Please Enter a Valid Link');
         setGrpLinkError('Please Enter a Valid Link');
@@ -61,9 +67,11 @@ export default function Addpost() {
         postTilte,
         description,
         source,
-        copyright,
+        youTubeLink,
         postImgUrl,
+        copyright,
         person,
+        postType,
       });
     }
   };
@@ -82,7 +90,7 @@ export default function Addpost() {
         setThumbnailError('Selected file size must be an image');
         return;
       }
-      if (selected.size > 500000) {
+      if (selected.size > 700000) {
         setThumbnailError('Selected file size must be less than 500kb');
         return;
       }
@@ -147,8 +155,8 @@ export default function Addpost() {
     setDescription('');
     setSource('');
     setPostImges([]);
+    navigate('/');
 
-    // navigate('/groups');
     //inputClear.current.value = '';
   };
   console.log(postImges, postImgUrl);
@@ -177,6 +185,19 @@ export default function Addpost() {
           />
 
           <br />
+          <div className="form-control">
+            <label htmlFor="postType">Type</label>
+            <select
+              className="form-input"
+              required
+              value={postType}
+              onChange={(e) => setPostType(e.target.value)}
+            >
+              <option value="images">images</option>
+              <option value="trailer">video/trailer</option>
+              <option value="audio">podcast</option>
+            </select>
+          </div>
 
           <span>Copyright:</span>
           <input
@@ -194,19 +215,23 @@ export default function Addpost() {
             value={source}
           />
 
-          <span>Youtube:</span>
-          <input
-            className={`${grpLinkError ? 'invalid-link' : 'valid-link'}`}
-            type="text"
-            onChange={(e) => {
-              setYouTubeLink(e.target.value);
-            }}
-            value={youTubeLink}
-          />
+          {postType === 'trailer' && (
+            <div>
+              <span>Youtube:</span>
+              <input
+                className={`${grpLinkError ? 'invalid-link' : 'valid-link'}`}
+                type="text"
+                onChange={(e) => {
+                  setYouTubeLink(e.target.value);
+                }}
+                value={youTubeLink}
+              />
+            </div>
+          )}
 
           {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 
-          {response && !youTubeLink && (
+          {response && postType === 'images' && (
             <div className="grpimg">
               <span className="addimg">Add Image:</span>
               <input
@@ -218,7 +243,14 @@ export default function Addpost() {
               />
             </div>
           )}
-          {!response && <button className="btn">submit</button>}
+
+          {!postImgUrl && <button className="btn">submit</button>}
+
+          {postImgUrl && (
+            <button onClick={resetFields} className="submit-btn ">
+              Done
+            </button>
+          )}
 
           {/* {youTubeLink && <button className="btn">submit</button>} */}
 

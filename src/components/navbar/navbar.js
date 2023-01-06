@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { BsChevronDoubleRight } from 'react-icons/bs';
+
 import { CgProfile } from 'react-icons/cg';
 
 import { links, profile } from '../../data/datalinks';
