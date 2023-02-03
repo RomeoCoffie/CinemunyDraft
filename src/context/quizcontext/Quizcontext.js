@@ -8,10 +8,6 @@ const QuizContext = createContext();
 
 //create a provider function from Quizcontext
 const QuizContextProvider = ({ children }) => {
-  //   const { data, error, ispending } = useFetch(
-  //     'http://localhost:3000/questions'
-  //   );
-
   const [waiting, setWaiting] = useState(true);
   const [Loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
@@ -27,11 +23,15 @@ const QuizContextProvider = ({ children }) => {
   const [selected, setSelected] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [difficultyLevel, setDifficultyLevel] = useState(null);
+  const [percentage, setPercentage] = useState(0);
+  const [showTimer, setShowTimer] = useState(false);
   const [groups, setGroups] = useState(null);
   const [interrupt, setInteruption] = useState(false); //Interruption when time is up
   const { documents: thesequestions } = useCollection('questions');
   const { documents: data } = useCollection('Groups'); //get groups on render
   const [myQuestions, setMyQuestions] = useState(null);
+  const [questionsReset, setQuestionsReset] = useState(false);
+
   // const url = 'http://localhost:3000/questions';
   //const { data } = useFetch('http://localhost:3000/groups');
 
@@ -53,6 +53,7 @@ const QuizContextProvider = ({ children }) => {
       setScore((oldstate) => oldstate + 1);
     }
   };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -61,50 +62,25 @@ const QuizContextProvider = ({ children }) => {
   useEffect(() => {
     setLoading(true);
     setWaiting(false);
-    const ref = collection(db, 'questions');
+    //const ref = collection(db, 'questions');
 
     try {
-      getDocs(ref).then((snapshot) => {
+      /* getDocs(ref).then((snapshot) => {
         let results = [];
         snapshot.docs.forEach((doc) => {
           results.push({ id: doc.id, ...doc.data() });
-        });
-        setMyQuestions(getShuffledArr(results));
-        setLoading(false);
-        setWaiting(false);
-      });
+        }); */
+      setMyQuestions(getShuffledArr(thesequestions));
+
+      setLoading(false);
+      setWaiting(false);
+      //});
     } catch (error) {
       console.log(error);
       setLoading(false);
       setWaiting(true);
     }
   }, [thesequestions, difficultyLevel]);
-
-  //console.log(myQuestions);
-
-  /* 
-  Use this to fetch the questions before migrating to firebase
-  useEffect(() => {
-    setLoading(true);
-    setWaiting(false);
-    async function getquestions() {
-      try {
-        const response = await fetch(`${url}`);
-        const json = await response.json();
-        setQuestions(getShuffledArr(json));
-
-        setLoading(false);
-        setWaiting(false);
-      } catch (error) {
-        setError(true);
-        console.log(error);
-        setLoading(false);
-        setWaiting(true);
-      }
-    }
-
-    getquestions();
-  }, [url, difficultyLevel]); */
 
   return (
     <QuizContext.Provider
@@ -117,6 +93,8 @@ const QuizContextProvider = ({ children }) => {
         error,
         isModalOpen,
         checkAnswer,
+        percentage,
+        setPercentage,
         // nextQuestion,
         getShuffledArr,
         //newQuestions,
@@ -145,6 +123,11 @@ const QuizContextProvider = ({ children }) => {
         data,
         myQuestions,
         setMyQuestions,
+        setShowTimer,
+        showTimer,
+        thesequestions,
+        questionsReset,
+        setQuestionsReset,
       }}
     >
       {children}

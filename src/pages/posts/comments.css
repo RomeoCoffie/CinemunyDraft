@@ -1,0 +1,44 @@
+.comment-container {
+  border: 0.1rem grey solid;
+  background: white;
+
+  margin-top: 0.3rem;
+  border-radius: 1rem;
+
+  width: 50%;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+}
+
+.comment p {
+  padding: 0.3rem;
+}
+.dispname {
+  font-size: 0.7em;
+}
+.date-comment {
+  margin-top: 0px;
+  font-size: 0.7em;
+}
+
+.del-comm {
+  padding: 0.1rem;
+  color: red;
+  background: transparent;
+  font-size: 0.7em;
+}
+.edit-comm {
+  padding: 0.1rem;
+  font-size: 0.7em;
+}
+
+/* .modify-comment {
+  padding: 0.3rem;
+}
+
+.modify-comment button {
+  padding: 0.3rem;
+} */

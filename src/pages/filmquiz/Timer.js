@@ -6,7 +6,7 @@ import { useContext } from 'react';
 //styles
 import './timer.css';
 
-export default function Timer() {
+export default function Timer({ stopTime }) {
   const {
     questions,
     closeModal,
@@ -27,6 +27,10 @@ export default function Timer() {
         time--;
         setRemainingTime(time);
         //setRemainingTime((remainingTime) => remainingTime--);
+        if (difficultyLevel === 'beginner') {
+          clearInterval(intervalId);
+          openModal();
+        }
         if (time === 0) {
           setInteruption(true);
           clearInterval(intervalId);
@@ -40,9 +44,9 @@ export default function Timer() {
     <div className="timer">
       {remainingTime !== 0 && (
         <span>
-          <h2>Time Left:</h2>
+          <h4>Time Left:&nbsp;</h4>
 
-          <h2 className="counter">{remainingTime}</h2>
+          <h4 className="counter">{remainingTime}</h4>
         </span>
       )}
 

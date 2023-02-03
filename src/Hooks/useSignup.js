@@ -31,7 +31,6 @@ export default function useSignup() {
 
       //add display name to user
       await updateProfile(res.user, { ...res.user, displayName });
-      console.log(displayName, res.user);
 
       //creating a user document
       await setDoc(doc(db, 'users', res.user.uid), {

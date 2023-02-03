@@ -20,15 +20,17 @@ function Signup() {
     setEmail('');
     setPassword('');
 
-    //navigate('/login');
+    navigate('/login');
   };
 
   return (
     <section>
       <div className={styles.signuparticle}>
         {/*used ['login-form'] for the styles because of of the  minus (-)*/}
-        <h3 className={styles.caption}>Create Account</h3>
-        <div className={styles.underline}></div>
+        <div className={styles.caption}>
+          <h3>Create Account</h3>
+        </div>
+
         <div>
           <form onSubmit={handleSubmit} className={styles.signup}>
             <label>

@@ -78,45 +78,140 @@ export const urlPatterns = {
   facebook: '^(https?://)?(www.facebook.com)/.+$',
   whatsapp: '^(https?://)?(chat.whatsapp.com)/.+$',
   telegram: '^(https?://)?(t.me).+$',
+  netflix: '^(https?://)?(www.netflix.com)/.+$',
+  amazon: '^(https?://)?(www.primevideo.com|www.amazon.de)/.+$',
+  hbo: '^(https?://)?(www.www.hbo.com)/.+$',
+  disney: '^(https?://)?(www.disneyplus.com)/.+$',
+  ifma: '^(https?://)?(www.ifmacinema.com)/.+$',
+  sky: '^(https?://)?(www.sky.com|sky.de)/.+$',
+  wow: '^(https?://)?(www.wowtv.de)/.+$',
+  talkingmovies: '^(https?://)?(www.tkimovies.com)/',
 };
 
 export const indices = [
   {
     id: 1,
+    text: 'Most anticipated movies of 2023',
+    index: 'most anticipated',
+  },
+  {
+    id: 2,
     text: 'Best Movies of 2022',
     index: '2022',
   },
 
   {
-    id: 2,
+    id: 3,
     text: 'Greatest Movies of All Time',
     index: 'great',
   },
 
   {
-    id: 3,
-    text: 'Best Romantic Movies',
-    index: 'bestromantic',
-  },
-  {
     id: 4,
-    text: 'Greatest Sci-fi Movies of Time',
-    index: 'bestscifi',
+    text: 'Best Romantic Movies',
+    index: 'best, romantic',
   },
   {
     id: 5,
-    text: 'Best Korean Movies',
-    index: 'korean',
+    text: 'Best Animation movies',
+    index: 'animation',
   },
   {
     id: 6,
-    text: 'Best Bollywood Movies',
-    index: 'bollywood',
+    text: 'Greatest Sci-fi Movies of All Time',
+    index: 'best, scifi',
   },
   {
     id: 7,
-    text: 'Greatest Action Movies',
-    index: 'greatestaction',
+    text: 'Classic Movies from the Golden Age of Hollywood',
+    index: 'classics',
+  },
+  {
+    id: 24,
+    text: 'Best Action Movies in Recent Times',
+    index: 'Teen and High school',
+  },
+  {
+    id: 8,
+    text: 'Best Teen and High School Movies',
+    index: 'Teen and High school',
+  },
+  {
+    id: 9,
+    text: 'Best Adventure and Fantansy movies',
+    index: 'Adventure',
+  },
+
+  {
+    id: 10,
+    text: 'Great Inspirational Movies',
+    index: 'inspirational',
+  },
+
+  {
+    id: 11,
+    text: '100 Must See Spy, Dectective and Mystery movies',
+    index: 'Spy and detective',
+  },
+  {
+    id: 12,
+    text: 'Movies That Will Definetly Make You Cry',
+    index: 'Cry',
+  },
+  {
+    id: 13,
+    text: 'Best Comedy Movies of All Time',
+    index: 'laugh',
+  },
+  {
+    id: 14,
+    text: 'Must See African American Movies',
+    index: 'Black American',
+  },
+  {
+    id: 15,
+    text: 'Actions Movies from Back in The Days',
+    index: 'Action 90s',
+  },
+  {
+    id: 16,
+    text: 'Must See Korean Movies',
+    index: 'Korean',
+  },
+  {
+    id: 17,
+    text: 'Bollywood Finnest Movies',
+    index: 'Bollywood',
+  },
+  {
+    id: 18,
+    text: 'Best of African Cinema',
+    index: 'African ',
+  },
+  {
+    id: 19,
+    text: 'Best movies of 2021',
+    index: '2021 ',
+  },
+  {
+    id: 20,
+    text: 'Best movies of 2020',
+    index: '2020',
+  },
+  {
+    id: 21,
+    text: 'Best movies of 2019',
+    index: '2019',
+  },
+  {
+    id: 22,
+    text: 'Best movies of 2018',
+    index: '2018',
+  },
+  {
+    id: 23,
+    text: 'Best movies of 2017',
+    index: '2017',
   },
 ];
 

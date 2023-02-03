@@ -1,11 +1,13 @@
-.addmovie-section {
+.addquestion-section {
   margin-top: 5rem;
   margin-right: 2rem;
   margin-left: 0px;
-  margin-bottom: 3rem;
-  width: 50rem;
-  height: 30rem;
-  align-items: center;
+  margin-bottom: 0rem;
+  width: 45rem;
+  height: 45rem;
+  padding: 1rem;
+  justify-content: left;
+  box-sizing: border-box;
 }
 
 .form-container {
@@ -15,40 +17,31 @@
   border-radius: 1rem;
   margin-top: 0px;
 }
-.form-row {
-  padding: 1rem;
-  font-size: 1.3em;
+
+.form-container span {
+  padding: 0.1rem;
+  margin-bottom: 0.3rem;
 }
 
-.form-row span {
-  display: block;
-  padding: 0.5rem;
+.form-container input {
+  padding: 0.1rem;
+  font-size: 1em;
+  width: 90%;
+  height: 1.5rem;
 }
 
-.form-row input {
-  width: 70%;
-  padding: 0.5rem;
-}
-.form-row textarea {
-  width: 70%;
-  height: 45%;
-  padding: 0.5rem;
+.form-container textarea {
+  height: 5rem;
 }
 
-.btnoptions {
-  border: 0.1rem solid crimson;
-  padding: 0.7rem;
-  margin-left: 1rem;
-  background-color: green;
-  color: white;
-  border-radius: 0.3rem;
-  width: 2.5rem;
-}
-
-.salute {
-  margin-top: 10rem;
-  text-align: right;
-}
 .title {
-  margin-top: 5rem;
+  margin: 3rem auto;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.btn {
+  margin: 1rem auto;
+  padding: 0.3rem;
+  width: 50%;
 }

@@ -25,17 +25,9 @@ tvshows styles
   white-space: nowrap;
 }
 
-.underline {
-  width: 7rem;
-  height: 0.2rem;
-  margin-left: 21rem;
-  background: var(--clr-primary-5);
-  display: block;
-}
-
 .tvshow-head {
-  margin-top: 9rem;
-  margin: 1rem auto;
+  margin-top: 4.3rem;
+  margin-bottom: 0.3rem;
   padding: 1rem;
 }
 
@@ -74,12 +66,9 @@ tvshows styles
 
 .tvshow li img {
   width: 100%;
+  height: 11rem;
+  max-height: 70%;
   margin: 0.3 auto;
-  transition: all 0.3s linear;
-
-  object-fit: cover;
-  border-top-left-radius: var(--mainBorderRadius);
-  border-top-right-radius: var(--mainBorderRadius);
 }
 
 .tvshow-footer {

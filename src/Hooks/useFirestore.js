@@ -75,11 +75,9 @@ export const useFiresotre = (c) => {
     }
   };
 
-  console.log(response);
-
   //delete a document
   const deleteDocument = async (id) => {
-    ref = collection(db, c, id);
+    let ref = doc(db, c, id);
     dispatch({ type: 'IS_PENDING' });
 
     try {

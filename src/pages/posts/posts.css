@@ -1,0 +1,28 @@
+.posts-section {
+  margin: 5rem auto;
+  padding: 1rem;
+
+  justify-content: center;
+}
+.posts-head {
+  font-size: medium;
+  margin: 1rem auto;
+}
+
+.underline {
+  margin: 1rem auto;
+}
+
+.show {
+  padding: 0.1rem;
+  margin: 0.5rem auto;
+}
+
+/* .s {
+  margin-top: 1.5rem;
+  margin-left: 0px;
+  margin-bottom: 0.5rem;
+  height: 30%;
+  padding: 1rem;
+  line-height: 1rem;
+} */

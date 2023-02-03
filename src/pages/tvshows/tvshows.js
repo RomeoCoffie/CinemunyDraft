@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { Link } from 'react-router-dom';
 import { GoStar } from 'react-icons/go';
-import useFetch from '../../Hooks/useFetch';
+import { Helmet } from 'react-helmet';
 
 import './tvshows.css';
 
@@ -33,8 +33,11 @@ export default function Tvshows() {
   return (
     <section>
       <main>
-        <h2 className="tvshow-head ">TvShows</h2>
-        <div className="underline"></div>
+        <h2 className="tvshow-head ">Tv-Shows</h2>
+        <Helmet>
+          <title>Tv Shows</title>
+        </Helmet>
+
         <article className="tvshows-container">
           {shows.map((show) => {
             const { title, img, rating } = show;
@@ -53,7 +56,7 @@ export default function Tvshows() {
                     <span>
                       {/* <p style={{ display: 'inline-block' }}>{year}&nbsp;</p> */}
 
-                      <Link className="link" to={`/series/${show.id}`}>
+                      <Link className="link" to={`/tvshows/${show.id}`}>
                         more...
                       </Link>
                     </span>

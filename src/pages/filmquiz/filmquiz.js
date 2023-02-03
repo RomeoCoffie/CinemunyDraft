@@ -7,13 +7,16 @@ import SetupForm from './SetupForm';
 import Questions from './Questions';
 import Loading from './Loading';
 import Modal from '../../components/modal/Modal';
+import Question from './Question';
 import './filmquiz.css';
 export default function Filmquiz() {
-  // const [waiting, setWaiting] = useState(true);
+  const [theQuestion, seTheQuestion] = useState(true);
   // const [Loading, setLoading] = useState(false);
   const [newQuestions, setNewQuestions] = useState([]);
   const [disabledButton, setDisabledButton] = useState(null);
-  // const [mycorrect, setMyorrect] = useState(0);
+  const [stopTime, setStopTime] = useState(false);
+  //const [currentQuestionsTotal, setCurrentQuestionsTotal] = useState(0);
+
   // const [error, setError] = useState(0);
 
   const {
@@ -28,6 +31,8 @@ export default function Filmquiz() {
     setUserAnswer,
     setUserAnswers,
     score,
+    percentage,
+    setPercentage,
     selected,
     setIndex,
     userScore,
@@ -42,70 +47,54 @@ export default function Filmquiz() {
     remainingTime,
     setRemainingTime,
     setInteruption,
+    interuption,
     myQuestions,
     setMyQuestions,
+    showTimer,
+    setShowTimer,
   } = useContext(QuizContext);
-
-  //Shuffling questions
-  const getShuffledArr = (arr) => {
-    if (arr != null) {
-      const newArr = arr.slice();
-      for (let i = newArr.length - 1; i > 0; i--) {
-        const rand = Math.floor(Math.random() * (i + 1));
-        [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
-      }
-      return newArr;
-    }
-  };
 
   useEffect(() => {
     if (myQuestions) {
+      //setCurrentQuestionsTotal(myQuestions.length);
+
       switch (difficultyLevel) {
-        case 'easy':
-          setRemainingTime('hello novice');
+        case 'beginner':
+          setRemainingTime(null);
+          setShowTimer(false);
           return setNewQuestions(myQuestions.slice(1, 3));
 
-        case 'medium':
-          let time = 10;
+        case 'average':
+          let time = 20;
           setRemainingTime(time);
+          setShowTimer(true);
+          return setNewQuestions(myQuestions.slice(1, 6));
 
-          return setNewQuestions(myQuestions.slice(1, 5));
-
-        case 'hard':
-          let time2 = 170;
+        case 'expert':
+          let time2 = 80;
           setRemainingTime(time2);
+          setShowTimer(true);
           return setNewQuestions(myQuestions.slice(1, 11));
+
+        case 'guru':
+          let time3 = 90;
+          setRemainingTime(time3);
+          setShowTimer(true);
+          return setNewQuestions(myQuestions.slice(1, 16));
 
         default:
           setRemainingTime(null);
+          setShowTimer(false);
           return setNewQuestions(myQuestions.slice(1, 3));
       }
-
-      /* if (difficultyLevel) {
-        if (difficultyLevel === 'medium') {
-          const secondtemp = questions.slice(1, 6);
-          setNewQuestions(secondtemp);
-        }
-      }
-      if (difficultyLevel === 'hard') {
-        const secondtemp = questions.slice(1, 10);
-        setNewQuestions(secondtemp);
-      }
-      if (difficultyLevel === 'easy') {
-        const secondtemp = questions.slice(1, 4);
-        setNewQuestions(secondtemp);
-      } */
     }
-    /* if (difficultylevel) {
-      if (difficultylevel === 'Easy') {
-        let time = 170;
-        setRemainingTime(time);
-      } else if (difficultylevel === 'Hard') {
-        let time = 100;
-        setRemainingTime(time);
-      }
-    } */
   }, [myQuestions, difficultyLevel]);
+
+  //calculatepercentage
+
+  const per = (a, b) => {
+    return (a / b) * 100;
+  };
 
   //Check Results
   const checkResults = () => {
@@ -115,24 +104,60 @@ export default function Filmquiz() {
   //handlesubmission of results
   const handleSubmit = (e) => {
     e.preventDefault();
-    let mark = 0;
+    let correct = 0;
     let wrong = 0;
     if (newQuestions) {
       userAnswers.map((userAnswer, i) => {
         if (userAnswer === newQuestions[i].correctAnswer) {
-          mark++;
-          setUserScore(mark);
-          console.log('correct', userScore, userAnswer, userAnswers);
-          return userScore;
+          correct++;
         } else {
-          wrong++;
-          console.log('wrong', wrong, userAnswer, userAnswers);
-          return wrong;
+          console.log('wrong');
         }
       });
+
+      let results = ((correct / newQuestions.length) * 100).toFixed(0);
+      console.log(results, correct, newQuestions.length, difficultyLevel);
+      setUserScore(results);
+      setPercentage(results);
     }
+    // setPercentage(per(userScore, newQuestions))
+
     openModal();
+    console.log(
+      percentage,
+      userScore,
+      userAnswers,
+      difficultyLevel,
+      remainingTime
+    );
+    setShowTimer(false);
+    setStopTime(true);
+    setDisabledButton(false);
+
+    setDifficultyLevel('beginner');
+    setRemainingTime(null);
   };
+
+  /*  useEffect(() => {
+    if (userScore & difficultyLevel) {
+      switch (difficultyLevel) {
+        case 'beginner':
+          let results = ((userScore / 2) * 100).toFixed(0);
+          setPercentage(results);
+          return results, percentage;
+
+        case 'average':
+          let averageResults = ((userScore / 5) * 100).toFixed(0);
+          setPercentage(averageResults);
+          return averageResults, percentage;
+
+        case 'expert':
+          let expertResults = ((userScore / 10) * 100).toFixed(0);
+          setPercentage(expertResults);
+          return expertResults, percentage;
+      }
+    }
+  }, [userScore]); */
 
   if (waiting) {
     return (
@@ -150,13 +175,18 @@ export default function Filmquiz() {
   }
   return (
     <main className="quiztime">
-      <h2 className="quizhead">Film Quiz</h2>
+      <div className="heading">
+        <h2 className="quizhead">Film Quiz</h2>
+        <div className="prizes">
+          <button className="pbtn">Checkout Prizes</button>
+        </div>
+      </div>
 
       <section className="quiz">
+        {showTimer && <Timer stopTime={stopTime} />}
         <article className="container">
           <div className="difficult">
             <p className="words">Select Difficulty Level:</p>
-            {remainingTime > 0 && <Timer />}
           </div>
           <div>
             <select
@@ -167,9 +197,11 @@ export default function Filmquiz() {
               }}
               className="selection"
             >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              {/* <option value="">.............</option> */}
+              <option value="beginner">beginner</option>
+              <option value="average">average</option>
+              <option value="expert">expert</option>
+              <option value="guru">guru</option>
             </select>
           </div>
           <form className="questions-form" onSubmit={handleSubmit}>
@@ -177,43 +209,27 @@ export default function Filmquiz() {
               const { id, question, option, correctAnswer } = quest;
 
               return (
-                <div className="questioncard">
-                  <div className={`${selected ? '' : 'question'}`}>
-                    <span>
-                      {indie + 1}
-
-                      <h4 className="question">{question}</h4>
-                    </span>
-                  </div>
-                  {option.map((choice, choiceindex) => {
-                    setIndex(choiceindex);
-                    return (
-                      <div className="answers-container answerbtn">
-                        <input
-                          key={choiceindex}
-                          type="radio"
-                          name="options"
-                          className="answerbtn"
-                          //checked={choiceindex}
-                          onChange={(e) => {
-                            checkAnswer(correctAnswer === choice);
-                            let newAnswers = [...userAnswers];
-                            newAnswers[indie] = choice;
-                            setUserAnswers(newAnswers);
-                            setSelected(true);
-                          }}
-                        />
-                        {choice}
-                      </div>
-                    );
-                  })}
-                </div>
+                <Question
+                  {...quest}
+                  indie={indie}
+                  selected={selected}
+                  setIndex={setIndex}
+                  checkAnswer={checkAnswer}
+                  userAnswers={userAnswers}
+                  setUserAnswers={setUserAnswers}
+                  setSelected={setSelected}
+                />
               );
             })}
 
             <button className="submit-btn">submt</button>
           </form>
-          {isModalOpen && <Modal />}
+          {isModalOpen && (
+            <Modal
+              setDisabledButton={setDisabledButton}
+              setStopTime={setStopTime}
+            />
+          )}
         </article>
       </section>
     </main>

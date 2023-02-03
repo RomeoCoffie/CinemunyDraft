@@ -9,29 +9,43 @@ import { AuthContext } from '../../context/authcontext/AuthContext';
 import { getDownloadURL, ref } from '@firebase/storage';
 import { uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../components/firebase/config';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { urlPatterns } from '../../data/datalinks';
 
 import './addmovie.css';
 
 export default function Addmovie() {
   const [title, setTitle] = useState(null);
+  const [contentType, setContentType] = useState('movie');
   const [desc, setDesc] = useState(null);
   const [director, setDirector] = useState([]);
-  const [rating, setRating] = useState();
-  const [year, setYear] = useState(0);
+  const [rating, setRating] = useState(1);
+  const [year, setYear] = useState(2022);
   const optionsInput = useRef(null);
+  const castInput = useRef(null);
   const [thumbnailError, setThumbnailError] = useState(null);
+  const [inputError, setInputError] = useState(null);
   const [thumbnail, setThumbnail] = useState([]);
   const [movieImgUrl, setMovieImgUrl] = useState(null);
   const [progress, setProgress] = useState(null);
+  const [cast, setCast] = useState([]);
   const [newOption, setNewOption] = useState();
+  const [newCast, setNewCast] = useState(null);
+  const [genre, setGenre] = useState([]);
+  const [newGenre, setNewGenre] = useState(null);
+  const [ifmaRating, setIfmaRating] = useState([]);
+  const genreInput = useRef(null);
   const inputClear = useRef(null);
+  const [youtubeLinkError, setyoutubeLinkError] = useState(null);
+  const [trailer, setTrailer] = useState(null);
+  const [contentIndex, setContentIndex] = useState(null);
   /* const [newDirector, setNewDirector] = useState();
-   const [writer, setWriter] = useState([]);
-   const [newWrite, setNewWriter] = useState();
+   const [genre, setGenre] = useState([]);
+   
    
    const optionsInput = useRef(null);
-  const [cast, setCast] = useState([]);
-  const [newCast, setNewCast] = useState();
+ 
+  
   const [question, setQuestion] = useState();
   const [option, setOption] = useState([]);
   const [newOption, setNewOption] = useState();
@@ -45,27 +59,49 @@ export default function Addmovie() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let person = user.uid;
+    setInputError(null);
+    setyoutubeLinkError(null);
+    const createdAt = Timestamp.fromDate(new Date());
+
+    /* if (!rating < 10 || !rating > 1) {
+      setInputError('rating must be between 1-10');
+      return;
+    }
+ */
 
     console.log(movieImgUrl);
     if (movieImgUrl) {
-      addDocument({ person, title, director, rating, year, desc, movieImgUrl });
+      if (!contentType) {
+        setInputError('You must select Content Type');
+        return;
+      }
+
+      if (!trailer || !trailer.match(urlPatterns.youtube)) {
+        setyoutubeLinkError('Enter Valid Youtube url');
+        return;
+      }
+
+      addDocument({
+        person,
+        title,
+        director,
+        rating,
+        year,
+        desc,
+        movieImgUrl,
+        contentType,
+        cast,
+        genre,
+        ifmaRating,
+        createdAt,
+        trailer,
+        contentIndex,
+      });
     } else {
-      addDocument({ person, title, director, rating, year, desc });
+      setInputError('Check inputs and submit  again');
+      return;
     }
 
-    // console.log(response);
-
-    //console.log(person);
-
-    /* let ref = collection(db, 'questions');
-
-    const createdAt = Timestamp.fromDate(new Date());
-    myquestions.forEach((question) => {
-      addDoc(ref, { ...question, createdAt });
-      //addDocument(question);
-    }); */
-
-    //console.log(question, option, correctAnswer);
     resetFields();
   };
 
@@ -78,8 +114,31 @@ export default function Addmovie() {
       setoptions((prevOption) => [...prevOption, ops]);
     }
     setNewOption('');
-
     optionsInput.current.focus();
+  };
+
+  //handle cast input
+  const addCast = (e, setCast) => {
+    e.preventDefault();
+    const ops = newCast.trim();
+
+    if (ops && !cast.includes(ops)) {
+      setCast((prevOption) => [...prevOption, ops]);
+    }
+    setNewCast('');
+    castInput.current.focus();
+  };
+
+  //handle cast input
+  const addGenre = (e, setGenre) => {
+    e.preventDefault();
+    const ops = newGenre.trim();
+
+    if (ops && !genre.includes(ops)) {
+      setGenre((prevOption) => [...prevOption, ops]);
+    }
+    setNewGenre('');
+    genreInput.current.focus();
   };
 
   //handle image upload if question has an image
@@ -94,7 +153,7 @@ export default function Addmovie() {
         return;
       }
 
-      if (selected.size > 500000) {
+      if (selected.size > 900000) {
         setThumbnailError('Selected file size must be less than 500kb');
         return;
       }
@@ -104,12 +163,13 @@ export default function Addmovie() {
       const metadata = {
         contentType: selected.type,
         customMetadata: {
-          gener: 'action',
-          year: '2022',
+          title: title,
+          description: desc,
+          year: year,
         },
       };
 
-      const storageRef = ref(storage, `/movies/${selected.name}`);
+      const storageRef = ref(storage, `/movies/${title}/${selected.name}`);
       const storageUpload = uploadBytesResumable(
         storageRef,
         selected,
@@ -141,10 +201,15 @@ export default function Addmovie() {
   //reseting fields after submission
   const resetFields = () => {
     setTitle('');
-    setYear('');
+    setYear(2022);
     setDirector('');
-    setRating('');
+    setRating(1);
     setDesc('');
+    setCast('');
+    setGenre('');
+    setContentType('movie');
+    setTrailer('');
+    setContentIndex('');
 
     inputClear.current.value = '';
   };
@@ -173,8 +238,20 @@ export default function Addmovie() {
       {/*  <main className="addmovie-main"> */}
       {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
       <h3 className="title">Add Film</h3>
+      <div></div>
       <form className="form-container" onSubmit={handleSubmit}>
-        <p>Title:</p>
+        {inputError && <p style={{ color: 'red' }}>{inputError}</p>}
+        <span>Type</span>
+        <select
+          className="form-input"
+          required
+          value={contentType}
+          onChange={(e) => setContentType(e.target.value)}
+        >
+          <option value="movie">movie</option>
+          <option value="series">series/tv-show</option>
+        </select>
+        <span>Title:</span>
         <input
           type="text"
           onChange={(e) => setTitle(e.target.value)}
@@ -184,7 +261,7 @@ export default function Addmovie() {
 
         <br />
 
-        <p>Description:</p>
+        <span>Description:</span>
         <textarea
           type="text"
           onChange={(e) => setDesc(e.target.value)}
@@ -192,7 +269,77 @@ export default function Addmovie() {
           required
         />
 
-        <p>Add Image:</p>
+        <span>Directors:</span>
+        <input
+          type="text"
+          className={`${director.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewOption(e.target.value)}
+          value={newOption}
+          ref={optionsInput}
+        />
+        <button onClick={(e) => addOptions(e, setDirector)}>
+          <AiOutlinePlus />
+        </button>
+
+        <span>Cast:</span>
+        <input
+          type="text"
+          className={`${cast.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewCast(e.target.value)}
+          value={newCast}
+          ref={castInput}
+        />
+        <button onClick={(e) => addCast(e, setCast)}>
+          <AiOutlinePlus />
+        </button>
+
+        <span>Genre:</span>
+        <input
+          type="text"
+          className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewGenre(e.target.value)}
+          value={newGenre}
+          ref={genreInput}
+        />
+        <button onClick={(e) => addGenre(e, setGenre)}>
+          <AiOutlinePlus />
+        </button>
+
+        <span>Rating:</span>
+        <input
+          type="number"
+          onChange={(e) => setRating(e.target.value)}
+          value={rating}
+          required
+        />
+
+        <span>Year:</span>
+        <input
+          type="number"
+          onChange={(e) => setYear(e.target.value)}
+          value={year}
+          required
+        />
+
+        {youtubeLinkError && <p style={{ color: 'red' }}>{youtubeLinkError}</p>}
+        <span>Youtube:</span>
+
+        <input
+          className={`${youtubeLinkError ? 'invalid-link' : 'valid-link'}`}
+          type="text"
+          onChange={(e) => {
+            setTrailer(e.target.value);
+          }}
+          value={trailer}
+        />
+        <span>Keywords:</span>
+        <input
+          type="text"
+          onChange={(e) => setContentIndex(e.target.value)}
+          value={contentIndex}
+          required
+        />
+        <span>Add Image:</span>
         <input
           type="file"
           onChange={handleFileChange}
@@ -202,36 +349,6 @@ export default function Addmovie() {
         />
 
         {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
-
-        <p>Directors:</p>
-        <input
-          type="text"
-          onChange={(e) => setNewOption(e.target.value)}
-          value={newOption}
-          ref={optionsInput}
-        />
-        <button
-          className="btnoptions"
-          onClick={(e) => addOptions(e, setDirector)}
-        >
-          add
-        </button>
-
-        <p>Rating:</p>
-        <input
-          type="text"
-          onChange={(e) => setRating(e.target.value)}
-          value={rating}
-          required
-        />
-
-        <p>Year:</p>
-        <input
-          type="text"
-          onChange={(e) => setYear(e.target.value)}
-          value={year}
-          required
-        />
 
         <br />
 

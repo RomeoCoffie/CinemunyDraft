@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 //import { QuizContext } from '../../context/quizcontext/Quizcontext';
 
 export default function Group({ grpName, img, url, about, ppleOnline }) {

@@ -9,6 +9,7 @@ import { useFiresotre } from '../../Hooks/useFirestore';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { storage } from '../../components/firebase/config';
 import { getDownloadURL, ref } from '@firebase/storage';
+import { AiOutlinePlus } from 'react-icons/ai';
 //import { useAddImage } from '../../Hooks/useAddImage'; didnt work
 
 import './addquestions.css';
@@ -18,11 +19,13 @@ export default function Addquestion() {
   const [question, setQuestion] = useState();
   const [questionImgUrl, setQuestionImgUrl] = useState(null);
   const [option, setOption] = useState([]);
-  const [newOption, setNewOption] = useState();
+  const [newOption, setNewOption] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState();
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailError, setThumbnailError] = useState(null);
+  const [inputError, setInputError] = useState(null);
   const [progress, setProgress] = useState(null);
+  const [addImage, setAddImage] = useState(false);
   const optionsInput = useRef(null);
   const { documents: thesequestions } = useCollection('questions');
 
@@ -35,8 +38,22 @@ export default function Addquestion() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let person = user.uid;
+    setInputError(null);
 
     console.log(questionImgUrl);
+
+    if (!option.includes(correctAnswer)) {
+      setInputError('Answers must contain correct Answer');
+
+      return;
+    }
+
+    if (option.length !== 3) {
+      setInputError('Answers must be 3 choices');
+
+      return;
+    }
+
     if (questionImgUrl) {
       addDocument({ person, question, option, correctAnswer, questionImgUrl });
     } else {
@@ -141,57 +158,65 @@ export default function Addquestion() {
     });  */
 
   return (
-    <section className="addmovie-section">
+    <section className="addquestion-section">
       <div>
         {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
-        <h3 className="title">Add Question</h3>
+        <div className="title">
+          <h3>Add Question</h3>
+        </div>
+
         <form className="form-container" onSubmit={handleSubmit}>
-          <div className="form-row">
-            <span>Question:</span>
-            <textarea
-              type="text"
-              onChange={(e) => setQuestion(e.target.value)}
-              value={question}
-              required
-            />
-          </div>
+          <span>Question:</span>
+          <textarea
+            type="text"
+            onChange={(e) => setQuestion(e.target.value)}
+            value={question}
+            required
+          />
+
           <br />
-          <div className="form-row">
-            <span>Add Image:</span>
+
+          <span>Add Image:</span>
+          <span>
+            <button onClick={(e) => setAddImage(true)}>
+              <AiOutlinePlus />
+            </button>
+          </span>
+          {addImage && (
             <input
               type="file"
               onChange={handleFileChange}
               accept="image/*"
               required
             />
-          </div>
+          )}
+
           {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 
-          <div className="form-row">
-            <span>Answers:</span>
-            <div className="options">
-              <input
-                type="text"
-                onChange={(e) => setNewOption(e.target.value)}
-                value={newOption}
-                ref={optionsInput}
-              />
-              <button className="btnoptions" onClick={addOptions}>
-                add
-              </button>
-            </div>
-          </div>
+          <span>Answers:</span>
+          {inputError && <span style={{ color: 'red' }}>{inputError}</span>}
+
+          <input
+            type="text"
+            onChange={(e) => setNewOption(e.target.value)}
+            placeholder="enter 3 choices"
+            value={newOption}
+            ref={optionsInput}
+          />
+          <button onClick={addOptions}>
+            <AiOutlinePlus />
+          </button>
+
           <br />
 
-          <div className="form-row">
-            <span>Correct Answer:</span>
-            <input
-              type="text"
-              onChange={(e) => setCorrectAnswer(e.target.value)}
-              value={correctAnswer}
-              required
-            />
-          </div>
+          <span>Correct Answer:</span>
+          <input
+            type="text"
+            onChange={(e) => setCorrectAnswer(e.target.value)}
+            value={correctAnswer}
+            required
+          />
+
           <br />
 
           <button className="btn">submit</button>

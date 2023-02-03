@@ -1,11 +1,19 @@
 .timer {
   position: fixed;
   margin-left: 0.3rem;
-  margin-top: 0rem;
-  border-radius: 5px;
+  margin-bottom: 3rem;
+  margin-left: 0px;
+  border-radius: 0.5rem;
   border-color: red;
   border: 1px solid green;
-  padding: 0.5rem;
+  padding: 0.3rem;
+}
+
+.timer h4 {
+  display: inline-block;
+}
+.timer span {
+  padding: 0.3rem;
 }
 
 .timeup {

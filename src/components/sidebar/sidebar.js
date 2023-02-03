@@ -15,7 +15,7 @@ export default function Sidebar() {
   const filterMovies = (filmindex) => {
     setMovieIndex(filmindex);
 
-    navigate('/movies');
+    //navigate('/movies');
   };
 
   return (
@@ -36,7 +36,7 @@ export default function Sidebar() {
                       // let newIndex = [...movieIndex];
                       // newIndex[indi] = indie.index;
                       let newIndex = e.target.name;
-                      setMovieIndex(newIndex);
+                      /* setMovieIndex(newIndex); take note*/
                       filterMovies(newIndex);
                     }}
                     key={id}

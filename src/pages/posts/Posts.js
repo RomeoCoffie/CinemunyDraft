@@ -1,35 +1,35 @@
-import React, { useEffect, useState, useContext, Link } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
+import { AuthContext } from '../../context/authcontext/AuthContext';
 
-import { urlPatterns } from '../../data/datalinks';
+//import { urlPatterns } from '../../data/datalinks';
 
-import useFetch from '../../Hooks/useFetch';
-import './post.css';
+import './posts.css';
 import Post from './post';
 
 export default function Posts() {
-  const [readMore, setReadMore] = useState(false);
-  const [images, setImages] = useState(null);
   const { posts, setPosts, news } = useContext(TkimoviesContext);
+  const { authIsReady, user } = useContext(AuthContext);
 
-  if (news) {
-    setPosts(news);
-    console.log(news);
-    // console.log(data, groups, 'hi');
-  }
+  useEffect(() => {
+    if (news) {
+      setPosts(news);
+      console.log(news);
+    }
+  }, [news]);
 
   return (
-    <section className="groups-section">
+    <section className="posts-section">
       <main>
-        <div className="groups-head">
+        <div className="posts-head">
           <h2>Cinemuny</h2>
         </div>
 
-        <div className="underline"></div>
+        <div className="post-underline"></div>
 
         {posts &&
           posts.map((post, postIndex) => {
-            return <Post key={postIndex} {...post} />;
+            return <Post key={postIndex} {...post} user={user} />;
           })}
       </main>
     </section>

@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/authcontext/AuthContext';
 import './navbar.css';
 
 export default function Navbar() {
-  const [showLinks, setShowLinks] = useState(false);
+  // const [showLinks, setShowLinks] = useState(false);
   const { logout } = useLogout();
   const { user } = useContext(AuthContext);
   console.log('user from nav', user);
@@ -19,10 +19,10 @@ export default function Navbar() {
       <div className="logo-container">
         <div className="logo">
           <div className="talking">
-            <h4> Talking </h4>
+            <h4> Cine </h4>
           </div>
           <div className="moviediv">
-            <h3 className="movi-heading">Movies</h3>
+            <h3 className="movi-heading">Muny</h3>
           </div>
         </div>
       </div>
@@ -38,20 +38,19 @@ export default function Navbar() {
           })}
         </ul>
       </div>
-      <button
-        onClick={() => {
-          if (!showLinks) {
-            setShowLinks(true);
-          } else {
-            setShowLinks(false);
-          }
-        }}
-        className="nav-toggle"
-      >
-        <CgProfile />
-      </button>
 
-      {showLinks && (
+      {user && (
+        <>
+          <li>
+            <button onClick={logout}>
+              <CgProfile />
+              {user.displayName}
+            </button>
+          </li>
+        </>
+      )}
+
+      {!user && (
         <div className="log-container">
           <ul>
             {profile.map((pro) => {
@@ -62,14 +61,6 @@ export default function Navbar() {
                 </li>
               );
             })}
-            {user && (
-              <>
-                <li>hello,{user.displayName}</li>
-                <li>
-                  <button onClick={logout}> logout</button>
-                </li>
-              </>
-            )}
           </ul>
         </div>
       )}

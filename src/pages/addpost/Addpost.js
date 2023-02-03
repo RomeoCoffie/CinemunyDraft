@@ -29,6 +29,7 @@ export default function Addpost() {
   const [youTubeLink, setYouTubeLink] = useState(null);
   const [groupThumbnail, setGroupThumbnail] = useState(null);
   const [thumbnailError, setThumbnailError] = useState(null);
+  const [inputError, setInputError] = useState(null);
   const [grpLinkError, setGrpLinkError] = useState(null);
   // const [progress, setProgress] = useState(null);
   const optionsInput = useRef(null);
@@ -39,7 +40,7 @@ export default function Addpost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setYouTubeLink(null);
+    // setYouTubeLink(null);
     setGrpLinkError(null);
     let person = user.uid;
 
@@ -51,7 +52,6 @@ export default function Addpost() {
           description,
           source,
           youTubeLink,
-          postImgUrl,
           copyright,
           person,
           postType,
@@ -62,17 +62,21 @@ export default function Addpost() {
         setYouTubeLink('Please Enter a Valid Link');
         setGrpLinkError('Please Enter a Valid Link');
       }
-    } else {
+    }
+
+    if (postTilte || description) {
       await addDocument({
         postTilte,
         description,
         source,
-        youTubeLink,
         postImgUrl,
         copyright,
         person,
         postType,
       });
+    } else {
+      setInputError('input error, kindly check all fields');
+      console.log(inputError);
     }
   };
 
@@ -98,10 +102,13 @@ export default function Addpost() {
       setPostImges((prevState) => [...prevState, selected]);
     }
 
+    //console.log(postImges);
+
     return;
   };
 
   useEffect(() => {
+    console.log(postImges);
     if (postImges.length > 10) {
       setThumbnailError('you can only add upto 10 images ');
 
@@ -114,21 +121,32 @@ export default function Addpost() {
     postImges.forEach((image) => {
       // Create the file metadata
       /* @type {any} */
-      const metadata = {
+      //console.log(image);
+      /* const metadata = {
         contentType: image.type,
         customMetadata: {
-          id: response,
+          name: postTilte || description.substring(0, 30),
         },
-      };
-      const storageRef = ref(storage, `/PostImgs/${response}/${image.name}`);
+      }; */
+      const storageRef = ref(
+        storage,
+        `/PostImgs/${postTilte || description.substring(0, 30)}/${image.name}`
+      );
 
-      const uploadImage = async () => {
-        const storageUpload = await uploadBytesResumable(
+      async function uploadImage() {
+        console.log(storageRef, image);
+
+        const storageUpload = await uploadBytesResumable(storageRef, image);
+
+        /* const storageRef = ref(storage, `/movies/${title}/${selected.name}`);
+        const storageUpload = uploadBytesResumable(
           storageRef,
-          image,
+          selected,
           metadata
-        );
-        promises.push(storageUpload); //to get a block reponses
+        ); */
+
+        console.log(image);
+        promises.push(storageUpload); //to get reponses
         const updatingRef = doc(db, 'Posts', response);
         const posturls = [];
 
@@ -144,7 +162,7 @@ export default function Addpost() {
           setPostImgUrl(posturls);
           //to update doc attached to this image
         });
-      };
+      }
       uploadImage();
     });
   }, [postImges]);
@@ -159,7 +177,7 @@ export default function Addpost() {
 
     //inputClear.current.value = '';
   };
-  console.log(postImges, postImgUrl);
+  console.log(postImges, postImgUrl, response);
 
   return (
     <section className="addgroup-section">
@@ -244,9 +262,9 @@ export default function Addpost() {
             </div>
           )}
 
-          {!postImgUrl && <button className="btn">submit</button>}
+          {!response && <button className="btn">submit</button>}
 
-          {postImgUrl && (
+          {response && (
             <button onClick={resetFields} className="submit-btn ">
               Done
             </button>
