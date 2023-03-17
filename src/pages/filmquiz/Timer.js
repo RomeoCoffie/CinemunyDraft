@@ -1,5 +1,5 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { QuizContext } from '../../context/quizcontext/Quizcontext';
 import { useContext } from 'react';
 
@@ -8,49 +8,50 @@ import './timer.css';
 
 export default function Timer({ stopTime }) {
   const {
-    questions,
-    closeModal,
-    isModalOpen,
-    setIsModalOpen,
     openModal,
     difficultyLevel,
-    newQuestions,
+    myQuestions,
     remainingTime,
     setRemainingTime,
     setInteruption,
+    interuption,
+    queIndex,
+    setShowTimer,
+    waiting,
+    timeTimer,
   } = useContext(QuizContext);
 
-  useEffect(() => {
-    if (remainingTime && difficultyLevel) {
-      let time = remainingTime;
-      const intervalId = setInterval(() => {
-        time--;
-        setRemainingTime(time);
-        //setRemainingTime((remainingTime) => remainingTime--);
-        if (difficultyLevel === 'beginner') {
-          clearInterval(intervalId);
-          openModal();
-        }
-        if (time === 0) {
-          setInteruption(true);
-          clearInterval(intervalId);
-          openModal();
-        }
-      }, 1000);
+  // const intervalId = useRef();
+  //Timer Function
+  const decreaseTime = useCallback(() => {
+    if (remainingTime) {
+      setRemainingTime((count) => count - 1);
     }
-  }, [difficultyLevel, remainingTime]);
+  }, []);
+
+  useEffect(() => {
+    if (remainingTime <= 0) {
+      if (myQuestions === queIndex) {
+        setInteruption(true);
+      }
+      openModal(); //opens modal and returns results
+      return;
+    }
+    const timeFunction = setInterval(decreaseTime, 1000); //set test interval
+    return () => clearInterval(timeFunction); //clears interval
+  }, [decreaseTime, remainingTime]);
 
   return (
     <div className="timer">
       {remainingTime !== 0 && (
         <span>
           <h4>Time Left:&nbsp;</h4>
-
           <h4 className="counter">{remainingTime}</h4>
         </span>
       )}
-
-      {remainingTime === 0 && <h2 className="timeup">Time is Up!!!</h2>}
+      {/*  {remainingTime  && interuption && (
+        <h2 className="timeup">Time is Up!!!</h2>
+      )} */}
     </div>
   );
 }

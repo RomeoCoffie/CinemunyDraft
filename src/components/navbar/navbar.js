@@ -5,6 +5,8 @@ import { CgProfile } from 'react-icons/cg';
 import { links, profile } from '../../data/datalinks';
 import useLogout from '../../Hooks/useLogout';
 import { AuthContext } from '../../context/authcontext/AuthContext';
+import { Link } from 'react-router-dom';
+import { auth } from '../firebase/config';
 
 import './navbar.css';
 
@@ -12,7 +14,18 @@ export default function Navbar() {
   // const [showLinks, setShowLinks] = useState(false);
   const { logout } = useLogout();
   const { user } = useContext(AuthContext);
-  console.log('user from nav', user);
+
+  if (user) {
+    user.getIdTokenResult().then((IdTokenResult) => {
+      user.admin = IdTokenResult.claims.admin;
+      console.log(IdTokenResult.claims);
+    });
+
+    /*  auth.currentUser.getIdTokenResult().then((tokenResult) => {
+      console.log(tokenResult.claims);
+    }); */
+  }
+  //console.log(user.admin);
 
   return (
     <nav className="navdiv">
@@ -38,6 +51,7 @@ export default function Navbar() {
           })}
         </ul>
       </div>
+      <div>{user && user.admin && <Link to="/admin">Admin</Link>}</div>
 
       {user && (
         <>

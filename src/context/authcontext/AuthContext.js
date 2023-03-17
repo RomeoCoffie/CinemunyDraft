@@ -23,12 +23,22 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
     authIsReady: false,
   });
-  console.log('autcontext:', state);
 
   // fires a function immediately to instantly  check with firebase whether a user is login or not
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        user.getIdTokenResult().then((IdTokenResult) => {
+          user.admin = IdTokenResult.claims.admin;
+          console.log(IdTokenResult.claims);
+        });
+
+        /* auth.currentUser.getIdTokenResult().then((tokenResult) => {
+          console.log(tokenResult.claims);
+        }); */
+      }
+
       dispatch({ type: 'AUTH_IS_READY', payload: user });
       unsub();
     });

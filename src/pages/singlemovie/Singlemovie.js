@@ -18,18 +18,22 @@ export default function Singlemovie() {
   const { id } = useParams();
   const theRef = doc(db, 'movies', id);
   const docRef = doc(db, 'movies', id);
-  const { authIsReady, user } = useContext(AuthContext);
-  const { showLinksModal, setShowLinksModal } = useContext(TkimoviesContext);
-  // const { documents: content } = useCollection('movies');
-  const { deleteDocument, response } = useFiresotre('movies');
+  const { user } = useContext(AuthContext);
 
-  //const { data } = useContext(TkimoviesContext);
+  const { deleteDocument, response } = useFiresotre('movies');
+  const {
+    handleRating,
+    showRating,
+    setShowRating,
+    addLinks,
+    setAddLinks,
+    showLinksModal,
+    setShowLinksModal,
+  } = useContext(TkimoviesContext);
 
   const [loading, setLoading] = useState(false);
   const [film, setFilm] = useState(null);
   const [ifmaRates, setIfmaRates] = useState(null);
-  const [showRating, setShowRating] = useState(false);
-  const [addLinks, setAddLinks] = useState(false);
   const [netflixLink, setNetflixLink] = useState(null);
   const [amazonLink, setAmazonLink] = useState(null);
   const [disneyLink, setDisneyLink] = useState(null);
@@ -40,31 +44,10 @@ export default function Singlemovie() {
   const [tkiLink, setTkiLink] = useState(null);
   const [wowLink, setWowLink] = useState(null);
   const [theLinks, setTheLinks] = useState(null);
+  const [linkType, setLinkType] = useState(null);
   const navigate = useNavigate();
 
-  //const { data, error, ispending } = useFetch(`${url}${id}`);
-  // const { title, img, year, rating, genre, cast, trailer, description } = film;
-  //fansRating
-  const handleRating = () => {
-    //const person = user.uid;
-    const rateId = `${Math.random()},${user.uid}`;
-    setLinkError(null);
-
-    const ratingToAdd = {
-      createdAt: Timestamp.fromDate(new Date()),
-      ourRate: ifmaRates,
-      rater: user.uid,
-      display: user.displayName,
-      img: user.photoURL,
-      ratingId: rateId,
-    };
-    updateDoc(theRef, {
-      ifmaRating: arrayUnion(ratingToAdd),
-    });
-
-    setShowRating(false);
-  };
-
+  //add movie links streams/downloads
   const addmovieLinks = async () => {
     const addRef = doc(db, 'movies', id);
     if (netflixLink && !netflixLink.match(urlPatterns.netflix)) {
@@ -108,28 +91,51 @@ export default function Singlemovie() {
       console.log(linkError);
       return;
     } */
-
-    const theLinks = {
-      createdAt: Timestamp.fromDate(new Date()),
-      netflix: netflixLink,
-      amazon: amazonLink,
-      ifma: ifmaLink,
-      hbo: hboLink,
-      wow: wowLink,
-      disney: disneyLink,
-      talkinmovies: tkiLink,
-      sky: skyLink,
-    };
-    try {
-      updateDoc(addRef, {
-        movieLinks: theLinks,
-      });
-    } catch (error) {
-      console.log(error);
+    //incase there already exist  some links we do this so we do not accidently replace them
+    if (film.movieLinks) {
+      const theLinks = {
+        createdAt: Timestamp.fromDate(new Date()),
+        netflix: netflixLink || film.movieLinks.netflix,
+        amazon: amazonLink || film.movieLinks.amazon,
+        ifma: ifmaLink || film.movieLinks.ifma,
+        hbo: hboLink || film.movieLinks.hbo,
+        wow: wowLink || film.movieLinks.sky,
+        disney: disneyLink || film.movieLinks.disney,
+        talkinmovies: tkiLink || film.movieLinks.talkinmovies,
+        sky: skyLink || film.movieLinks.sky,
+      };
+      try {
+        updateDoc(addRef, {
+          movieLinks: theLinks,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const theLinks = {
+        createdAt: Timestamp.fromDate(new Date()),
+        netflix: netflixLink,
+        amazon: amazonLink,
+        ifma: ifmaLink,
+        hbo: hboLink,
+        wow: wowLink,
+        disney: disneyLink,
+        talkinmovies: tkiLink,
+        sky: skyLink,
+      };
+      try {
+        updateDoc(addRef, {
+          movieLinks: theLinks,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
+
     setAddLinks(false);
   };
 
+  // get single movie and check if user already rated this movie or not
   useEffect(() => {
     setLoading(true);
 
@@ -141,16 +147,18 @@ export default function Singlemovie() {
       setFilm(doc.data());
       console.log(theLinks);
 
-      const alreadyRated = doc.data().ifmaRating.filter((rate) => {
-        return rate.rater === user.uid;
-      });
+      if (user) {
+        const alreadyRated = doc.data().ifmaRating.filter((rate) => {
+          return rate.rater === user.uid;
+        });
 
-      console.log(alreadyRated);
+        console.log(alreadyRated);
 
-      if (alreadyRated.length > 0) {
-        setShowRating(false);
-      } else {
-        setShowRating(true);
+        if (alreadyRated.length > 0) {
+          setShowRating(false);
+        } else {
+          setShowRating(true);
+        }
       }
     });
   }, [id]);
@@ -161,13 +169,14 @@ export default function Singlemovie() {
         <div className="single-container">
           {showRating && (
             <div className="rate">
-              <span>Rate This Movie, On a Scale of 1 -10</span>
+              <label htmlFor="rating">
+                Rate This Tv Show, On a Scale of 1 -10
+              </label>
             </div>
           )}
 
           {showRating && (
-            <div className="pple-rate">
-              {/* <form onSubmit={handleRating}> */}
+            <div>
               <select
                 type="number"
                 className="selectrate"
@@ -186,10 +195,12 @@ export default function Singlemovie() {
                 <option value="10">10</option>
               </select>
 
-              <button onClick={handleRating} className="rating-btn">
+              <button
+                onClick={() => handleRating(theRef)}
+                className="rating-btn"
+              >
                 submit
               </button>
-              {/* </form> */}
             </div>
           )}
 
@@ -246,7 +257,6 @@ export default function Singlemovie() {
                 </a>
               </p>
             </div>
-
             <div className="download">
               <button
                 onClick={() => setShowLinksModal(true)}
@@ -256,7 +266,6 @@ export default function Singlemovie() {
               </button>
             </div>
           </div>
-
           {user && !addLinks && (
             <div className="addlinks">
               <div>
@@ -283,68 +292,92 @@ export default function Singlemovie() {
 
           {addLinks && (
             <div>
-              <span>Netflix</span>
-              <input
-                type="text"
-                onChange={(e) => setNetflixLink(e.target.value)}
-                value={netflixLink}
-                /*  ref={optionsInput} */
-              />
+              <span>Link Type</span>
+              <select
+                className="form-input"
+                required
+                value={linkType}
+                onChange={(e) => setLinkType(e.target.value)}
+              >
+                <option value="tkimovies">talking movies</option>
+                <option value="netflix">netflix</option>
+                <option value="amazon">amazon prime</option>
+                <option value="hbo">HBO</option>
+                <option value="disney">Disney Plus</option>
+                <option value="sky">Sky</option>
+                <option value="sky">wow</option>
+                <option value="sky">ifma</option>
+              </select>
+              {linkType === 'netflix' && (
+                <input
+                  type="text"
+                  onChange={(e) => setNetflixLink(e.target.value)}
+                  value={netflixLink}
+                />
+              )}
 
-              <span>Amazon Prime:</span>
-              <input
-                type="text"
-                onChange={(e) => setAmazonLink(e.target.value)}
-                value={amazonLink}
-                /* ref={castInput} */
-              />
+              {linkType === 'amazon' && (
+                <input
+                  type="text"
+                  onChange={(e) => setAmazonLink(e.target.value)}
+                  value={amazonLink}
+                />
+              )}
 
-              <span>Hbo:</span>
-              <input
-                type="text"
-                onChange={(e) => setHboLink(e.target.value)}
-                value={hboLink}
-                /* ref={castInput} */
-              />
+              {linkType === 'hbo' && (
+                <input
+                  type="text"
+                  onChange={(e) => setHboLink(e.target.value)}
+                  value={hboLink}
+                  /* ref={castInput} */
+                />
+              )}
 
-              <span>Disneyplus:</span>
-              <input
-                type="text"
-                onChange={(e) => setDisneyLink(e.target.value)}
-                value={disneyLink}
-                /* ref={castInput} */
-              />
+              {linkType === 'disney' && (
+                <input
+                  type="text"
+                  onChange={(e) => setDisneyLink(e.target.value)}
+                  value={disneyLink}
+                  /* ref={castInput} */
+                />
+              )}
 
-              <span>sky:</span>
-              <input
-                type="text"
-                onChange={(e) => setSkyLink(e.target.value)}
-                value={skyLink}
-                /* ref={castInput} */
-              />
+              {linkType === 'sky' && (
+                <input
+                  type="text"
+                  onChange={(e) => setSkyLink(e.target.value)}
+                  value={skyLink}
+                  /* ref={castInput} */
+                />
+              )}
 
-              <span>ifma:</span>
-              <input
-                type="text"
-                onChange={(e) => setIfmaLink(e.target.value)}
-                value={ifmaLink}
-                /* ref={castInput} */
-              />
+              {linkType === 'sky' && (
+                <input
+                  type="text"
+                  onChange={(e) => setIfmaLink(e.target.value)}
+                  value={ifmaLink}
+                  /* ref={castInput} */
+                />
+              )}
 
-              <span>Talking Movies:</span>
-              <input
-                type="text"
-                onChange={(e) => setTkiLink(e.target.value)}
-                value={tkiLink}
-                /* ref={castInput} */
-              />
-              <span>Wow:</span>
-              <input
-                type="text"
-                onChange={(e) => setWowLink(e.target.value)}
-                value={wowLink}
-                /* ref={castInput} */
-              />
+              {linkType === 'tkimovies' && (
+                <input
+                  type="text"
+                  onChange={(e) => setTkiLink(e.target.value)}
+                  value={tkiLink}
+                  /* ref={castInput} */
+                />
+              )}
+
+              {linkType === 'wow' && (
+                <input
+                  type="text"
+                  onChange={(e) => setWowLink(e.target.value)}
+                  value={wowLink}
+                  /* ref={castInput} */
+                />
+              )}
+
               <button onClick={addmovieLinks}>add</button>
             </div>
           )}

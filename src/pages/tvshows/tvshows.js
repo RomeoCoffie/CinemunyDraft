@@ -13,7 +13,11 @@ export default function Tvshows() {
   const [loading, setLoading] = useState(false);
   const url = 'http://localhost:3000/series';
   const [shows, setShows] = useState([]);
-  useEffect(() => {
+  const { theShows, movieIndex } = useContext(TkimoviesContext);
+
+  console.log(theShows);
+
+  /*  useEffect(() => {
     setLoading(true);
     async function getvshows() {
       try {
@@ -28,7 +32,7 @@ export default function Tvshows() {
     }
 
     getvshows();
-  }, [url]);
+  }, [url]); */
 
   return (
     <section>
@@ -39,32 +43,33 @@ export default function Tvshows() {
         </Helmet>
 
         <article className="tvshows-container">
-          {shows.map((show) => {
-            const { title, img, rating } = show;
-            return (
-              <div className="tvshow">
-                <ul>
-                  <li>
-                    <img src={img} alt={title} />
-                  </li>
+          {theShows &&
+            theShows.map((show) => {
+              const { title, movieImgUrl, rating } = show;
+              return (
+                <div className="tvshow">
+                  <ul>
+                    <li>
+                      <img src={movieImgUrl} alt={title} />
+                    </li>
 
-                  <div className="tvshow-footer">
-                    <p className="tvshow-title">{title}</p>
-                    <p>
-                      {rating} <GoStar style={{ color: 'crimson' }} />
-                    </p>
-                    <span>
-                      {/* <p style={{ display: 'inline-block' }}>{year}&nbsp;</p> */}
+                    <div className="tvshow-footer">
+                      <p className="tvshow-title">{title}</p>
+                      <p>
+                        {rating} <GoStar style={{ color: 'crimson' }} />
+                      </p>
+                      <span>
+                        {/* <p style={{ display: 'inline-block' }}>{year}&nbsp;</p> */}
 
-                      <Link className="link" to={`/tvshows/${show.id}`}>
-                        more...
-                      </Link>
-                    </span>
-                  </div>
-                </ul>
-              </div>
-            );
-          })}
+                        <Link className="link" to={`/tvshows/${show.id}`}>
+                          more...
+                        </Link>
+                      </span>
+                    </div>
+                  </ul>
+                </div>
+              );
+            })}
         </article>
       </main>
     </section>

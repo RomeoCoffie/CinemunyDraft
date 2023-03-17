@@ -9,11 +9,11 @@ import './movies.css';
 import { Helmet } from 'react-helmet';
 
 export default function Movies() {
-  const { films, movieIndex, myFilms } = useContext(TkimoviesContext);
+  const { films, movieIndex, filteredMovies } = useContext(TkimoviesContext);
 
   useEffect(() => {
-    console.log(myFilms, films);
-  }, [myFilms]);
+    console.log(films, filteredMovies);
+  }, [filteredMovies]);
 
   //const { data, error, ispending } = useFetch('http://localhost:3000/films');
 
@@ -32,8 +32,8 @@ export default function Movies() {
         </div>
 
         <article className="movies-container">
-          {films &&
-            films.map((movie) => {
+          {filteredMovies &&
+            filteredMovies.map((movie) => {
               const { id, title, movieImgUrl, rating } = movie;
 
               return (

@@ -14,7 +14,7 @@ const Login = ({}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     login(email, password);
-    navigate('/addmovie');
+    navigate('/');
   };
 
   return (

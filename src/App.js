@@ -16,17 +16,18 @@ import './App.css';
 import Singlemovie from './pages/singlemovie/Singlemovie';
 import Proroutes from './pages/protectedroutes/proroutes';
 import Addmovie from './pages/addmovie/Addmovie';
+import Addshow from './pages/addshow/addshow';
 import Addquestion from './pages/filmquiz/addquestions';
 import Addgroup from './pages/addgroup/Addgroup';
 import Addpost from './pages/addpost/Addpost';
 import Posts from './pages/posts/Posts';
 import Headtags from './components/Headtags';
 import Singleshow from './pages/singleshow/Singleshow';
+import Adminpage from './pages/admin/admin';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
-  console.log('auth', authIsReady);
-  //const [user1, setUser1] = useState(null);
+
   return (
     <div className="App">
       {authIsReady && (
@@ -56,6 +57,15 @@ function App() {
                 <Route path="filmquiz" element={<Filmquiz />} />
 
                 <Route
+                  path="admin"
+                  element={
+                    <Proroutes user={user}>
+                      <Adminpage />
+                    </Proroutes>
+                  }
+                />
+
+                <Route
                   path="addmovie"
                   element={
                     <Proroutes user={user}>
@@ -63,6 +73,16 @@ function App() {
                     </Proroutes>
                   }
                 />
+
+                <Route
+                  path="addshow"
+                  element={
+                    <Proroutes user={user}>
+                      <Addshow />
+                    </Proroutes>
+                  }
+                />
+
                 <Route
                   path="addquestion"
                   element={

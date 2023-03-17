@@ -49,3 +49,8 @@
 .track-input1 {
   border: solid 0.1rem green;
 }
+
+.genre {
+  display: inline-block;
+  color: grey;
+}

@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
 import { AiOutlineLike, AiOutlineArrowUp } from 'react-icons/ai';
 import { GiSelfLove } from 'react-icons/gi';
 import { RiShareForwardLine } from 'react-icons/ri';
 import Youtubeplayer from './youtubeplayer';
-import { arrayUnion, Timestamp } from 'firebase/firestore';
+import { arrayUnion, Timestamp, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../components/firebase/config';
-import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
+//import { doc, updateDoc } from 'firebase/firestore';
 import { useFiresotre } from '../../Hooks/useFirestore';
-import { deleteDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+//import { deleteDoc } from 'firebase/firestore';
 
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+//import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import {
   FacebookShareButton,
@@ -48,25 +49,30 @@ export default function Post({
   const { deleteDocument, response } = useFiresotre('Posts');
 
   const theRef = doc(db, 'Posts', id);
+  const navigate = useNavigate();
 
   //adding comments
   const addComment = () => {
-    const person = user.uid;
-    const commentId = `${Math.random()},${person}`;
+    if (user) {
+      const person = user.uid;
+      const commentId = `${Math.random()},${person}`;
 
-    const commentToAdd = {
-      createdAt: Timestamp.fromDate(new Date()),
-      content: newComment,
-      user: user.uid,
-      display: user.displayName,
-      img: user.photoURL,
-      commId: commentId,
-    };
-    updateDoc(theRef, {
-      comments: arrayUnion(commentToAdd),
-    });
-    console.log(commentToAdd);
-    setShowComment(false);
+      const commentToAdd = {
+        createdAt: Timestamp.fromDate(new Date()),
+        content: newComment,
+        user: user.uid,
+        display: user.displayName,
+        img: user.photoURL,
+        commId: commentId,
+      };
+      updateDoc(theRef, {
+        comments: arrayUnion(commentToAdd),
+      });
+      console.log(commentToAdd);
+      setShowComment(false);
+    } else {
+      console.log('login to comment');
+    }
   };
 
   //slidding images
@@ -79,18 +85,25 @@ export default function Post({
     }
     return number;
   };
-  const nextPerson = () => {
+  const nextImage = () => {
     setIndex((index) => {
       let newIndex = index + 1;
       return checkNumber(newIndex);
     });
   };
-  const prevPerson = () => {
+  const prevImage = () => {
     setIndex((index) => {
       let newIndex = index - 1;
       return checkNumber(newIndex);
     });
   };
+
+  /*   useEffect(() => {
+    if (comments || likes) {
+      setNumOfComments(comments.length);
+      setNumOfLikes(likes.length);
+    }
+  }, []); */
 
   //delete post
   /*  const deletePost = async (id) => {
@@ -106,19 +119,23 @@ export default function Post({
 
   // Likes
   const handleLike = () => {
-    console.log(id);
-    if (likes?.includes(user.uid)) {
-      console.log('already liked');
-    } else {
-      updateDoc(theRef, {
-        likes: arrayUnion(user.uid),
-      })
-        .then(() => {
-          console.log('liked');
+    if (user) {
+      console.log(id);
+      if (likes?.includes(user.uid)) {
+        console.log('already liked');
+      } else {
+        updateDoc(theRef, {
+          likes: arrayUnion(user.uid),
         })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then(() => {
+            console.log('liked');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } else {
+      console.log('login to like');
     }
   };
 
@@ -139,22 +156,20 @@ export default function Post({
     <main>
       <hr className="tophorizon" />
       <div className="post-grid">
-        {/*  <Headtags postImgUrl={postImgUrl} description={description}></Headtags> */}
+        <Headtags
+          postImgUrl={postImgUrl[0]}
+          description={description}
+        ></Headtags>
         <Helmet>
-          {/* <meta
+          <meta property="og:image" key="og:image" content={postImgUrl[0]} />
+          <meta property="og:type" content="article" />
+          <meta property="og:title" name={postTilte} />
+          <meta property="og:description" description={description} />
+          <meta
             name={postTilte}
             key={postTilte || description}
-            content={postTilte}
+            content={postTilte || description}
           />
-          <meta
-            name={description}
-            key={postTilte || description}
-            content={description}
-          /> */}
-          {/*  <meta property="og:image" key="og:image" content={postImgUrl[0]} /> */}
-          <meta property="og:type" content="article" />
-          <meta property="og:title" content={postTilte} />
-          <meta property="og:description" content={description} />
         </Helmet>
         <div className="titlediv">
           <h4>{postTilte}</h4>
@@ -176,7 +191,7 @@ export default function Post({
         </div>
         {postImgUrl && postImgUrl.length > 1 && (
           <div>
-            <button className="prev" onClick={prevPerson}>
+            <button className="prev" onClick={prevImage}>
               <BsChevronDoubleLeft />
             </button>
           </div>
@@ -192,19 +207,18 @@ export default function Post({
 
         {postImgUrl && postImgUrl.length > 1 && (
           <div>
-            <button className="nextone" onClick={nextPerson}>
+            <button className="nextone" onClick={nextImage}>
               <BsChevronDoubleRight />
             </button>
           </div>
         )}
         <div>
           <a className="source" href={source}>
-            {/* //Share */}
             <RiShareForwardLine />
           </a>
           <FacebookShareButton
-            url={'http://www.cinemuny.com'}
-            quote={description}
+            url={postImgUrl[index]}
+            quote={postTilte || description}
             hashtag={description}
 
             /* className={classes.socialMediaButton} */
@@ -213,28 +227,60 @@ export default function Post({
           </FacebookShareButton>
 
           <WhatsappShareButton
-            url={'http://www.cinemuny.com'}
+            url={postImgUrl[index]}
             quote={description}
-            hashtag="#camperstribe"
+            // hashtag={"#camperstribe"}
             /* className={classes.socialMediaButton} */
           >
             <WhatsappIcon size={15} />
           </WhatsappShareButton>
         </div>
+        {user && (
+          <div>
+            <button
+              className="showcomment"
+              onClick={() => setShowComment(true)}
+            >
+              {comments.length}&nbsp; Comments
+            </button>
+          </div>
+        )}
+        {!user && (
+          <div>
+            <button onClick={() => navigate('/login')}>
+              {comments.length}&nbsp;Comments
+            </button>
+          </div>
+        )}
 
-        <div>
-          <button className="showcomment" onClick={() => setShowComment(true)}>
-            Comment
-          </button>
-        </div>
+        {user && (
+          <div>
+            <button onClick={handleLike}>
+              <GiSelfLove
+                className={`${likes?.includes(user.uid) ? 'like' : 'unlike'}`}
+              />
+            </button>
+          </div>
+        )}
+        {!user && likes && (
+          <div>
+            <button onClick={() => navigate('/login')}>
+              <GiSelfLove
+                className={`${likes?.length > 0 ? 'like' : 'unlike'}`}
+              />
+              &nbsp;{likes.length}&nbsp;
+            </button>
+          </div>
+        )}
 
-        <div>
-          <button onClick={handleLike}>
-            <GiSelfLove
-              className={`${likes?.includes(user.uid) ? 'like' : 'unlike'}`}
-            />
-          </button>
-        </div>
+        {!user && !likes && (
+          <div>
+            <button onClick={() => navigate('/login')}>
+              <GiSelfLove className="unlike" />
+            </button>
+          </div>
+        )}
+
         <div className="addcomment-container">
           {showComment && (
             <form className="add-comment" onSubmit={addComment}>
@@ -251,7 +297,7 @@ export default function Post({
 
         <hr className="downhorizon" />
 
-        {comments && (
+        {user && comments && (
           <Comments
             user={user}
             id={id}

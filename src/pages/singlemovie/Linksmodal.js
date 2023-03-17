@@ -15,7 +15,7 @@ export default function Linksmodal({
       <div className="modal-content">
         {theLinks &&
           theLinks.map((url, index) => {
-            console.log(url, url.length);
+            //console.log(url, url.length);
             if (url[1] && url[0] != 'createdAt') {
               console.log('Not empty');
               let vod = url[0];

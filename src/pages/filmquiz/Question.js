@@ -31,7 +31,7 @@ export default function Question({
           <div className="answers-container answerbtn" key={choiceindex}>
             <input
               key={choiceindex}
-              type="checkbox"
+              type="radio"
               name="options"
               className="answerbtn"
               //checked={choiceindex}

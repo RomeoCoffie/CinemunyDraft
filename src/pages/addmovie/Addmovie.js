@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useState, useRef } from 'react';
-import useFetch from '../../Hooks/useFetch';
+//import useFetch from '../../Hooks/useFetch';
 import { db } from '../../components/firebase/config';
 import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import { useCollection } from '../../Hooks/useCollection';
@@ -132,7 +132,7 @@ export default function Addmovie() {
   //handle cast input
   const addGenre = (e, setGenre) => {
     e.preventDefault();
-    const ops = newGenre.trim();
+    const ops = newGenre.trim().toLowerCase();
 
     if (ops && !genre.includes(ops)) {
       setGenre((prevOption) => [...prevOption, ops]);
@@ -215,7 +215,7 @@ export default function Addmovie() {
   };
 
   // console.log(questionImgUrl);
-  console.log(thumbnail);
+  console.log(thumbnail, contentIndex);
 
   //Getting documents from firebase collection
   // useEffect(() => {
@@ -280,6 +280,10 @@ export default function Addmovie() {
         <button onClick={(e) => addOptions(e, setDirector)}>
           <AiOutlinePlus />
         </button>
+        {director &&
+          director.map((dir) => {
+            return <span className="genre">{dir},&nbsp;</span>;
+          })}
 
         <span>Cast:</span>
         <input
@@ -292,6 +296,10 @@ export default function Addmovie() {
         <button onClick={(e) => addCast(e, setCast)}>
           <AiOutlinePlus />
         </button>
+        {cast &&
+          cast.map((gen) => {
+            return <span className="genre">{gen},&nbsp;</span>;
+          })}
 
         <span>Genre:</span>
         <input
@@ -304,6 +312,10 @@ export default function Addmovie() {
         <button onClick={(e) => addGenre(e, setGenre)}>
           <AiOutlinePlus />
         </button>
+        {genre &&
+          genre.map((gen) => {
+            return <span className="genre">{gen},&nbsp;</span>;
+          })}
 
         <span>Rating:</span>
         <input
@@ -336,7 +348,7 @@ export default function Addmovie() {
         <input
           type="text"
           onChange={(e) => setContentIndex(e.target.value)}
-          value={contentIndex}
+          value={contentIndex?.toLowerCase()}
           required
         />
         <span>Add Image:</span>

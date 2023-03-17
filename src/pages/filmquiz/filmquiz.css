@@ -1,14 +1,18 @@
 .quiztime {
   grid-column: span 2;
-  margin-top: 5rem;
-  margin-bottom: 3rem;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
   margin-left: 0px;
   padding: 1rem;
   line-height: 1rem;
 }
-.difficult {
-  padding: 0.3rem;
-  margin-top: 1rem;
+.setupform {
+  margin: 0 auto;
+}
+
+.setup {
+  margin-top: 0rem;
+  margin-bottom: 2rem;
 }
 
 .words {
@@ -76,7 +80,7 @@
 }
 
 .prizes {
-  margin: 1rem auto;
+  margin: 2rem auto;
   padding: 0.3rem;
   background: gold;
   color: white;
@@ -124,6 +128,15 @@
 .selected {
   background-color: yellow;
   color: white;
+}
+
+.pretrest {
+  background: white;
+}
+.pretrest div,
+p {
+  background: white;
+  background-color: white;
 }
 
 /*

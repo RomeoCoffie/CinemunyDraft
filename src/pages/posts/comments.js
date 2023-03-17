@@ -12,9 +12,10 @@ import {
   Timestamp,
   FieldValue,
 } from 'firebase/firestore';
-import { useFiresotre } from '../../Hooks/useFirestore';
+//import { useFiresotre } from '../../Hooks/useFirestore';
 import { db } from '../../components/firebase/config';
 import { useCollection } from '../../Hooks/useCollection';
+import { useNavigate } from 'react-router-dom';
 
 import './comments.css';
 
@@ -30,62 +31,63 @@ export default function Comments({
   const [theComment, setTheComment] = useState(null);
   const person = user.uid;
   const { documents: content } = useCollection('Posts');
-  const { deleteDocument, response } = useFiresotre('Posts');
-
-  // console.log(response);
-
-  //const theRef = doc(db, 'Posts', id);
-
-  //DeleteComment
+  // const { deleteDocument, response } = useFiresotre('Posts');
+  const navigate = useNavigate();
 
   const deleteComment = async (id, commId) => {
-    const ref = doc(db, 'Posts', id);
-    const commentNotDeleted = comments.filter((comment) => {
-      return comment.commId != commId;
-    });
-    console.log(commentNotDeleted);
-
-    try {
-      await updateDoc(ref, {
-        comments: commentNotDeleted,
+    //delete the comment from memory
+    if (user) {
+      const ref = doc(db, 'Posts', id);
+      const commentNotDeleted = comments.filter((comment) => {
+        return comment.commId != commId;
       });
-    } catch (error) {
-      console.log(error);
+      console.log(commentNotDeleted);
+
+      //update firebase
+
+      try {
+        await updateDoc(ref, {
+          comments: commentNotDeleted,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      navigate('/login');
     }
   };
 
-  //adding comments
-  const editComment = async () => {
-    const editRef = doc(db, 'Posts', id);
-    /* console.log(
-      theComment.commId,
-      theComment.createdAt,
-      theComment.displayName,
-      edittComment
-    ); */
+  //ing comments
+  const editComment = () => {
+    if (user) {
+      const editRef = doc(db, 'Posts', id);
 
-    const commentToEdit = {
-      createdAt: Timestamp.fromDate(new Date()),
-      content: edittComment,
-      user: user.uid,
-      display: user.displayName,
-      img: user.photoURL,
-      commId: theComment.commId,
-    };
-    try {
-      updateDoc(editRef, {
-        comments: arrayUnion(commentToEdit),
-      });
-    } catch (error) {
-      console.log(error);
+      const commentToEdit = {
+        createdAt: Timestamp.fromDate(new Date()),
+        content: edittComment,
+        user: user.uid,
+        display: user.displayName,
+        img: user.photoURL,
+        commId: theComment.commId,
+      };
+
+      try {
+        updateDoc(editRef, {
+          comments: arrayUnion(commentToEdit),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsEditting(false);
+    } else {
+      navigate('/login');
     }
-    setIsEditting(false);
   };
 
   return (
     <div>
       <div>
-        {isEditing && (
+        {user && isEditing && (
           <div className="comment-container">
             <textarea
               required
@@ -108,7 +110,7 @@ export default function Comments({
                     <div className="comment">
                       <p className="dispname">{display}</p>
                       <p>{content}</p>
-                      {person === user && (
+                      {user && person === user && (
                         <button
                           onClick={() => deleteComment(id, commId)}
                           className="del-comm"
@@ -116,7 +118,7 @@ export default function Comments({
                           X
                         </button>
                       )}
-                      {person === user && (
+                      {user && person === user && (
                         <button
                           onClick={() => {
                             setIsEditting(true);
@@ -137,14 +139,6 @@ export default function Comments({
                         })}
                       </p>
                     </div>
-                    {/*  <div className="modify-comment">
-                      {person === user && (
-                        <button className="del-comm">delete</button>
-                      )}
-                      {person === user && (
-                        <button className="edit-comm">edit</button>
-                      )}
-                    </div> */}
                   </li>
                 </div>
               );

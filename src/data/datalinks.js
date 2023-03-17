@@ -34,28 +34,35 @@ export const links = [
     text: 'Film Quiz',
   },
 
+  /* {
+    id: 11,
+    url: '/admin',
+    text: 'Admin',
+  }, */
+];
+
+export const admin = [
   {
-    id: 7,
+    id: 1,
     url: '/addmovie',
     text: 'Add movie',
   },
+  {
+    id: 2,
+    url: '/addshow',
+    text: 'Add show',
+  },
 
   {
-    id: 8,
+    id: 3,
     url: '/addquestion',
     text: 'Add Question',
   },
 
   {
-    id: 9,
+    id: 4,
     url: '/addpost',
     text: 'Add Post',
-  },
-
-  {
-    id: 10,
-    url: '/admin',
-    text: 'Admin',
   },
 ];
 
@@ -109,7 +116,7 @@ export const indices = [
   {
     id: 4,
     text: 'Best Romantic Movies',
-    index: 'best, romantic',
+    index: 'romantic',
   },
   {
     id: 5,
@@ -212,6 +219,90 @@ export const indices = [
     id: 23,
     text: 'Best movies of 2017',
     index: '2017',
+  },
+];
+
+export const showDices = [
+  {
+    id: 1,
+    text: 'most anticipated tv shows',
+    index: 'most anticipated',
+  },
+  {
+    id: 2,
+    text: 'Greatest shows of All Time',
+    index: 'greatest',
+  },
+  {
+    id: 3,
+    text: 'Best Adventure Tv Shows',
+    index: 'adventure',
+  },
+  {
+    id: 4,
+    text: 'Best Shows on Netflix',
+    index: 'netflix',
+  },
+  {
+    id: 5,
+    text: 'Best Shows on HBO',
+    index: 'hbo',
+  },
+  {
+    id: 6,
+    text: 'Best Romantic Tv Shows',
+    index: 'hulu',
+  },
+  {
+    id: 7,
+    text: 'Must Watch Shows on Amazon Prime',
+    index: 'amazon',
+  },
+  {
+    id: 8,
+    text: 'Best Shows on Apple Plus',
+    index: 'netflix',
+  },
+  {
+    id: 9,
+    text: 'Best Shows on Disney Plus',
+    index: 'disney',
+  },
+  {
+    id: 10,
+    text: 'Best Documentaries To Watch ',
+    index: 'action',
+  },
+  {
+    id: 11,
+    text: 'Best Sci-Fi Tv Shows ',
+    index: 'sci-fi',
+  },
+  {
+    id: 12,
+    text: 'Best Action Tv Shows ',
+    index: 'action',
+  },
+
+  {
+    id: 13,
+    text: 'Best African Tv Shows ',
+    index: 'afro',
+  },
+  {
+    id: 14,
+    text: 'Best Bollywood Tv Shows ',
+    index: 'bollywood',
+  },
+  {
+    id: 15,
+    text: 'Best Korean Tv Shows ',
+    index: 'korean',
+  },
+  {
+    id: 16,
+    text: 'Best Shows on Hulu',
+    index: 'hulu',
   },
 ];
 

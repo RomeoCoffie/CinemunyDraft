@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { QuizContext } from '../../context/quizcontext/Quizcontext';
+//import { getFunctions, httpsCallable } from 'firebase/functions';
 import { useContext } from 'react';
 import Timer from './Timer';
 
 import SetupForm from './SetupForm';
-import Questions from './Questions';
+//import Questions from './Questions';
 import Loading from './Loading';
 import Modal from '../../components/modal/Modal';
-import Question from './Question';
+
 import './filmquiz.css';
+import Prizemodal from './prizeModal';
 export default function Filmquiz() {
   const [theQuestion, seTheQuestion] = useState(true);
   // const [Loading, setLoading] = useState(false);
   const [newQuestions, setNewQuestions] = useState([]);
-  const [disabledButton, setDisabledButton] = useState(null);
+  const [yourQuestion, setYourQuestion] = useState([]);
+  const [theOptions, setTheOptions] = useState([]);
+  const [yourAnswer, setYourAnswer] = useState({});
+  const [rightAnswer, setRightAnswer] = useState(null);
+  const [showPrizeModal, setShowPrizeModal] = useState(false);
+  //const [correct, setCorrect] = useState(0);
+
+  // const [disabledButton, setDisabledButton] = useState(null);
   const [stopTime, setStopTime] = useState(false);
   //const [currentQuestionsTotal, setCurrentQuestionsTotal] = useState(0);
 
@@ -23,17 +32,11 @@ export default function Filmquiz() {
     waiting,
     loading,
     questions,
-
+    queIndex,
+    setQueIndex,
+    ourQuestions,
+    correct,
     checkAnswer,
-    collectAnswer,
-    userAnswers,
-    userAnswer,
-    setUserAnswer,
-    setUserAnswers,
-    score,
-    percentage,
-    setPercentage,
-    selected,
     setIndex,
     userScore,
     setUserScore,
@@ -52,112 +55,29 @@ export default function Filmquiz() {
     setMyQuestions,
     showTimer,
     setShowTimer,
+    nextQuestion,
+    disabledButton,
+    setDisabledButton,
   } = useContext(QuizContext);
 
   useEffect(() => {
     if (myQuestions) {
       //setCurrentQuestionsTotal(myQuestions.length);
+      // setNewQuestions(myQuestions);
 
-      switch (difficultyLevel) {
-        case 'beginner':
-          setRemainingTime(null);
-          setShowTimer(false);
-          return setNewQuestions(myQuestions.slice(1, 3));
-
-        case 'average':
-          let time = 20;
-          setRemainingTime(time);
-          setShowTimer(true);
-          return setNewQuestions(myQuestions.slice(1, 6));
-
-        case 'expert':
-          let time2 = 80;
-          setRemainingTime(time2);
-          setShowTimer(true);
-          return setNewQuestions(myQuestions.slice(1, 11));
-
-        case 'guru':
-          let time3 = 90;
-          setRemainingTime(time3);
-          setShowTimer(true);
-          return setNewQuestions(myQuestions.slice(1, 16));
-
-        default:
-          setRemainingTime(null);
-          setShowTimer(false);
-          return setNewQuestions(myQuestions.slice(1, 3));
-      }
+      //setYourQuestion(myQuestions[queIndex]);
+      const { id, question, option, correctAnswer } = myQuestions[queIndex];
+      setTheOptions(option);
+      setYourQuestion(question);
+      setRightAnswer(correctAnswer);
+      //setQueIndex(id);
     }
-  }, [myQuestions, difficultyLevel]);
+  }, [myQuestions, difficultyLevel, queIndex]);
 
   //calculatepercentage
-
-  const per = (a, b) => {
+  /* const per = (a, b) => {
     return (a / b) * 100;
-  };
-
-  //Check Results
-  const checkResults = () => {
-    openModal();
-  };
-
-  //handlesubmission of results
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let correct = 0;
-    let wrong = 0;
-    if (newQuestions) {
-      userAnswers.map((userAnswer, i) => {
-        if (userAnswer === newQuestions[i].correctAnswer) {
-          correct++;
-        } else {
-          console.log('wrong');
-        }
-      });
-
-      let results = ((correct / newQuestions.length) * 100).toFixed(0);
-      console.log(results, correct, newQuestions.length, difficultyLevel);
-      setUserScore(results);
-      setPercentage(results);
-    }
-    // setPercentage(per(userScore, newQuestions))
-
-    openModal();
-    console.log(
-      percentage,
-      userScore,
-      userAnswers,
-      difficultyLevel,
-      remainingTime
-    );
-    setShowTimer(false);
-    setStopTime(true);
-    setDisabledButton(false);
-
-    setDifficultyLevel('beginner');
-    setRemainingTime(null);
-  };
-
-  /*  useEffect(() => {
-    if (userScore & difficultyLevel) {
-      switch (difficultyLevel) {
-        case 'beginner':
-          let results = ((userScore / 2) * 100).toFixed(0);
-          setPercentage(results);
-          return results, percentage;
-
-        case 'average':
-          let averageResults = ((userScore / 5) * 100).toFixed(0);
-          setPercentage(averageResults);
-          return averageResults, percentage;
-
-        case 'expert':
-          let expertResults = ((userScore / 10) * 100).toFixed(0);
-          setPercentage(expertResults);
-          return expertResults, percentage;
-      }
-    }
-  }, [userScore]); */
+  }; */
 
   if (waiting) {
     return (
@@ -166,72 +86,123 @@ export default function Filmquiz() {
       </div>
     );
   }
-  if (loading) {
+  /* if (loading) {
     return (
       <div className="loading">
         <Loading />;
       </div>
     );
-  }
+  } */
+
   return (
     <main className="quiztime">
-      <div className="heading">
+      <div>
         <h2 className="quizhead">Film Quiz</h2>
-        <div className="prizes">
-          <button className="pbtn">Checkout Prizes</button>
-        </div>
       </div>
 
-      <section className="quiz">
-        {showTimer && <Timer stopTime={stopTime} />}
-        <article className="container">
-          <div className="difficult">
-            <p className="words">Select Difficulty Level:</p>
-          </div>
+      {/*       <div className="setupform">
+        <div className="prizes">
+          <button onClick={() => setShowPrizeModal(true)} className="pbtn">
+            Checkout Prizes
+          </button>
+        </div>
+
+        <div>
+          <p className="words">Select Difficulty Level:</p>
+        </div>
+        <div>
+          <select
+            disabled={disabledButton}
+            onChange={(e) => {
+              setDifficultyLevel(e.target.value);
+              setDisabledButton(true);
+            }}
+            className="selection"
+          >
+            
+            <option value="beginner">beginner</option>
+            <option value="average">average</option>
+            <option value="guru">guru</option>
+          </select>
+        </div>
+      </div> */}
+      {!waiting && (
+        <div>
           <div>
-            <select
-              disabled={disabledButton}
-              onChange={(e) => {
-                setDifficultyLevel(e.target.value);
-                setDisabledButton(true);
-              }}
-              className="selection"
-            >
-              {/* <option value="">.............</option> */}
-              <option value="beginner">beginner</option>
-              <option value="average">average</option>
-              <option value="expert">expert</option>
-              <option value="guru">guru</option>
-            </select>
+            {showTimer && <Timer />}
+            <p>
+              Correct Answers: {correct}/{queIndex}
+            </p>
           </div>
-          <form className="questions-form" onSubmit={handleSubmit}>
-            {newQuestions.map((quest, indie) => {
-              const { id, question, option, correctAnswer } = quest;
 
-              return (
-                <Question
-                  {...quest}
-                  indie={indie}
-                  selected={selected}
-                  setIndex={setIndex}
-                  checkAnswer={checkAnswer}
-                  userAnswers={userAnswers}
-                  setUserAnswers={setUserAnswers}
-                  setSelected={setSelected}
+          <section className="quiz">
+            <article className="container">
+              {myQuestions && <h3 key={queIndex}>{yourQuestion}</h3>}
+
+              {yourQuestion &&
+                theOptions.map((choice, choiceindex) => {
+                  setIndex(choiceindex);
+                  return (
+                    <div
+                      className="answers-container answerbtn"
+                      key={choiceindex}
+                    >
+                      <button
+                        key={choiceindex}
+                        className="answerbtn"
+                        //checked={choiceindex}
+                        onClick={() => checkAnswer(rightAnswer === choice)}
+                      >
+                        {choice}
+                      </button>
+                    </div>
+                  );
+                })}
+
+              <button onClick={nextQuestion} className="submit-btn">
+                Next
+              </button>
+
+              {/* <form className="questions-form" onSubmit={handleSubmit}> */}
+              {/* {newQuestions.map((quest, indie) => {
+            const { id, question, option, correctAnswer } = quest;
+
+            return (
+              <Question
+                {...quest}
+                indie={indie}
+                selected={selected}
+                setIndex={setIndex}
+                checkAnswer={checkAnswer}
+                userAnswers={userAnswers}
+                setUserAnswers={setUserAnswers}
+                setSelected={setSelected}
+              />
+            );
+          })}
+          <button onClick={nextQuestion} className="submit-btn">
+            Next
+          </button>
+ */}
+
+              {/* </form> */}
+              {isModalOpen && (
+                <Modal
+                  setDisabledButton={setDisabledButton}
+                  setStopTime={setStopTime}
                 />
-              );
-            })}
+              )}
 
-            <button className="submit-btn">submt</button>
-          </form>
-          {isModalOpen && (
-            <Modal
-              setDisabledButton={setDisabledButton}
-              setStopTime={setStopTime}
-            />
-          )}
-        </article>
-      </section>
+              {showPrizeModal && (
+                <Prizemodal
+                  showPrizeModal={showPrizeModal}
+                  setShowPrizeModal={setShowPrizeModal}
+                />
+              )}
+            </article>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

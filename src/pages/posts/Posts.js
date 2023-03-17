@@ -9,7 +9,7 @@ import Post from './post';
 
 export default function Posts() {
   const { posts, setPosts, news } = useContext(TkimoviesContext);
-  const { authIsReady, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (news) {
