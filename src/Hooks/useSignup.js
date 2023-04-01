@@ -13,6 +13,11 @@ export default function useSignup() {
   const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  const [bio, setBio] = useState('about you');
+  const [favMovie, setFavMovie] = useState('your favorite movie');
+  const [location, setLocation] = useState('update your location');
+  const [gender, setGender] = useState('Gender');
+  const [quiz, setQuiz] = useState([{ level: 'beginner' }]);
   const { dispatch } = useContext(AuthContext);
 
   const signup = async (email, password, displayName) => {
@@ -36,6 +41,11 @@ export default function useSignup() {
       await setDoc(doc(db, 'users', res.user.uid), {
         online: true,
         displayName,
+        location,
+        gender,
+        bio,
+        quiz,
+        favMovie,
       });
 
       if (!isCancelled) {

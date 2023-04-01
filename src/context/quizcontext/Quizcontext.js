@@ -38,6 +38,7 @@ const QuizContextProvider = ({ children }) => {
   const [disabledButton, setDisabledButton] = useState(null);
   const [theUsers, setTheUsers] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
+  const [award, setAward] = useState(null);
   const { user } = useContext(AuthContext);
   const { documents: users } = useCollection('users');
 
@@ -65,6 +66,8 @@ const QuizContextProvider = ({ children }) => {
     });
     console.log(theUsers, candidate[0].quiz);
 
+    //assign award
+
     const results = {
       createdAt: Timestamp.fromDate(new Date()),
       level: difficultyLevel,
@@ -76,7 +79,7 @@ const QuizContextProvider = ({ children }) => {
       return;
     }
     //always save the last 10 tests
-    if (candidate[0].quiz.length > 9) {
+    if (candidate.quiz && candidate[0].quiz.length > 4) {
       let temp = candidate[0].quiz.shift();
       const newResults = candidate[0].quiz.filter((resus) => {
         return resus != temp;
@@ -104,7 +107,6 @@ const QuizContextProvider = ({ children }) => {
     //const ref = collection(db, 'questions');
     if (users) {
       setTheUsers(users);
-      console.log(theUsers);
     }
 
     try {
@@ -165,7 +167,7 @@ const QuizContextProvider = ({ children }) => {
     if (myQuestions) {
       setOurQuestions(myQuestions);
     }
-  }, [thesequestions, waiting]);
+  }, [thesequestions, waiting, remainingTime]);
 
   const nextQuestion = () => {
     setQueIndex((oldIndex) => {

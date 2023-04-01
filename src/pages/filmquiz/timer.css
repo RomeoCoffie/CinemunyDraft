@@ -5,15 +5,17 @@
   margin-left: 0px;
   border-radius: 0.5rem;
   border-color: red;
-  border: 1px solid green;
+
   padding: 0.3rem;
 }
 
-.timer h4 {
+.timer p {
   display: inline-block;
+  margin-bottom: 2rem;
 }
 .timer span {
   padding: 0.3rem;
+  margin-bottom: 2rem;
 }
 
 .timeup {

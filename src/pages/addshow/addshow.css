@@ -1,8 +1,8 @@
 /* .addmovie-section {
-  margin: 3rem auto;
-  width: 100%;
-  height: auto;
-  padding: 0;
+  margin: 5rem auto;
+  width: 53rem;
+  height: 45rem;
+  padding: 0.5rem;
   justify-content: left;
   box-sizing: border-box;
 }
@@ -12,11 +12,11 @@
 }
 
 .form-container {
-  padding: 0;
-  border-radius: 0.3rem;
-  margin: 3 auto;
+  padding: 0.1rem;
+  border: 0.1rem solid #212121;
+  border-radius: 1rem;
+  margin: 1rem auto;
   width: 100%;
-  max-width: 100%;
 }
 .form-container span {
   margin-left: 0px;
@@ -53,5 +53,8 @@
 .genre {
   display: inline-block;
   color: grey;
+}
+.form-input {
+  color: red;
 }
  */

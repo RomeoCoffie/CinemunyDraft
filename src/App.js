@@ -1,5 +1,5 @@
+import React, { useContext, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useContext, useState } from 'react';
 import { AuthContext } from './context/authcontext/AuthContext';
 import { Helmet } from 'react-helmet';
 
@@ -21,9 +21,11 @@ import Addquestion from './pages/filmquiz/addquestions';
 import Addgroup from './pages/addgroup/Addgroup';
 import Addpost from './pages/addpost/Addpost';
 import Posts from './pages/posts/Posts';
-import Headtags from './components/Headtags';
+//import Headtags from './components/Headtags';
 import Singleshow from './pages/singleshow/Singleshow';
 import Adminpage from './pages/admin/admin';
+import Userform from './pages/profile/userform';
+import Userpage from './pages/profile/userpage';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -104,14 +106,29 @@ function App() {
                 <Route path="groups" element={<Groups />} />
 
                 <Route
-                  path="groups/:addgroup"
+                  path="addgroup"
                   element={
                     <Proroutes user={user}>
                       <Addgroup />
                     </Proroutes>
                   }
                 />
-
+                <Route
+                  path="profile"
+                  element={
+                    <Proroutes user={user}>
+                      <Userpage />
+                    </Proroutes>
+                  }
+                />
+                <Route
+                  path="settings"
+                  element={
+                    <Proroutes user={user}>
+                      <Userform />
+                    </Proroutes>
+                  }
+                />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Signup />} />
               </Route>

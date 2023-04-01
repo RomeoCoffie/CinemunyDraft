@@ -31,6 +31,7 @@ export default function Addpost() {
   const [thumbnailError, setThumbnailError] = useState(null);
   const [inputError, setInputError] = useState(null);
   const [grpLinkError, setGrpLinkError] = useState(null);
+  const [comments, setComments] = useState([]);
   // const [progress, setProgress] = useState(null);
   const optionsInput = useRef(null);
   //const { documents: Groups } = useCollection('Groups');
@@ -55,6 +56,7 @@ export default function Addpost() {
           copyright,
           person,
           postType,
+          comments,
         });
 
         navigate('/');
@@ -62,6 +64,7 @@ export default function Addpost() {
         setYouTubeLink('Please Enter a Valid Link');
         setGrpLinkError('Please Enter a Valid Link');
       }
+      return;
     }
 
     if (postTilte || description) {
@@ -73,6 +76,7 @@ export default function Addpost() {
         copyright,
         person,
         postType,
+        comments,
       });
     } else {
       setInputError('input error, kindly check all fields');
@@ -180,8 +184,8 @@ export default function Addpost() {
   console.log(postImges, postImgUrl, response);
 
   return (
-    <section className="addgroup-section">
-      <main>
+    <section className="post-main">
+      <main className="post-main">
         {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
         <h3 className="group-head">Add Post</h3>
         <form className="form-container" onSubmit={handleSubmit}>

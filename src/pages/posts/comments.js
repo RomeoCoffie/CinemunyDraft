@@ -16,6 +16,7 @@ import {
 import { db } from '../../components/firebase/config';
 import { useCollection } from '../../Hooks/useCollection';
 import { useNavigate } from 'react-router-dom';
+import Container from '@mui/material/Container';
 
 import './comments.css';
 
@@ -86,9 +87,9 @@ export default function Comments({
 
   return (
     <div>
-      <div>
+      <Container>
         {user && isEditing && (
-          <div className="comment-container">
+          <div>
             <textarea
               required
               value={edittComment}
@@ -105,46 +106,60 @@ export default function Comments({
               const { content, commId, display, user, createdAt } = comment;
 
               return (
-                <div className="comment-container">
-                  <li key={commId}>
-                    <div className="comment">
-                      <p className="dispname">{display}</p>
-                      <p>{content}</p>
-                      {user && person === user && (
-                        <button
-                          onClick={() => deleteComment(id, commId)}
-                          className="del-comm"
+                <Container>
+                  <div>
+                    <li key={commId}>
+                      <div className="comment">
+                        <p
+                          className="dispname"
+                          style={{ marginTop: 0, fontWeight: 'bold' }}
                         >
-                          X
-                        </button>
-                      )}
-                      {user && person === user && (
-                        <button
-                          onClick={() => {
-                            setIsEditting(true);
-                            setEdittComment(content);
-                            setTheComment(comment);
-                            deleteComment(id, commId);
-                          }}
-                          className="edit-comm"
-                        >
-                          edit
-                        </button>
-                      )}
-                    </div>
-                    <div className="date-comment">
-                      <p>
-                        {formatDistanceToNow(createdAt.toDate(), {
-                          addSuffix: true,
-                        })}
-                      </p>
-                    </div>
-                  </li>
-                </div>
+                          {display}
+                        </p>
+                        <div className="comment-section">
+                          <p>{content}</p>
+                          <div className="comment-content">
+                            {user && person === user && (
+                              <button
+                                onClick={() => deleteComment(id, commId)}
+                                className="del-comm"
+                              >
+                                X
+                              </button>
+                            )}
+                            {user && person === user && (
+                              <button
+                                onClick={() => {
+                                  setIsEditting(true);
+                                  setEdittComment(content);
+                                  setTheComment(comment);
+                                  deleteComment(id, commId);
+                                }}
+                                className="edit-comm"
+                              >
+                                edit
+                              </button>
+                            )}
+                            {comment && (
+                              <p
+                                className="comment-time"
+                                style={{ fontSize: 10 }}
+                              >
+                                {formatDistanceToNow(createdAt.toDate(), {
+                                  addSuffix: true,
+                                })}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
+                </Container>
               );
             })}
         </ul>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -1,19 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import { useState, useRef } from 'react';
-//import useFetch from '../../Hooks/useFetch';
-//import { db } from '../../components/firebase/config';
-//import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import { useCollection } from '../../Hooks/useCollection';
 import { useFiresotre } from '../../Hooks/useFirestore';
 //import { myquestions } from '../../data/datalinks';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { storage } from '../../components/firebase/config';
-import { getDownloadURL, ref } from '@firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import { AiOutlinePlus } from 'react-icons/ai';
+
+import Container from '@mui/material/Container';
+
 //import { useAddImage } from '../../Hooks/useAddImage'; didnt work
 
 import './addquestions.css';
-import { uploadBytesResumable } from 'firebase/storage';
 
 export default function Addquestion() {
   const [question, setQuestion] = useState();
@@ -39,33 +38,23 @@ export default function Addquestion() {
     e.preventDefault();
     let person = user.uid;
     setInputError(null);
-
     console.log(questionImgUrl);
 
     if (!option.includes(correctAnswer)) {
       setInputError('Answers must contain correct Answer');
-
       return;
     }
-
     if (option.length !== 3) {
       setInputError('Answers must be 3 choices');
-
       return;
     }
-
     if (questionImgUrl) {
       addDocument({ person, question, option, correctAnswer, questionImgUrl });
     } else {
       addDocument({ person, question, option, correctAnswer });
     }
 
-    // console.log(response);
-
-    //console.log(person);
-
     /* let ref = collection(db, 'questions');
-
     const createdAt = Timestamp.fromDate(new Date());
     myquestions.forEach((question) => {
       addDoc(ref, { ...question, createdAt });
@@ -90,6 +79,7 @@ export default function Addquestion() {
 
   //handle image upload if question has an image
   const handleFileChange = (e) => {
+    e.preventDefault();
     setThumbnail(null);
     let selected = e.target.files[0];
     console.log(selected);
@@ -104,14 +94,6 @@ export default function Addquestion() {
         setThumbnailError('Selected file size must be less than 500kb');
         return;
       }
-      /* let file = selected;
-      setThumbnail(file);
-      console.log(file, thumbnail, 'is coming'); */
-
-      //const storageRef = ref(storage, `/questionsImages/${selected.name}`);
-
-      //   const { imgUrl, error } = useAddImage(storageRef, selected);
-      //   console.log(imgUrl);
       const storageRef = ref(storage, `/questionsImages/${selected.name}`);
       const storageUpload = uploadBytesResumable(storageRef, selected);
 
@@ -136,7 +118,6 @@ export default function Addquestion() {
     console.log(thumbnail);
     return;
   };
-
   //reseting fields after submission
   const resetFields = () => {
     setQuestion('');
@@ -147,20 +128,9 @@ export default function Addquestion() {
   // console.log(questionImgUrl);
   console.log(thumbnail, response.document);
 
-  //Getting documents from firebase collection
-
-  /* getDocs(ref).then((snapshot) => {
-      let results = [];
-      snapshot.docs.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
-      });
-      setTitle(results);
-    });  */
-
   return (
-    <section className="addquestion-section">
-      <div>
-        {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
+    <Container>
+      <div className="addquestion-section">
         <div className="title">
           <h3>Add Question</h3>
         </div>
@@ -222,6 +192,6 @@ export default function Addquestion() {
           <button className="btn">submit</button>
         </form>
       </div>
-    </section>
+    </Container>
   );
 }

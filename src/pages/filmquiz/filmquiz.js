@@ -96,36 +96,10 @@ export default function Filmquiz() {
 
   return (
     <main className="quiztime">
-      <div>
+      <div className="quizheading">
         <h2 className="quizhead">Film Quiz</h2>
       </div>
 
-      {/*       <div className="setupform">
-        <div className="prizes">
-          <button onClick={() => setShowPrizeModal(true)} className="pbtn">
-            Checkout Prizes
-          </button>
-        </div>
-
-        <div>
-          <p className="words">Select Difficulty Level:</p>
-        </div>
-        <div>
-          <select
-            disabled={disabledButton}
-            onChange={(e) => {
-              setDifficultyLevel(e.target.value);
-              setDisabledButton(true);
-            }}
-            className="selection"
-          >
-            
-            <option value="beginner">beginner</option>
-            <option value="average">average</option>
-            <option value="guru">guru</option>
-          </select>
-        </div>
-      </div> */}
       {!waiting && (
         <div>
           <div>

@@ -1,11 +1,14 @@
 import React from 'react';
 import './linksmodal.css';
 
+//this modal displays links to shows or movies
+
 export default function Linksmodal({
   theLinks,
   showLinksModal,
   setShowLinksModal,
 }) {
+  console.log('it ran', theLinks);
   return (
     <section
       className={`${

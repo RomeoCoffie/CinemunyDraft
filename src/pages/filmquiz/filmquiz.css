@@ -1,10 +1,13 @@
 .quiztime {
-  grid-column: span 2;
-  margin-top: 7rem;
-  margin-bottom: 2rem;
-  margin-left: 0px;
+  margin: 1.5rem auto;
+
   padding: 1rem;
   line-height: 1rem;
+  background-color: white;
+}
+
+.quizheading {
+  margin: 3rem auto;
 }
 .setupform {
   margin: 0 auto;
@@ -27,7 +30,6 @@
 }
 
 .quiz {
-  grid-template-columns: span 2;
   padding: 1rem;
   margin-left: 0px;
 }
@@ -71,6 +73,11 @@
 .answerbtn:hover {
   background: yellow;
   color: white;
+}
+.select-level {
+  margin: 2rem auto;
+  padding: 0.3rem;
+  width: 30%;
 }
 
 .questioncard {
@@ -145,7 +152,7 @@ Responsive design
 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 ======
 */
-@media screen and (max-width: 900px) {
+/* @media screen and (max-width: 900px) {
 }
 
 @media screen and (max-width: 725px) {
@@ -197,3 +204,4 @@ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     border-top-right-radius: var(--mainBorderRadius);
   }
 }
+ */

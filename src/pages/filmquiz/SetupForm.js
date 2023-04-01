@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import Prizemodal from './prizeModal';
 import { QuizContext } from '../../context/quizcontext/Quizcontext';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 
 import './filmquiz.css';
 
@@ -25,17 +27,20 @@ export default function SetupForm() {
 
   return (
     <main className="quiztime">
-      <section>
-        <div className="prizes">
-          <button onClick={() => setShowPrizeModal(true)} className="pbtn">
-            Checkout Prizes
-          </button>
-        </div>
-        <section className="pretest">
-          <div>
-            <p className="words">Select Difficulty Level:</p>
+      <Container>
+        <section>
+          <div className="prizes">
+            {/*  <button
+              onClick={() => setShowPrizeModal(true)}
+              className="pbtn"
+            ></button> */}
+            <Button onClick={() => setShowPrizeModal(true)} variant="text">
+              Checkout Prizes
+            </Button>
           </div>
-          <div>
+          <div className="select-level">
+            <h5 className="words">Select Difficulty Level:</h5>
+
             <select
               disabled={disabledButton}
               onChange={(e) => {
@@ -48,40 +53,43 @@ export default function SetupForm() {
               <option value="average">average</option>
               <option value="guru">guru</option>
             </select>
+
+            {difficultyLevel === 'average' && (
+              <div>
+                <p style={{ color: 'red' }}>{remainingTime} seconds &nbsp; </p>
+                <p style={{ color: 'green' }}>
+                  {myQuestions.length}&nbsp;questions.
+                </p>
+                <p> Good Luck</p>
+              </div>
+            )}
+            {difficultyLevel === 'guru' && (
+              <div>
+                <p style={{ color: 'red' }}>{remainingTime} seconds &nbsp; </p>
+                <p style={{ color: 'green' }}>
+                  {myQuestions.length}&nbsp;questions.
+                </p>
+                <p> Good Luck</p>
+              </div>
+            )}
           </div>
 
-          {difficultyLevel === 'average' && (
-            <div>
-              <p style={{ color: 'red' }}>{remainingTime} seconds &nbsp; </p>
-              <p style={{ color: 'green' }}>
-                {myQuestions.length}&nbsp;questions.
-              </p>
-              <p> Good Luck</p>
-            </div>
-          )}
-          {difficultyLevel === 'guru' && (
-            <div>
-              <p style={{ color: 'red' }}>{remainingTime} seconds &nbsp; </p>
-              <p style={{ color: 'green' }}>
-                {myQuestions.length}&nbsp;questions.
-              </p>
-              <p> Good Luck</p>
-            </div>
-          )}
+          <div className="prizes">
+            <Button onClick={startQuize} variant="text">
+              Start
+            </Button>
+            {/*  <button onClick={startQuize} className="pbtn">
+              start
+            </button> */}
+          </div>
         </section>
-
-        <div className="prizes">
-          <button onClick={startQuize} className="pbtn">
-            start
-          </button>
-        </div>
-      </section>
-      {showPrizeModal && (
-        <Prizemodal
-          showPrizeModal={showPrizeModal}
-          setShowPrizeModal={setShowPrizeModal}
-        />
-      )}
+        {showPrizeModal && (
+          <Prizemodal
+            showPrizeModal={showPrizeModal}
+            setShowPrizeModal={setShowPrizeModal}
+          />
+        )}
+      </Container>
     </main>
   );
 }

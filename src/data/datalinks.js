@@ -14,7 +14,7 @@ export const links = [
   {
     id: 3,
     url: '/tvshows',
-    text: 'Tv-shows',
+    text: 'Series',
   },
 
   /* {
@@ -98,114 +98,110 @@ export const urlPatterns = {
 export const indices = [
   {
     id: 1,
-    text: 'Most anticipated movies of 2023',
+    text: 'Most anticipated movies',
     index: 'most anticipated',
   },
-  {
+  /* {
     id: 2,
     text: 'Best Movies of 2022',
     index: '2022',
-  },
+  }, */
 
   {
     id: 3,
-    text: 'Greatest Movies of All Time',
+    text: 'Greatest Movies',
     index: 'great',
   },
 
   {
     id: 4,
-    text: 'Best Romantic Movies',
+    text: 'Romantic Movies',
     index: 'romantic',
   },
   {
     id: 5,
-    text: 'Best Animation movies',
+    text: 'Animations',
     index: 'animation',
   },
   {
     id: 6,
-    text: 'Greatest Sci-fi Movies of All Time',
+    text: 'Sci-fi Movies',
     index: 'best, scifi',
   },
   {
     id: 7,
-    text: 'Classic Movies from the Golden Age of Hollywood',
+    text: 'Classics',
     index: 'classics',
   },
   {
     id: 24,
-    text: 'Best Action Movies in Recent Times',
-    index: 'Teen and High school',
+    text: 'Action Movies',
+    index: 'action',
   },
   {
     id: 8,
-    text: 'Best Teen and High School Movies',
+    text: 'Teen Movies',
     index: 'Teen and High school',
   },
   {
     id: 9,
-    text: 'Best Adventure and Fantansy movies',
+    text: 'Adventure/Fantasy Movies',
     index: 'Adventure',
   },
 
   {
     id: 10,
-    text: 'Great Inspirational Movies',
+    text: ' Inspirational Movies',
     index: 'inspirational',
   },
 
   {
     id: 11,
-    text: '100 Must See Spy, Dectective and Mystery movies',
-    index: 'Spy and detective',
+    text: 'Spy and Mystery movies',
+    index: 'Spy detective, mystery',
   },
   {
     id: 12,
-    text: 'Movies That Will Definetly Make You Cry',
+    text: 'Crying Movies',
     index: 'Cry',
   },
   {
     id: 13,
-    text: 'Best Comedy Movies of All Time',
+    text: 'Comedy Movies',
     index: 'laugh',
   },
   {
     id: 14,
-    text: 'Must See African American Movies',
+    text: 'Afro American Movies',
     index: 'Black American',
   },
   {
     id: 15,
-    text: 'Actions Movies from Back in The Days',
-    index: 'Action 90s',
+    text: 'Nostalgia',
+    index: 'Nostalgia',
   },
   {
     id: 16,
-    text: 'Must See Korean Movies',
+    text: 'Korean Movies',
     index: 'Korean',
   },
   {
     id: 17,
-    text: 'Bollywood Finnest Movies',
+    text: 'Bollywood Movies',
     index: 'Bollywood',
   },
   {
     id: 18,
-    text: 'Best of African Cinema',
-    index: 'African ',
+    text: ' African Cinema',
+    index: 'African, nollywood ',
   },
-  {
-    id: 19,
-    text: 'Best movies of 2021',
-    index: '2021 ',
-  },
+
   {
     id: 20,
-    text: 'Best movies of 2020',
-    index: '2020',
-  },
-  {
+    text: 'Documentaries',
+    index: 'Documentary',
+  } /* ,
+  {s
     id: 21,
     text: 'Best movies of 2019',
     index: '2019',
@@ -219,7 +215,7 @@ export const indices = [
     id: 23,
     text: 'Best movies of 2017',
     index: '2017',
-  },
+  }, */,
 ];
 
 export const showDices = [

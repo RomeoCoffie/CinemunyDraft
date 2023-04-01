@@ -2,8 +2,8 @@
   margin-top: 10rem;
   margin-right: 2rem;
   margin-left: 0px;
-  width: 50rem;
-  height: 30rem;
+  width: 45rem;
+  height: 25rem;
   align-items: center;
 }
 
@@ -17,15 +17,16 @@
 }
 
 .form {
-  max-width: 50%;
+  max-width: 100%;
   padding: 1rem;
   border: 0.3rem solid #212121;
   border-radius: 1rem;
+  background-color: white;
   align-items: center;
   justify-content: center;
 }
 .form-row {
-  padding: 1rem;
+  padding: 0.5rem;
   font-size: 1.3em;
 }
 
@@ -51,13 +52,13 @@ input {
   color: green;
 }
 
-/* Responsive design */
+/* /* Responsive design */
 
 @media screen and (max-width: 600px) {
   .form {
     margin-top: 10rem;
     margin-right: 2rem;
-    margin-left: 0px;
+    margin-left: 2rem;
   }
 
   .section {

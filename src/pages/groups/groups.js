@@ -21,8 +21,6 @@ export default function Groups() {
           <h2>Groups</h2>
         </div>
 
-        <div className="underline"></div>
-
         {groups &&
           groups.map((group, grpIndex) => {
             // const { grpName, img, url, about, ppleOnline } = group;

@@ -3,10 +3,12 @@ import { useContext } from 'react';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { Link } from 'react-router-dom';
 import { GoStar } from 'react-icons/go';
+//import Movie from './movie';
+
+import { Helmet } from 'react-helmet';
 //import useFetch from '../../Hooks/useFetch';
 
 import './movies.css';
-import { Helmet } from 'react-helmet';
 
 export default function Movies() {
   const { films, movieIndex, filteredMovies } = useContext(TkimoviesContext);
@@ -14,8 +16,6 @@ export default function Movies() {
   useEffect(() => {
     console.log(films, filteredMovies);
   }, [filteredMovies]);
-
-  //const { data, error, ispending } = useFetch('http://localhost:3000/films');
 
   return (
     <section>
@@ -34,21 +34,24 @@ export default function Movies() {
         <article className="movies-container">
           {filteredMovies &&
             filteredMovies.map((movie) => {
-              const { id, title, movieImgUrl, rating } = movie;
+              const { id, title, movieImgUrl, rating, year } = movie;
 
               return (
                 <div className="movie">
                   <ul>
                     <li>
-                      <img src={movieImgUrl} alt={title} />
-                    </li>
-                    <div className="movie-footer">
-                      <p className="movie-title">{title}</p>
                       <p>
                         {rating} <GoStar style={{ color: 'crimson' }} />
                       </p>
+                      <img src={movieImgUrl} alt={title} />
+                    </li>
+                    <div className="movie-footer">
+                      <div>
+                        <p className="movie-title">{title}</p>
+                      </div>
+
                       <span>
-                        {/* <p style={{ display: 'inline-block' }}>{year}&nbsp;</p> */}
+                        <p style={{ display: 'inline-block' }}>{year}&nbsp;</p>
 
                         <Link className="link" to={`/movies/${movie.id}`}>
                           more...

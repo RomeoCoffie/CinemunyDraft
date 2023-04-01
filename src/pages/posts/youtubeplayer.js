@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { Container } from '@mui/system';
+import Typography from '@mui/material/Typography';
 import './youtube.css';
 
 export default function Youtubeplayer({
@@ -21,19 +23,21 @@ export default function Youtubeplayer({
 
   const newLink = getId(youTubeLink);
   return (
-    <div className="video">
-      <iframe
-        width="625"
-        height="300"
-        src={`https://www.youtube.com/embed/${newLink}`}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        title="Embedded youtube"
-      />
+    <div className="player">
+      <Container>
+        <iframe
+          className="video"
+          src={`https://www.youtube.com/embed/${newLink}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="Embedded youtube"
+        />
 
-      <div>
-        <p>{description}</p>
-      </div>
+        <Typography variant="body" color="text.secondary">
+          {description}
+        </Typography>
+      </Container>
+      <hr />
     </div>
   );
 }

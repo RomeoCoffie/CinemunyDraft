@@ -1,44 +1,54 @@
 .comment-container {
-  border: 0.1rem grey solid;
   background: white;
+  width: 100%;
+  background-color: grey;
 
   margin-top: 0.3rem;
   border-radius: 1rem;
 
   width: 50%;
 }
+.comment-container ul {
+  width: 100%;
+}
+.comment-section {
+  border: 1px grey solid;
+  border-radius: 0.7rem;
+  margin-bottom: 0.5rem;
+}
 
 .comment {
   display: flex;
   align-items: center;
+  width: 100%;
+}
+.comment-content {
+  display: flex;
+  align-items: flex-end;
+  font-size: small;
+}
+.comment-time {
+  display: block;
+  width: 100%;
+}
+.dispname {
+  margin-top: 0;
 }
 
 .comment p {
   padding: 0.3rem;
-}
-.dispname {
-  font-size: 0.7em;
-}
-.date-comment {
-  margin-top: 0px;
-  font-size: 0.7em;
+  margin-top: 0%;
 }
 
 .del-comm {
-  padding: 0.1rem;
+  padding: 0.3rem;
   color: red;
   background: transparent;
   font-size: 0.7em;
+  border: 0;
 }
 .edit-comm {
-  padding: 0.1rem;
+  padding: 0.3rem;
   font-size: 0.7em;
+  border: 0;
 }
-
-/* .modify-comment {
-  padding: 0.3rem;
-}
-
-.modify-comment button {
-  padding: 0.3rem;
-} */

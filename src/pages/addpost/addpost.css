@@ -7,20 +7,14 @@
   --clr-primary-10: hsl(205, 100%, 96%);
 }
 
-.addgroup-section {
-  margin-top: 5rem;
-  margin-right: 2rem;
-  margin-left: 0px;
-  margin-bottom: 0rem;
-  width: 100%;
-  height: 75%;
-  padding: 1rem;
-  justify-content: left;
-  box-sizing: border-box;
-}
-
 .form-container {
   background: white;
+  max-width: 100%;
+  margin-bottom: 11px;
+}
+
+.post-main {
+  margin-bottom: 3rem;
 }
 
 span,

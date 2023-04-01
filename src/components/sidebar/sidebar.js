@@ -2,15 +2,18 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
+import { Container } from '@mui/system';
 
-import './sidebar.css';
+//import './sidebar.css';
+import { Chip } from '@mui/material';
 
 export default function Sidebar() {
-  const { movieIndex, setMovieIndex, indices, showDices } =
-    useContext(TkimoviesContext);
+  const { movieIndex, setMovieIndex, indices, showDices } = useContext(
+    TkimoviesContext
+  );
   const [activeUrl, setActiveUrl] = useState(null);
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   //gets the active url to display movie or tv show sidebar
   useEffect(() => {
@@ -21,76 +24,72 @@ export default function Sidebar() {
   //sets the movieindex to filter the movies/tv shows by
   const filterMovies = (filmindex) => {
     setMovieIndex(filmindex);
+    //navigates user to movie/tv page after from singlepages
+    if (activeUrl.includes('movies/')) {
+      navigate('/movies');
+    } else if (activeUrl.includes('tvshows/')) {
+      navigate('/tvshows');
+    }
   };
 
   return (
-    <section>
-      {activeUrl && activeUrl.includes('movies') && (
-        <main>
-          <div className="sidebar">
-            <ul className="links-buttons">
+    <section className="side-main">
+      <Container>
+        {activeUrl && activeUrl.includes('movies') && (
+          <main className="side-main">
+            <div className="sidebar">
               {indices.map((indie) => {
                 const { id, text, index } = indie;
 
                 //console.log(indie.index);
 
                 return (
-                  <li className="index-li">
-                    <button
-                      onClick={(e) => {
-                        console.log(e.target.name);
-                        // let newIndex = [...movieIndex];
-                        // newIndex[indi] = indie.index;
-                        let newIndex = e.target.name;
-                        /* setMovieIndex(newIndex); take note*/
-                        filterMovies(e.target.name);
-                      }}
-                      key={id}
-                      className="index-btn"
-                      name={index}
-                    >
-                      {text}
-                    </button>
-                  </li>
+                  <Chip
+                    label={text}
+                    size="small"
+                    style={{ margin: 2, backgroundColor: 'white' }}
+                    key={id}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      filterMovies(index);
+                    }}
+                  />
                 );
               })}
-            </ul>
-          </div>
-        </main>
-      )}
-      {activeUrl && activeUrl.includes('tvshows') && (
-        <main>
-          <div className="sidebar">
-            <ul className="links-buttons">
-              {showDices.map((indie) => {
-                const { id, text, index } = indie;
+            </div>
+          </main>
+        )}
+        {activeUrl && activeUrl.includes('tvshows') && (
+          <main>
+            <div className="sidebar">
+              <ul className="links-buttons">
+                {showDices.map((indie) => {
+                  const { id, text, index } = indie;
 
-                //console.log(indie.index);
+                  //console.log(indie.index);
 
-                return (
-                  <li className="index-li">
-                    <button
-                      onClick={(e) => {
-                        console.log(e.target.name);
-                        // let newIndex = [...movieIndex];
-                        // newIndex[indi] = indie.index;
-                        let newIndex = e.target.name;
-                        /* setMovieIndex(newIndex); take note*/
-                        filterMovies(e.target.name);
-                      }}
-                      key={id}
-                      className="index-btn"
-                      name={index}
-                    >
-                      {text}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </main>
-      )}
+                  return (
+                    <li className="index-li">
+                      <Chip
+                        label={text}
+                        size="small"
+                        style={{ margin: 2, backgroundColor: 'white' }}
+                        key={id}
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => {
+                          filterMovies(index);
+                        }}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </main>
+        )}
+      </Container>
     </section>
   );
 }

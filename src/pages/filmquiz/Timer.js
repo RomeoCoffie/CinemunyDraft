@@ -45,8 +45,8 @@ export default function Timer({ stopTime }) {
     <div className="timer">
       {remainingTime !== 0 && (
         <span>
-          <h4>Time Left:&nbsp;</h4>
-          <h4 className="counter">{remainingTime}</h4>
+          <p>Time Left:&nbsp;</p>
+          <p className="counter">{remainingTime}</p>
         </span>
       )}
       {/*  {remainingTime  && interuption && (

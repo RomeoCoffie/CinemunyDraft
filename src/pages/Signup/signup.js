@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import useSignup from '../../Hooks/useSignup';
 
+import Container from '@mui/material/Container';
+
 import styles from './signup.module.css';
 
 function Signup() {
@@ -24,7 +26,7 @@ function Signup() {
   };
 
   return (
-    <section>
+    <Container>
       <div className={styles.signuparticle}>
         {/*used ['login-form'] for the styles because of of the  minus (-)*/}
         <div className={styles.caption}>
@@ -69,7 +71,7 @@ function Signup() {
           </form>
         </div>
       </div>
-    </section>
+    </Container>
   );
 }
 export default Signup;

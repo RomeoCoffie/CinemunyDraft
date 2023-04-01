@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useState, useRef } from 'react';
-//import useFetch from '../../Hooks/useFetch';
-import { db } from '../../components/firebase/config';
+
+//import { db } from '../../components/firebase/config';
 import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import { useCollection } from '../../Hooks/useCollection';
 import { useFiresotre } from '../../Hooks/useFirestore';
@@ -12,17 +12,17 @@ import { storage } from '../../components/firebase/config';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { urlPatterns } from '../../data/datalinks';
 
-import Container from '@mui/material/Container';
+import './addshow.css';
 
-import './addmovie.css';
-
-export default function Addmovie() {
+export default function Addshow() {
   const [title, setTitle] = useState(null);
-  const [contentType, setContentType] = useState('movie');
+  const [showStatus, setShowStatus] = useState('ongoing');
   const [desc, setDesc] = useState(null);
   const [director, setDirector] = useState([]);
   const [rating, setRating] = useState(1);
+  const [seasons, setSeasons] = useState(1);
   const [year, setYear] = useState(2022);
+  const [endYear, setEndYear] = useState('2022');
   const optionsInput = useRef(null);
   const castInput = useRef(null);
   const [thumbnailError, setThumbnailError] = useState(null);
@@ -41,7 +41,6 @@ export default function Addmovie() {
   const [youtubeLinkError, setyoutubeLinkError] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [contentIndex, setContentIndex] = useState(null);
-
   /* const [newDirector, setNewDirector] = useState();
    const [genre, setGenre] = useState([]);
    
@@ -53,9 +52,9 @@ export default function Addmovie() {
   const [option, setOption] = useState([]);
   const [newOption, setNewOption] = useState();
   const [correctAnswer, setCorrectAnswer] = useState(); */
-  const { documents: movies } = useCollection('movies');
+  //const { documents: shows } = useCollection('shows');
 
-  const { addDocument, response } = useFiresotre('movies');
+  const { addDocument, response } = useFiresotre('shows');
   const { authIsReady, user } = useContext(AuthContext);
   //const { person, setPerson } = useState(null);
 
@@ -74,11 +73,6 @@ export default function Addmovie() {
 
     console.log(movieImgUrl);
     if (movieImgUrl) {
-      if (!contentType) {
-        setInputError('You must select Content Type');
-        return;
-      }
-
       if (!trailer || !trailer.match(urlPatterns.youtube)) {
         setyoutubeLinkError('Enter Valid Youtube url');
         return;
@@ -89,10 +83,12 @@ export default function Addmovie() {
         title,
         director,
         rating,
+        seasons,
         year,
+        endYear,
+        showStatus,
         desc,
         movieImgUrl,
-        contentType,
         cast,
         genre,
         ifmaRating,
@@ -135,7 +131,7 @@ export default function Addmovie() {
   //handle cast input
   const addGenre = (e, setGenre) => {
     e.preventDefault();
-    const ops = newGenre.trim().toLowerCase();
+    const ops = newGenre.trim();
 
     if (ops && !genre.includes(ops)) {
       setGenre((prevOption) => [...prevOption, ops]);
@@ -172,7 +168,7 @@ export default function Addmovie() {
         },
       };
 
-      const storageRef = ref(storage, `/movies/${title}/${selected.name}`);
+      const storageRef = ref(storage, `/shows/${title}/${selected.name}`);
       const storageUpload = uploadBytesResumable(
         storageRef,
         selected,
@@ -205,12 +201,14 @@ export default function Addmovie() {
   const resetFields = () => {
     setTitle('');
     setYear(2022);
+    setEndYear(2022);
+    setSeasons(1);
     setDirector('');
     setRating(1);
     setDesc('');
     setCast('');
     setGenre('');
-    setContentType('movie');
+
     setTrailer('');
     setContentIndex('');
 
@@ -218,7 +216,7 @@ export default function Addmovie() {
   };
 
   // console.log(questionImgUrl);
-  console.log(thumbnail, contentIndex);
+  console.log(thumbnail);
 
   //Getting documents from firebase collection
   // useEffect(() => {
@@ -237,145 +235,158 @@ export default function Addmovie() {
   //}, [thesequestions]);
 
   return (
-    <Container sx={{ padding: 0 }}>
-      <div>
-        <h3 className="title">Add Film</h3>
-      </div>
-      <div>
-        <form className="form-container" onSubmit={handleSubmit}>
-          {inputError && <p style={{ color: 'red' }}>{inputError}</p>}
-          <span>Type</span>
-          <select
-            className="form-input"
-            required
-            value={contentType}
-            onChange={(e) => setContentType(e.target.value)}
-          >
-            <option value="movie">movie</option>
-            <option value="series">series/tv-show</option>
-          </select>
-          <span>Title:</span>
-          <input
-            type="text"
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-            required
-          />
+    <main className="addmovie-section">
+      {/*  <main className="addmovie-main"> */}
+      {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
+      <h3 className="title">Add Show</h3>
+      <div></div>
+      <form className="form-container" onSubmit={handleSubmit}>
+        {inputError && <p style={{ color: 'red' }}>{inputError}</p>}
 
-          <br />
+        <span>Title:</span>
+        <input
+          type="text"
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+          required
+        />
 
-          <span>Description:</span>
-          <textarea
-            type="text"
-            onChange={(e) => setDesc(e.target.value)}
-            value={desc}
-            required
-          />
+        <br />
 
-          <span>Directors:</span>
-          <input
-            type="text"
-            className={`${
-              director.length < 1 ? 'track-input' : 'track-input1'
-            }`}
-            onChange={(e) => setNewOption(e.target.value)}
-            value={newOption}
-            ref={optionsInput}
-          />
-          <button onClick={(e) => addOptions(e, setDirector)}>
-            <AiOutlinePlus />
-          </button>
-          {director &&
-            director.map((dir) => {
-              return <span className="genre">{dir},&nbsp;</span>;
-            })}
+        <span>Description:</span>
+        <textarea
+          type="text"
+          onChange={(e) => setDesc(e.target.value)}
+          value={desc}
+          required
+        />
 
-          <span>Cast:</span>
-          <input
-            type="text"
-            className={`${cast.length < 1 ? 'track-input' : 'track-input1'}`}
-            onChange={(e) => setNewCast(e.target.value)}
-            value={newCast}
-            ref={castInput}
-          />
-          <button onClick={(e) => addCast(e, setCast)}>
-            <AiOutlinePlus />
-          </button>
-          {cast &&
-            cast.map((gen) => {
-              return <span className="genre">{gen},&nbsp;</span>;
-            })}
+        <span>Developed by:</span>
+        <input
+          type="text"
+          className={`${director.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewOption(e.target.value)}
+          value={newOption}
+          ref={optionsInput}
+        />
+        <button onClick={(e) => addOptions(e, setDirector)}>
+          <AiOutlinePlus />
+        </button>
+        {director &&
+          director.map((dir) => {
+            return <span className="genre">{dir},&nbsp;</span>;
+          })}
 
-          <span>Genre:</span>
-          <input
-            type="text"
-            className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
-            onChange={(e) => setNewGenre(e.target.value)}
-            value={newGenre}
-            ref={genreInput}
-          />
-          <button onClick={(e) => addGenre(e, setGenre)}>
-            <AiOutlinePlus />
-          </button>
-          {genre &&
-            genre.map((gen) => {
-              return <span className="genre">{gen},&nbsp;</span>;
-            })}
+        <span>Cast:</span>
+        <input
+          type="text"
+          className={`${cast.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewCast(e.target.value)}
+          value={newCast}
+          ref={castInput}
+        />
+        <button onClick={(e) => addCast(e, setCast)}>
+          <AiOutlinePlus />
+        </button>
+        {cast &&
+          cast.map((gen) => {
+            return <span className="genre">{gen},&nbsp;</span>;
+          })}
 
-          <span>Rating:</span>
-          <input
-            type="number"
-            onChange={(e) => setRating(e.target.value)}
-            value={rating}
-            required
-          />
+        <span>Genre:</span>
+        <input
+          type="text"
+          className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewGenre(e.target.value)}
+          value={newGenre}
+          ref={genreInput}
+        />
+        <button onClick={(e) => addGenre(e, setGenre)}>
+          <AiOutlinePlus />
+        </button>
+        {genre &&
+          genre.map((gen) => {
+            return <span className="genre">{gen},&nbsp;</span>;
+          })}
 
-          <span>Year:</span>
-          <input
-            type="number"
-            onChange={(e) => setYear(e.target.value)}
-            value={year}
-            required
-          />
+        <span>Rating:</span>
+        <input
+          type="number"
+          onChange={(e) => setRating(e.target.value)}
+          value={rating}
+          required
+        />
+        <span>Number of Seasons:</span>
+        <input
+          type="number"
+          onChange={(e) => setSeasons(e.target.value)}
+          value={seasons}
+          required
+        />
 
-          {youtubeLinkError && (
-            <p style={{ color: 'red' }}>{youtubeLinkError}</p>
-          )}
-          <span>Youtube:</span>
+        <span> Start Year:</span>
+        <input
+          type="number"
+          onChange={(e) => setYear(e.target.value)}
+          value={year}
+          required
+        />
+        <select
+          className="form-input"
+          required
+          value={showStatus}
+          onChange={(e) => setShowStatus(e.target.value)}
+        >
+          <option value="showing">on-going</option>
+          <option value="completed">comepleted</option>
+        </select>
 
-          <input
-            className={`${youtubeLinkError ? 'invalid-link' : 'valid-link'}`}
-            type="text"
-            onChange={(e) => {
-              setTrailer(e.target.value);
-            }}
-            value={trailer}
-          />
-          <span>Keywords:</span>
-          <input
-            type="text"
-            onChange={(e) => setContentIndex(e.target.value)}
-            value={contentIndex}
-            required
-          />
-          <span>Add Image:</span>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            accept="image/*"
-            required
-            ref={inputClear}
-          />
+        {showStatus === 'completed' && (
+          <div>
+            <span> End Year:</span>
+            <input
+              type="number"
+              onChange={(e) => setEndYear(e.target.value)}
+              value={endYear}
+              required
+            />
+          </div>
+        )}
 
-          {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
+        {youtubeLinkError && <p style={{ color: 'red' }}>{youtubeLinkError}</p>}
+        <span>Youtube:</span>
 
-          <br />
+        <input
+          className={`${youtubeLinkError ? 'invalid-link' : 'valid-link'}`}
+          type="text"
+          onChange={(e) => {
+            setTrailer(e.target.value);
+          }}
+          value={trailer}
+        />
+        <span>Keywords:</span>
+        <input
+          type="text"
+          onChange={(e) => setContentIndex(e.target.value)}
+          value={contentIndex}
+          required
+        />
+        <span>Add Image:</span>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          accept="image/*"
+          required
+          ref={inputClear}
+        />
 
-          <button className="btn">submit</button>
-        </form>
-      </div>
+        {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 
+        <br />
+
+        <button className="btn">submit</button>
+      </form>
       {/* </main> */}
-    </Container>
+    </main>
   );
 }

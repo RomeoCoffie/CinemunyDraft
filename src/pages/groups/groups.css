@@ -1,12 +1,12 @@
 .groups-section {
-  margin: 5rem auto;
+  margin-top: 1rem;
   padding: 1rem;
 
   justify-content: center;
 }
 .groups-head {
   font-size: medium;
-  margin: 1rem auto;
+  margin: 0 auto;
 }
 
 .underline {

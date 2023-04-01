@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { QuizContext } from '../../context/quizcontext/Quizcontext';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { AuthContext } from '../../context/authcontext/AuthContext';
@@ -40,7 +40,7 @@ const Modal = () => {
   //const { users } = useContext(TkimoviesContext);
   const { user } = useContext(AuthContext);
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   //const [remarks, setRemarks] = useState(null);
 
@@ -137,9 +137,17 @@ const Modal = () => {
         {!user && showLogin && (
           <div>
             <p>Login/Register to continue</p>
+            <button
+              className="close-btn"
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              ok
+            </button>
           </div>
         )}
-        {!user && (
+        {!user && !showLogin && (
           <button className="close-btn" onClick={dntSave}>
             ok
           </button>

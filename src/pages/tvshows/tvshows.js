@@ -4,6 +4,7 @@ import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { Link } from 'react-router-dom';
 import { GoStar } from 'react-icons/go';
 import { Helmet } from 'react-helmet';
+import Container from '@mui/material/Container';
 
 import './tvshows.css';
 
@@ -37,10 +38,14 @@ export default function Tvshows() {
   return (
     <section>
       <main>
-        <h2 className="tvshow-head ">Tv-Shows</h2>
-        <Helmet>
-          <title>Tv Shows</title>
-        </Helmet>
+        <Container>
+          <div className="show-head">
+            <h2>Tv-Shows</h2>
+            <Helmet>
+              <title>Tv Shows</title>
+            </Helmet>
+          </div>
+        </Container>
 
         <article className="tvshows-container">
           {theShows &&

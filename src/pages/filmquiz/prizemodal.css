@@ -20,14 +20,10 @@
 
 .modal-content {
   background: var(--clr-white);
-  width: 90%;
-  height: auto;
-  max-width: 90%;
-  padding: 0.3rem;
-  margin-bottom: 0.3rem;
-  margin-left: 0;
-  margin-top: 0;
-  font-size: small;
+  width: 90vw;
+  height: 35vw;
+  max-width: var(--fixed-width);
+  padding: 3rem;
   border-radius: var(--radius);
   text-align: center;
   position: relative;
@@ -38,22 +34,6 @@
 }
 .close-btn {
   margin-right: auto;
-}
-
-.urlscontainer a {
-  display: inline-block;
-  color: red;
-  border: 0.15rem solid black;
-  padding: 0.25rem 0.5rem;
-  width: 35%;
-  background: yellow;
-  border-radius: 0.3rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-.urlscontainer a:hover {
-  background: var(--primaryColor);
-  color: var(--mainWhite);
 }
 
 .close-btn,
@@ -73,4 +53,18 @@
   color: var(--clr-black);
   transition: var(--transition);
   cursor: pointer;
+}
+
+.prizes {
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  color: black;
+}
+
+.prize-img {
+  width: 5rem;
+  border: 0.3rem solid crimson;
+  margin: 1rem 0.3rem;
+  object-fit: contain;
 }

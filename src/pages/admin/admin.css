@@ -1,0 +1,22 @@
+.admin-section {
+  padding: 2.5rem;
+  margin-top: 7.5rem;
+  width: 40rem;
+
+  box-sizing: border-box;
+}
+
+.admin-btn {
+  display: flex;
+  align-items: center;
+  width: 15rem;
+  font-weight: bold;
+
+  color: black;
+  background: gray;
+  padding: 1rem;
+}
+
+.make-admin {
+  margin-bottom: 1.5rem;
+}

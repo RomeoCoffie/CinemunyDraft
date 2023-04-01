@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 //import { useFetch } from '../../Hooks/useFetch';
+import { useNavigate } from 'react-router-dom';
 
 import { indices, showDices } from '../../data/datalinks';
 import {
@@ -22,7 +23,6 @@ const TkimoviesContext = createContext();
 //Provider, Consumer -TkimoviesContext.Provider
 
 const TkimoviesProvider = ({ children }) => {
-  /*  const { data, error, ispending } = useFetch('http://localhost:3000/films'); */
   const { documents: news } = useCollection('Posts', ['createdAt', 'desc']);
   const { documents: content } = useCollection('movies', ['createdAt', 'desc']);
   const { documents: shows } = useCollection('shows', ['createdAt', 'desc']);
@@ -30,11 +30,12 @@ const TkimoviesProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const [waiting, setWaiting] = useState(true);
   const [Loading, setLoading] = useState(false);
-  const [movieIndex, setMovieIndex] = useState([]);
+  const [movieIndex, setMovieIndex] = useState([]); //indexof films category
   const [films, setFilms] = useState([]);
   const [posts, setPosts] = useState(null);
-  const [ifmaRates, setIfmaRates] = useState(null);
+  //const [ifmaRates, setIfmaRates] = useState(null);
   const [addLinks, setAddLinks] = useState(false);
+  const [rating, setRating] = useState(0);
 
   const [theShows, setTheShows] = useState([]);
   const [theUsers, setTheUsers] = useState([]);
@@ -42,7 +43,6 @@ const TkimoviesProvider = ({ children }) => {
   const [filteredMovies, setFilteredMovies] = useState(null);
   const [filteredShows, setFilteredShows] = useState(null);
   const [showRating, setShowRating] = useState(false);
-  //const navigate = useNavigate();
 
   useEffect(() => {
     if (content) {
@@ -103,7 +103,7 @@ const TkimoviesProvider = ({ children }) => {
 
       const ratingToAdd = {
         createdAt: Timestamp.fromDate(new Date()),
-        ourRate: ifmaRates,
+        ourRate: rating,
         rater: user.uid,
         display: user.displayName,
         img: user.photoURL,
@@ -142,6 +142,8 @@ const TkimoviesProvider = ({ children }) => {
         addLinks,
         setAddLinks,
         users,
+        rating,
+        setRating,
       }}
     >
       {children}
