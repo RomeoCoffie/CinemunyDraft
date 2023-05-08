@@ -1,96 +1,88 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { QuizContext } from '../../context/quizcontext/Quizcontext';
-import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+//import { QuizContext } from '../../context/quizcontext/Quizcontext';
+//import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 //import { useNavigate } from 'react-router-dom';
 
 import './modal.css';
 
-const Modal = () => {
+const Modal = ({
+  isModalOpen,
+  setIsModalOpen,
+  interrupt,
+  setDifficultyLevel,
+  difficultyLevel,
+  myQuestions,
+  disabledButton,
+  setDisabledButton,
+
+  saveResults,
+  showLogin,
+  setWaiting,
+  ritAns,
+  setRitAns,
+  setShowTimer,
+  setPercentage,
+  percentage,
+}) => {
   //const [timeScore, settimedScore]=useState(null)
-  const {
+  /*  const {
     isModalOpen,
     setIsModalOpen,
     correct,
-    setPercentage,
-    userScore,
-    interrupt,
-    queIndex,
-    difficultyLevel,
-    myQuestions,
-    setMyQuestions,
-    setDifficultyLevel,
-    thesequestions,
-    getShuffledArr,
-    setCorrect,
     percentage,
-    disabledButton,
+    interrupt,
+    difficultyLevel,
+    //myQuestions,
+    //disabledButton,
     setDisabledButton,
-    setShowTimer,
-    setWaiting,
-    waiting,
+    //setShowTimer,
     saveResults,
-    theUsers,
     showLogin,
-    setShowLogin,
-    setRemainingTime,
-  } = useContext(QuizContext);
+    setDifficultyLevel,
+    setCorrect,
+    setWaiting,
+  } = useContext(QuizContext); */
 
-  //const { users } = useContext(TkimoviesContext);
   const { user } = useContext(AuthContext);
-
   const navigate = useNavigate();
-
-  //const [remarks, setRemarks] = useState(null);
 
   if (isModalOpen) {
     // console.log('entest');
     setShowTimer(false);
 
-    let results = ((correct / myQuestions.length) * 100).toFixed(0);
+    let results = ((ritAns / myQuestions.length) * 100).toFixed(0);
+
     setPercentage(results);
     console.log(
       results,
-      correct,
+      ritAns,
       myQuestions.length,
       difficultyLevel,
       percentage
     );
   }
 
-  useEffect(() => {
-    if (theUsers) {
-      console.log(theUsers);
-    }
-  }, [user]);
-
-  const move = () => {
-    setIsModalOpen(false);
-    setDisabledButton(null);
+  //if user saves results
+  const save = () => {
+    setDisabledButton(null); //select difficulty button
     if (user) {
       saveResults();
     }
-
-    setMyQuestions(getShuffledArr(thesequestions).slice(1, 3));
-    setRemainingTime(null);
-
+    setIsModalOpen(false);
     setDifficultyLevel('beginner');
-    setCorrect(0);
+    setRitAns(0);
     setWaiting(true);
-    //navigate('/filmquiz');
   };
 
+  //if user decides not to save results
   const dntSave = () => {
-    setIsModalOpen(false);
     setDisabledButton(null);
-
-    setMyQuestions(getShuffledArr(thesequestions).slice(1, 3));
-
+    setIsModalOpen(false);
     setDifficultyLevel('beginner');
-    setCorrect(0);
+    setRitAns(0);
     setWaiting(true);
-    //navigate('/filmquiz');
   };
 
   return (
@@ -160,7 +152,7 @@ const Modal = () => {
 
         {user && difficultyLevel === 'average' && (
           <div>
-            <button className="close-btn" onClick={move}>
+            <button className="close-btn" onClick={save}>
               Save Results
             </button>
             <button className="close-btn" onClick={dntSave}>
@@ -171,7 +163,7 @@ const Modal = () => {
 
         {user && difficultyLevel === 'guru' && (
           <div>
-            <button className="close-btn" onClick={move}>
+            <button className="close-btn" onClick={save}>
               Save Results
             </button>
             <button className="close-btn" onClick={dntSave}>

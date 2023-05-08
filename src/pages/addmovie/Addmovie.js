@@ -1,18 +1,24 @@
-import React, { useContext, useEffect } from 'react';
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 //import useFetch from '../../Hooks/useFetch';
-import { db } from '../../components/firebase/config';
-import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
+//import { db } from '../../components/firebase/config';
+import { useNavigate } from 'react-router-dom';
+//my Hooks
 import { useCollection } from '../../Hooks/useCollection';
 import { useFiresotre } from '../../Hooks/useFirestore';
 import { AuthContext } from '../../context/authcontext/AuthContext';
+import { storage } from '../../components/firebase/config';
+//firebase libs
 import { getDownloadURL, ref } from '@firebase/storage';
 import { uploadBytesResumable } from 'firebase/storage';
-import { storage } from '../../components/firebase/config';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { urlPatterns } from '../../data/datalinks';
+import { Timestamp } from 'firebase/firestore';
 
+//Icons
+import { AiOutlinePlus } from 'react-icons/ai';
+
+//MUI
 import Container from '@mui/material/Container';
+//Resource
+import { urlPatterns } from '../../data/datalinks';
 
 import './addmovie.css';
 
@@ -40,25 +46,31 @@ export default function Addmovie() {
   const inputClear = useRef(null);
   const [youtubeLinkError, setyoutubeLinkError] = useState(null);
   const [trailer, setTrailer] = useState(null);
-  const [contentIndex, setContentIndex] = useState(null);
+  const [contentIndex, setContentIndex] = useState([]);
+  const [newKeyword, setNewKeyword] = useState(null);
+  const keywordInput = useRef(null);
+  const [ifExist, setIfExist] = useState(false);
+  const [alreadExisting, setalreadyExisting] = useState(null);
 
-  /* const [newDirector, setNewDirector] = useState();
-   const [genre, setGenre] = useState([]);
-   
-   
-   const optionsInput = useRef(null);
- 
-  
-  const [question, setQuestion] = useState();
-  const [option, setOption] = useState([]);
-  const [newOption, setNewOption] = useState();
-  const [correctAnswer, setCorrectAnswer] = useState(); */
   const { documents: movies } = useCollection('movies');
 
-  const { addDocument, response } = useFiresotre('movies');
-  const { authIsReady, user } = useContext(AuthContext);
-  //const { person, setPerson } = useState(null);
+  const { addDocument } = useFiresotre('movies');
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
+  //Checking if  movie already exist
+  useEffect(() => {
+    if (movies && title) {
+      const fileExist = movies.filter((film) => film.title === title);
+      setalreadyExisting(fileExist);
+    }
+    if (alreadExisting && alreadExisting.length > 0) {
+      setIfExist(true);
+      console.log(alreadExisting);
+    }
+  }, [movies, title]);
+
+  //Submitting movie
   const handleSubmit = async (e) => {
     e.preventDefault();
     let person = user.uid;
@@ -66,14 +78,18 @@ export default function Addmovie() {
     setyoutubeLinkError(null);
     const createdAt = Timestamp.fromDate(new Date());
 
-    /* if (!rating < 10 || !rating > 1) {
-      setInputError('rating must be between 1-10');
-      return;
+    /* if (ifExist) {
+      setInputError('Movie already exist');
+      return; //unsure about this
     }
  */
-
     console.log(movieImgUrl);
     if (movieImgUrl) {
+      if (rating > 10 || rating < 1) {
+        setInputError('rating must be between 1-10');
+        return;
+      }
+
       if (!contentType) {
         setInputError('You must select Content Type');
         return;
@@ -132,7 +148,7 @@ export default function Addmovie() {
     castInput.current.focus();
   };
 
-  //handle cast input
+  //handle Genre input
   const addGenre = (e, setGenre) => {
     e.preventDefault();
     const ops = newGenre.trim().toLowerCase();
@@ -144,7 +160,19 @@ export default function Addmovie() {
     genreInput.current.focus();
   };
 
-  //handle image upload if question has an image
+  //Handle Keywords input
+  const addKeywords = (e) => {
+    e.preventDefault();
+    const ops = newKeyword.trim().toLowerCase();
+
+    if (ops && !contentIndex.includes(ops)) {
+      setContentIndex((prevOption) => [...prevOption, ops]);
+    }
+    setNewKeyword('');
+    keywordInput.current.focus();
+  };
+
+  //handle movie poster upload
   const handleFileChange = (e) => {
     setThumbnail(null);
     let selected = e.target.files[0];
@@ -213,12 +241,12 @@ export default function Addmovie() {
     setContentType('movie');
     setTrailer('');
     setContentIndex('');
-
     inputClear.current.value = '';
+    navigate('/movies');
   };
 
   // console.log(questionImgUrl);
-  console.log(thumbnail, contentIndex);
+  //console.log(thumbnail, contentIndex);
 
   //Getting documents from firebase collection
   // useEffect(() => {
@@ -244,6 +272,13 @@ export default function Addmovie() {
       <div>
         <form className="form-container" onSubmit={handleSubmit}>
           {inputError && <p style={{ color: 'red' }}>{inputError}</p>}
+          {alreadExisting && alreadExisting.length > 0 && (
+            <p style={{ color: 'red' }}>
+              Film may already exist&nbsp;{alreadExisting[0].title} and
+              starring&nbsp;
+              {(alreadExisting[0].cast[0], alreadExisting[0].cast[1])}
+            </p>
+          )}
           <span>Type</span>
           <select
             className="form-input"
@@ -272,7 +307,7 @@ export default function Addmovie() {
             required
           />
 
-          <span>Directors:</span>
+          <span>Director(s):</span>
           <input
             type="text"
             className={`${
@@ -352,20 +387,39 @@ export default function Addmovie() {
             value={trailer}
           />
           <span>Keywords:</span>
+
           <input
             type="text"
-            onChange={(e) => setContentIndex(e.target.value)}
-            value={contentIndex}
-            required
+            className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
+            onChange={(e) => setNewKeyword(e.target.value)}
+            value={newKeyword}
+            ref={keywordInput}
           />
-          <span>Add Image:</span>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            accept="image/*"
-            required
-            ref={inputClear}
-          />
+          <button onClick={addKeywords}>
+            <AiOutlinePlus />
+          </button>
+          {contentIndex &&
+            contentIndex.map((indi) => {
+              return <span className="genre">{indi},&nbsp;</span>;
+            })}
+
+          {title && desc && contentIndex.length > 0 && (
+            <div>
+              <span>Add Image:</span>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                required
+                ref={inputClear}
+              />
+              {progress && (
+                <span style={{ color: 'red' }}>
+                  progress: &nbsp;{progress}%
+                </span>
+              )}
+            </div>
+          )}
 
           {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 

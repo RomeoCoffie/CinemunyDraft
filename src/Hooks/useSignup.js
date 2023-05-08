@@ -1,26 +1,29 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { auth } from '../components/firebase/config';
 import { AuthContext } from '../context/authcontext/AuthContext';
 import { db } from '../components/firebase/config';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 
 //firebase imports
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { async } from '@firebase/util';
+//import { async } from '@firebase/util';
 
 export default function useSignup() {
   const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
-  const [bio, setBio] = useState('about you');
-  const [favMovie, setFavMovie] = useState('your favorite movie');
-  const [location, setLocation] = useState('update your location');
-  const [gender, setGender] = useState('Gender');
-  const [quiz, setQuiz] = useState([{ level: 'beginner' }]);
+  const bio = 'update your Bio';
+  const favMovie = 'your favorite movie';
+  const location = { label: 'country', value: 'N/A' };
+  const gender = 'Gender';
+
   const { dispatch } = useContext(AuthContext);
 
   const signup = async (email, password, displayName) => {
+    const quiz = [
+      { percent: 0, level: 'beginner', score: 0, display: displayName },
+    ];
     setError(null);
     setIsPending(false);
 
@@ -29,6 +32,7 @@ export default function useSignup() {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res.user);
       dispatch({ type: 'LOGIN', payload: res.user }); // we logg the user in after creation
+      const createdAt = Timestamp.fromDate(new Date());
 
       if (!res) {
         throw new Error('Could not complete signup');
@@ -46,6 +50,7 @@ export default function useSignup() {
         bio,
         quiz,
         favMovie,
+        createdAt,
       });
 
       if (!isCancelled) {

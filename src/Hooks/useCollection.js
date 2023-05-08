@@ -4,14 +4,16 @@ import {
   collection,
   onSnapshot,
   query,
-  where,
+  //where,
   orderBy,
-  limit,
+  //limit,
 } from 'firebase/firestore';
 
 export const useCollection = (c, _orderBy) => {
   const [documents, setDocuments] = useState('');
   const [error, setError] = useState('');
+
+  //set Error incase getting collection fails
 
   //wrapping the _query in a useRef to avoid an infinite
   //loop since is a reference type and will be different on every call

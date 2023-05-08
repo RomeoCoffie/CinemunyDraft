@@ -1,3 +1,19 @@
+.genre {
+  display: inline-block;
+  color: grey;
+}
+
+.track-input {
+  border: solid 0.1rem red;
+}
+
+.track-input1 {
+  border: solid 0.1rem green;
+}
+.form-container > span {
+  display: block;
+}
+
 /* .addmovie-section {
   margin: 3rem auto;
   width: 100%;

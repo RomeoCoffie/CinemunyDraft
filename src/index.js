@@ -11,9 +11,9 @@ root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <TkimoviesProvider>
-        <QuizContextProvider>
-          <App />
-        </QuizContextProvider>
+        {/* <QuizContextProvider> */}
+        <App />
+        {/*   </QuizContextProvider> */}
       </TkimoviesProvider>
     </AuthContextProvider>
   </React.StrictMode>

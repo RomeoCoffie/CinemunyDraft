@@ -16,6 +16,19 @@
   border-radius: 0.7rem;
   margin-bottom: 0.5rem;
 }
+.comm-img {
+  width: 15%;
+  height: 9%;
+  margin-right: 1px;
+  margin-bottom: 0;
+  margin-top: 0;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #c4c4c4;
+}
 
 .comment {
   display: flex;
@@ -51,4 +64,11 @@
   padding: 0.3rem;
   font-size: 0.7em;
   border: 0;
+}
+
+.horizon {
+  border: solid grey 0.1rem;
+  width: 100%;
+  margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
 }

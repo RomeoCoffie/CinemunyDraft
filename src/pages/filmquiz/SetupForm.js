@@ -1,24 +1,23 @@
-import React, { useEffect } from 'react';
-import { useContext, useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import Prizemodal from './prizeModal';
-import { QuizContext } from '../../context/quizcontext/Quizcontext';
+//import { QuizContext } from '../../context/quizcontext/Quizcontext';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
 import './filmquiz.css';
 
-export default function SetupForm() {
-  const {
-    setDifficultyLevel,
-    waiting,
-    setWaiting,
-    disabledButton,
-    setDisabledButton,
-    difficultyLevel,
-    remainingTime,
-    setRemainingTime,
-    myQuestions,
-  } = useContext(QuizContext);
+export default function SetupForm({
+  setDifficultyLevel,
+  waiting,
+  setWaiting,
+  disabledButton,
+  setDisabledButton,
+  difficultyLevel,
+  remainingTime,
+  setRemainingTime,
+  myQuestions,
+}) {
   const [showPrizeModal, setShowPrizeModal] = useState(false);
 
   const startQuize = () => {
@@ -43,6 +42,7 @@ export default function SetupForm() {
 
             <select
               disabled={disabledButton}
+              value={difficultyLevel}
               onChange={(e) => {
                 setDifficultyLevel(e.target.value);
                 setDisabledButton(true);
@@ -54,9 +54,9 @@ export default function SetupForm() {
               <option value="guru">guru</option>
             </select>
 
-            {difficultyLevel === 'average' && (
+            {difficultyLevel === 'average' && myQuestions && (
               <div>
-                <p style={{ color: 'red' }}>{remainingTime} seconds &nbsp; </p>
+                <p style={{ color: 'red' }}> 30 seconds </p>
                 <p style={{ color: 'green' }}>
                   {myQuestions.length}&nbsp;questions.
                 </p>
@@ -65,7 +65,7 @@ export default function SetupForm() {
             )}
             {difficultyLevel === 'guru' && (
               <div>
-                <p style={{ color: 'red' }}>{remainingTime} seconds &nbsp; </p>
+                <p style={{ color: 'red' }}> 60 Seconds</p>
                 <p style={{ color: 'green' }}>
                   {myQuestions.length}&nbsp;questions.
                 </p>
@@ -75,8 +75,12 @@ export default function SetupForm() {
           </div>
 
           <div className="prizes">
-            <Button onClick={startQuize} variant="text">
-              Start
+            <Button
+              sx={{ textAlign: 'center', marginLeft: 1 }}
+              onClick={startQuize}
+              variant="text"
+            >
+              Start Quiz
             </Button>
             {/*  <button onClick={startQuize} className="pbtn">
               start

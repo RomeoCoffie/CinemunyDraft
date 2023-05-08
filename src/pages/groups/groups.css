@@ -13,6 +13,23 @@
   margin: 1rem auto;
 }
 
+.add-group {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  background-color: #75aaf0;
+  text-align: center;
+  vertical-align: center;
+  height: 3rem;
+  border-radius: 1rem;
+  padding: 35px 0;
+}
+.add {
+  margin-top: 0.5rem;
+  padding: 0.3rem;
+  vertical-align: center;
+  font-weight: bold;
+}
+
 .groups {
   margin-top: 1.5rem;
   margin-left: 0px;
@@ -49,6 +66,10 @@ hr {
   width: 100%;
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
+}
+.telegram {
+  border-radius: 50%;
+  background-color: #0088cc;
 }
 
 .answerbtn {

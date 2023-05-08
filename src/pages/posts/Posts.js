@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import Post from './post';

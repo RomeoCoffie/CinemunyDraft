@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { useState, useRef } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCollection } from '../../Hooks/useCollection';
 import { useFiresotre } from '../../Hooks/useFirestore';
 //import { myquestions } from '../../data/datalinks';
@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import './addquestions.css';
 
 export default function Addquestion() {
-  const [question, setQuestion] = useState();
+  const [question, setQuestion] = useState(null);
   const [questionImgUrl, setQuestionImgUrl] = useState(null);
   const [option, setOption] = useState([]);
   const [newOption, setNewOption] = useState(null);
@@ -27,12 +27,28 @@ export default function Addquestion() {
   const [addImage, setAddImage] = useState(false);
   const optionsInput = useRef(null);
   const { documents: thesequestions } = useCollection('questions');
+  const [ifExist, setIfExist] = useState(false);
+  const [alreadExisting, setalreadyExisting] = useState(null);
 
-  // const { postData } = useFetch('http://localhost:3000/data', 'POST');
   const { addDocument, response } = useFiresotre('questions');
-  const { authIsReady, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   // const { progress, imgUrl, error } = useAddImage(thumbnail);
   //const { person, setPerson } = useState(null);
+  // const navigate = useNavigate();
+
+  //Checking if  movie already exist
+  useEffect(() => {
+    if (thesequestions && question) {
+      const fileExist = thesequestions.filter((que) =>
+        que.question.includes(question)
+      );
+      setalreadyExisting(fileExist);
+    }
+    if (alreadExisting && alreadExisting.length > 0) {
+      setIfExist(true);
+      console.log(alreadExisting);
+    }
+  }, [thesequestions, question]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,19 +65,22 @@ export default function Addquestion() {
       return;
     }
     if (questionImgUrl) {
-      addDocument({ person, question, option, correctAnswer, questionImgUrl });
+      addDocument({
+        person,
+        question,
+        option,
+        correctAnswer,
+        questionImgUrl,
+      });
     } else {
-      addDocument({ person, question, option, correctAnswer });
+      addDocument({
+        person,
+        question,
+        option,
+        correctAnswer,
+      });
     }
 
-    /* let ref = collection(db, 'questions');
-    const createdAt = Timestamp.fromDate(new Date());
-    myquestions.forEach((question) => {
-      addDoc(ref, { ...question, createdAt });
-      //addDocument(question);
-    }); */
-
-    //console.log(question, option, correctAnswer);
     resetFields();
   };
 
@@ -126,7 +145,7 @@ export default function Addquestion() {
   };
 
   // console.log(questionImgUrl);
-  console.log(thumbnail, response.document);
+  //console.log(thumbnail, response.document);
 
   return (
     <Container>
@@ -136,6 +155,11 @@ export default function Addquestion() {
         </div>
 
         <form className="form-container" onSubmit={handleSubmit}>
+          {alreadExisting && alreadExisting.length > 0 && (
+            <p style={{ color: 'red' }}>
+              Question may alreay exist &nbsp;{alreadExisting[0].question}
+            </p>
+          )}
           <span>Question:</span>
           <textarea
             type="text"
@@ -146,7 +170,7 @@ export default function Addquestion() {
 
           <br />
 
-          <span>Add Image:</span>
+          {/*  <span>Add Image:</span>
           <span>
             <button onClick={(e) => setAddImage(true)}>
               <AiOutlinePlus />
@@ -159,7 +183,7 @@ export default function Addquestion() {
               accept="image/*"
               required
             />
-          )}
+          )} */}
 
           {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 
@@ -176,6 +200,10 @@ export default function Addquestion() {
           <button onClick={addOptions}>
             <AiOutlinePlus />
           </button>
+          {option &&
+            option.map((opt) => {
+              return <span className="genre">{opt},&nbsp;</span>;
+            })}
 
           <br />
 

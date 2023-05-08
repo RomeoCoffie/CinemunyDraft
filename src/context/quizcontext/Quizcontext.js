@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+/* import React, { useState, useEffect, createContext, useContext } from 'react';
 //import { useNavigate } from 'react-router-dom';
 //import useFetch from '../../Hooks/useFetch';
 import { useCollection } from '../../Hooks/useCollection';
@@ -110,11 +110,7 @@ const QuizContextProvider = ({ children }) => {
     }
 
     try {
-      /* getDocs(ref).then((snapshot) => {
-        let results = [];
-        snapshot.docs.forEach((doc) => {
-          results.push({ id: doc.id, ...doc.data() });
-        }); */
+     
       // setMyQuestions(getShuffledArr(thesequestions));
       if (difficultyLevel === 'average' || difficultyLevel === 'guru') {
         if (!user) {
@@ -256,3 +252,4 @@ const QuizContextProvider = ({ children }) => {
 };
 
 export { QuizContextProvider, QuizContext };
+ */

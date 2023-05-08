@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react';
-import { useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //import { db } from '../../components/firebase/config';
-import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
-import { useCollection } from '../../Hooks/useCollection';
+import { Timestamp } from 'firebase/firestore';
 import { useFiresotre } from '../../Hooks/useFirestore';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { getDownloadURL, ref } from '@firebase/storage';
@@ -11,6 +10,7 @@ import { uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../components/firebase/config';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { urlPatterns } from '../../data/datalinks';
+import { useCollection } from '../../Hooks/useCollection';
 
 import './addshow.css';
 
@@ -40,23 +40,27 @@ export default function Addshow() {
   const inputClear = useRef(null);
   const [youtubeLinkError, setyoutubeLinkError] = useState(null);
   const [trailer, setTrailer] = useState(null);
-  const [contentIndex, setContentIndex] = useState(null);
-  /* const [newDirector, setNewDirector] = useState();
-   const [genre, setGenre] = useState([]);
-   
-   
-   const optionsInput = useRef(null);
- 
-  
-  const [question, setQuestion] = useState();
-  const [option, setOption] = useState([]);
-  const [newOption, setNewOption] = useState();
-  const [correctAnswer, setCorrectAnswer] = useState(); */
-  //const { documents: shows } = useCollection('shows');
+  const [contentIndex, setContentIndex] = useState([]);
+  const [newKeyword, setNewKeyword] = useState(null);
+  const keywordInput = useRef(null);
+  const { addDocument } = useFiresotre('shows');
+  const { documents: shows } = useCollection('shows');
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [ifExist, setIfExist] = useState(false);
+  const [alreadExisting, setalreadyExisting] = useState(null);
 
-  const { addDocument, response } = useFiresotre('shows');
-  const { authIsReady, user } = useContext(AuthContext);
-  //const { person, setPerson } = useState(null);
+  //Checking if  movie already exist
+  useEffect(() => {
+    if (shows && title) {
+      const fileExist = shows.filter((show) => show.title === title);
+      setalreadyExisting(fileExist);
+    }
+    if (alreadExisting && alreadExisting.length > 0) {
+      setIfExist(true);
+      console.log(alreadExisting);
+    }
+  }, [shows, title]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,14 +69,13 @@ export default function Addshow() {
     setyoutubeLinkError(null);
     const createdAt = Timestamp.fromDate(new Date());
 
-    /* if (!rating < 10 || !rating > 1) {
-      setInputError('rating must be between 1-10');
-      return;
-    }
- */
-
     console.log(movieImgUrl);
     if (movieImgUrl) {
+      if (rating > 10 || rating < 1) {
+        setInputError('rating must be between 1-10');
+        return;
+      }
+
       if (!trailer || !trailer.match(urlPatterns.youtube)) {
         setyoutubeLinkError('Enter Valid Youtube url');
         return;
@@ -131,13 +134,25 @@ export default function Addshow() {
   //handle cast input
   const addGenre = (e, setGenre) => {
     e.preventDefault();
-    const ops = newGenre.trim();
+    const ops = newGenre.trim().toLowerCase();
 
     if (ops && !genre.includes(ops)) {
       setGenre((prevOption) => [...prevOption, ops]);
     }
     setNewGenre('');
     genreInput.current.focus();
+  };
+
+  //Handle Keywords input
+  const addKeywords = (e) => {
+    e.preventDefault();
+    const ops = newKeyword.trim().toLowerCase();
+
+    if (ops && !contentIndex.includes(ops)) {
+      setContentIndex((prevOption) => [...prevOption, ops]);
+    }
+    setNewKeyword('');
+    keywordInput.current.focus();
   };
 
   //handle image upload if question has an image
@@ -210,13 +225,12 @@ export default function Addshow() {
     setGenre('');
 
     setTrailer('');
-    setContentIndex('');
 
     inputClear.current.value = '';
+    navigate('/tvshows');
   };
 
   // console.log(questionImgUrl);
-  console.log(thumbnail);
 
   //Getting documents from firebase collection
   // useEffect(() => {
@@ -242,6 +256,13 @@ export default function Addshow() {
       <div></div>
       <form className="form-container" onSubmit={handleSubmit}>
         {inputError && <p style={{ color: 'red' }}>{inputError}</p>}
+        {alreadExisting && alreadExisting.length > 0 && (
+          <p style={{ color: 'red' }}>
+            show may already exist&nbsp;{alreadExisting[0].title} and
+            starring&nbsp;
+            {(alreadExisting[0].cast[0], alreadExisting[0].cast[1])}
+          </p>
+        )}
 
         <span>Title:</span>
         <input
@@ -348,7 +369,6 @@ export default function Addshow() {
               type="number"
               onChange={(e) => setEndYear(e.target.value)}
               value={endYear}
-              required
             />
           </div>
         )}
@@ -364,21 +384,39 @@ export default function Addshow() {
           }}
           value={trailer}
         />
+
         <span>Keywords:</span>
+
         <input
           type="text"
-          onChange={(e) => setContentIndex(e.target.value)}
-          value={contentIndex}
-          required
+          className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
+          onChange={(e) => setNewKeyword(e.target.value)}
+          value={newKeyword}
+          ref={keywordInput}
         />
-        <span>Add Image:</span>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          accept="image/*"
-          required
-          ref={inputClear}
-        />
+        <button onClick={addKeywords}>
+          <AiOutlinePlus />
+        </button>
+        {contentIndex &&
+          contentIndex.map((indi) => {
+            return <span className="genre">{indi},&nbsp;</span>;
+          })}
+
+        {title && desc && contentIndex.length > 1 && (
+          <div>
+            <span>Add Image:</span>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              required
+              ref={inputClear}
+            />
+            {progress && (
+              <span style={{ color: 'red' }}>progress: &nbsp;{progress}%</span>
+            )}
+          </div>
+        )}
 
         {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 

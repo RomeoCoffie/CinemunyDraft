@@ -7,7 +7,7 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore';
-import { async } from '@firebase/util';
+//import { async } from '@firebase/util';
 
 let initialState = {
   document: null,
@@ -68,8 +68,9 @@ export const useFiresotre = (c) => {
         type: 'ADDED_DOCUMENT',
         payload: addedDocument.id,
       });
+      setTheDocment(addedDocument.id);
 
-      console.log(addedDocument.id, theDocument);
+      // console.log(addedDocument.id, theDocument);
     } catch (error) {
       dispatchIfNotCancelled({ type: 'ERROR' });
     }

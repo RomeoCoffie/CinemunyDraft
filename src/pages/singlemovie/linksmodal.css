@@ -40,13 +40,54 @@
   margin-right: auto;
 }
 
-.urlscontainer a {
+.urlscontainer {
   display: inline-block;
   color: red;
   border: 0.15rem solid black;
   padding: 0.25rem 0.5rem;
-  width: 35%;
-  background: yellow;
+  width: 100%;
+  justify-content: center;
+  background: cornflowerblue;
+  border-radius: 0.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0.7rem;
+}
+.get-movie {
+  width: 100%;
+  justify-content: center;
+
+  border-radius: 0.3rem;
+}
+.get-movie-div {
+  width: 100%;
+  justify-content: center;
+  background: green;
+  border-radius: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border: 0.15rem solid black;
+  font-weight: bold;
+}
+
+.links-anchor {
+  display: inline-block;
+  color: red;
+  border: 0.15rem solid black;
+  padding: 0.25rem 0.5rem;
+  width: 50%;
+  background: cornflowerblue;
+  border-radius: 0.3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.links-li {
+  display: inline-block;
+  color: red;
+  border: 0.15rem solid black;
+  padding: 0.25rem 0.5rem;
+  width: 50%;
+  background: cornflowerblue;
   border-radius: 0.3rem;
   font-weight: bold;
   cursor: pointer;
@@ -62,7 +103,7 @@
   border-color: transparent;
   padding: 0.25rem 0.5rem;
   display: block;
-  width: 35%;
+  width: 100%;
   margin-left: auto;
   margin-top: 2rem;
   text-transform: capitalize;

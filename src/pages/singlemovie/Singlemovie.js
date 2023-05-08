@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { GoStar } from 'react-icons/go';
-import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { arrayUnion, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { db } from '../../components/firebase/config';
 import { AuthContext } from '../../context/authcontext/AuthContext';
-import { useCollection } from '../../Hooks/useCollection';
+//import { useCollection } from '../../Hooks/useCollection';
 import { useFiresotre } from '../../Hooks/useFirestore';
 import { urlPatterns } from '../../data/datalinks';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './Singlemovie.css';
 import Linksmodal from './Linksmodal';
-const url = 'http://localhost:3000/films/';
+//const url = 'http://localhost:3000/films/';
 
 export default function Singlemovie() {
   const { id } = useParams();
@@ -26,7 +26,7 @@ export default function Singlemovie() {
   const docRef = doc(db, 'movies', id);
   const { user } = useContext(AuthContext);
 
-  const { deleteDocument, response } = useFiresotre('movies');
+  const { deleteDocument } = useFiresotre('movies');
   const {
     handleRating,
     showRating,
@@ -41,7 +41,8 @@ export default function Singlemovie() {
 
   const [loading, setLoading] = useState(false);
   const [film, setFilm] = useState(null);
-  const [ifmaRates, setIfmaRates] = useState(null);
+  const [yourRate, setYourRate] = useState(null);
+  //const [ifmaRates, setIfmaRates] = useState(null);
   const [netflixLink, setNetflixLink] = useState(null);
   const [amazonLink, setAmazonLink] = useState(null);
   const [disneyLink, setDisneyLink] = useState(null);
@@ -148,7 +149,7 @@ export default function Singlemovie() {
     setLoading(true);
 
     getDoc(docRef).then((doc) => {
-      if (doc.data().movieLinks) {
+      if (doc.data() && doc.data().movieLinks) {
         setTheLinks(Object.entries(doc.data().movieLinks));
       }
 
@@ -164,6 +165,7 @@ export default function Singlemovie() {
 
         if (alreadyRated.length > 0) {
           setShowRating(false);
+          setYourRate(alreadyRated);
         } else {
           setShowRating(true);
         }
@@ -173,9 +175,15 @@ export default function Singlemovie() {
 
   return (
     <section className="singleshow-container">
-      <Container>
+      <Container key={Math.random()} sx={{ marginTop: 11 }}>
         {film && (
-          <Grid container sx={{ marginBottom: 11, backgroundColor: 'white' }}>
+          <Grid
+            container
+            sx={{
+              marginBottom: 11,
+              backgroundColor: 'white',
+            }}
+          >
             <Grid item xs={11} sm={11} md={6}>
               {showRating && (
                 <div className="rate-this">
@@ -212,6 +220,12 @@ export default function Singlemovie() {
                   </Button>
                 </div>
               )}
+
+              {!showRating && yourRate && yourRate.length > 0 && (
+                <Typography color="text.secondary">
+                  You rating: {yourRate[0].ourRate}
+                </Typography>
+              )}
             </Grid>
 
             <Grid item xs={11} sm={11} md={5}>
@@ -220,48 +234,60 @@ export default function Singlemovie() {
               </div>
             </Grid>
             <Grid item xs={11} sm={11} md={6}>
-              <p>
-                <span className="keys">year:&nbsp;</span>
+              <div className="movie-details">
+                <span className="keys">Title:&nbsp;</span>
                 <span>
                   {film.title}&nbsp; ({film.year} )
                 </span>
-              </p>
 
-              <p>
-                <span className="keys plot">plot:&nbsp;</span>
-                {film.desc}
-              </p>
-              <p>
+                <Typography color="text.secondary">
+                  {/* <span className="keys plot">plot:&nbsp;</span> */}
+                  {film.desc}
+                </Typography>
+
                 <span className="keys">rating:&nbsp;</span>
                 <span className="values">
-                  {film.rating} <GoStar style={{ color: 'crimson' }} />
+                  {film.rating}{' '}
+                  <GoStar
+                    style={{
+                      color: 'crimson',
+                    }}
+                  />
                 </span>
-              </p>
 
-              <p>
                 <span className="keys">genre:</span>
 
-                {film.genre.map((type) => {
-                  return <span className="values"> {type},</span>;
-                })}
-              </p>
-              <p className="actors">
-                <span className="keys">cast:</span>
-
-                {film.cast.map((actor) => {
+                {film.genre.map((type, index) => {
                   return (
-                    <span span className="values">
-                      {actor},
+                    <span className="values" key={index}>
+                      {type},
                     </span>
                   );
                 })}
-              </p>
-              <p>
+
+                <p className="actors">
+                  <span className="keys">cast:</span>
+
+                  {film.cast.map((actor, index) => {
+                    return (
+                      <span key={index} className="values">
+                        {actor},
+                      </span>
+                    );
+                  })}
+                </p>
+                {/*  <p>
                 <span className="keys">trailer:&nbsp;</span>
                 <a className="trailer" href={film.trailer}>
                   watch
                 </a>
-              </p>
+              </p> */}
+                <button className="available">
+                  <a className="trailer" href={film.trailer}>
+                    watch
+                  </a>
+                </button>
+              </div>
             </Grid>
             <Grid item xs={11} sm={11} md={5}></Grid>
 
@@ -276,11 +302,14 @@ export default function Singlemovie() {
               </div>
             </Grid>
             <Grid item xs={11} sm={11} md={6}>
-              {user && !addLinks && (
+              {user && user.admin && !addLinks && (
                 <div className="addlinks">
                   <div>
                     <Button
-                      sx={{ marginLeft: 5, marginBottom: 3 }}
+                      sx={{
+                        marginLeft: 5,
+                        marginBottom: 3,
+                      }}
                       variant="contained"
                       onClick={() => setAddLinks(true)}
                     >
@@ -289,7 +318,9 @@ export default function Singlemovie() {
                   </div>
                   <div>
                     <Button
-                      sx={{ marginLeft: 5 }}
+                      sx={{
+                        marginLeft: 5,
+                      }}
                       variant="contained"
                       onClick={() => {
                         deleteDocument(id);
@@ -390,13 +421,19 @@ export default function Singlemovie() {
                       /* ref={castInput} */
                     />
                   )}
-                  <Button
-                    sx={{ marginLeft: 5, marginBottom: 5 }}
-                    variant="contained"
-                    onClick={addmovieLinks}
-                  >
-                    Add
-                  </Button>
+
+                  {user && user.admin && (
+                    <Button
+                      sx={{
+                        marginLeft: 5,
+                        marginBottom: 5,
+                      }}
+                      variant="contained"
+                      onClick={addmovieLinks}
+                    >
+                      Add
+                    </Button>
+                  )}
 
                   {/*  <button onClick={addmovieLinks}>add</button> */}
                 </div>
@@ -409,6 +446,7 @@ export default function Singlemovie() {
             theLinks={theLinks}
             showLinksModal={showLinksModal}
             setShowLinksModal={setShowLinksModal}
+            film={film}
           />
         )}
       </Container>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthContext } from './context/authcontext/AuthContext';
 import { Helmet } from 'react-helmet';
@@ -15,6 +15,7 @@ import Signup from './pages/Signup/signup';
 import './App.css';
 import Singlemovie from './pages/singlemovie/Singlemovie';
 import Proroutes from './pages/protectedroutes/proroutes';
+import Prosuperadmin from './pages/protectedroutes/prosuperadmin';
 import Addmovie from './pages/addmovie/Addmovie';
 import Addshow from './pages/addshow/addshow';
 import Addquestion from './pages/filmquiz/addquestions';
@@ -26,6 +27,8 @@ import Singleshow from './pages/singleshow/Singleshow';
 import Adminpage from './pages/admin/admin';
 import Userform from './pages/profile/userform';
 import Userpage from './pages/profile/userpage';
+import Users from './pages/profile/users';
+import SingleUser from './pages/profile/singleUser';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -63,6 +66,24 @@ function App() {
                   element={
                     <Proroutes user={user}>
                       <Adminpage />
+                    </Proroutes>
+                  }
+                />
+
+                <Route
+                  path="users"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <Users />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="users/:id"
+                  element={
+                    <Proroutes user={user}>
+                      <SingleUser />
                     </Proroutes>
                   }
                 />

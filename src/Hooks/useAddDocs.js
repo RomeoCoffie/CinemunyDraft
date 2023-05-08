@@ -1,13 +1,7 @@
-import { useReducer, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { db } from '../components/firebase/config';
-import {
-  Timestamp,
-  collection,
-  addDoc,
-  doc,
-  deleteDoc,
-} from 'firebase/firestore';
-import { async } from '@firebase/util';
+import { Timestamp, collection, addDoc } from 'firebase/firestore';
+//import { async } from '@firebase/util';
 
 export const useAddDocs = (c) => {
   const [response, setResonpse] = useState(null);
@@ -30,11 +24,12 @@ export const useAddDocs = (c) => {
     setIsPending(true);
     try {
       const createdAt = Timestamp.fromDate(new Date());
-      // const addedDocument = await addDoc(ref, { ...doc, createdAt });
+      const addedDocument = await addDoc(ref, { ...doc, createdAt });
+      setResonpse(addedDocument);
 
-      addDoc(ref, { ...doc, createdAt }).then((docRef) => {
+      /* addDoc(ref, { ...doc, createdAt }).then((docRef) => {
         setResonpse(docRef.id);
-      });
+      }); */
 
       if (!isCancelled) {
         setIsPending(false);
@@ -49,8 +44,6 @@ export const useAddDocs = (c) => {
       console.log(error);
     }
   };
-
-  console.log(response);
 
   useEffect(() => {
     return () => setIsCancelled(true);

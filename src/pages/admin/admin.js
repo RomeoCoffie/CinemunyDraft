@@ -7,7 +7,7 @@ import { AuthContext } from '../../context/authcontext/AuthContext';
 import './admin.css';
 
 export default function Adminpage() {
-  const [userEmail, setUserEmail] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
   const { user } = useContext(AuthContext);
 
   const makeAdmin = () => {
@@ -54,6 +54,9 @@ export default function Adminpage() {
         </div>
         <div className="admin-btn">
           <Link to="/addquestion">Add Question</Link>
+        </div>
+        <div className="admin-btn">
+          <Link to="/users">users</Link>
         </div>
       </Container>
     </main>

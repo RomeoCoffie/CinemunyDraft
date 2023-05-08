@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../components/firebase/config';
+import { useCollection } from '../../Hooks/useCollection';
 
 export const AuthContext = createContext();
 
@@ -23,6 +24,7 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
     authIsReady: false,
   });
+  const { documents: users } = useCollection('users', ['createdAt', 'desc']);
 
   // fires a function immediately to instantly  check with firebase whether a user is login or not
 
@@ -47,7 +49,7 @@ export const AuthContextProvider = ({ children }) => {
   console.log('AutContext', state);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ ...state, dispatch, users }}>
       {children}
     </AuthContext.Provider>
   );

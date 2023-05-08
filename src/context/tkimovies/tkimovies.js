@@ -1,18 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 //import { useFetch } from '../../Hooks/useFetch';
-import { useNavigate } from 'react-router-dom';
-
 import { indices, showDices } from '../../data/datalinks';
-import {
-  arrayRemove,
-  doc,
-  getDoc,
-  updateDoc,
-  getDocs,
-  collection,
-  Timestamp,
-  arrayUnion,
-} from 'firebase/firestore';
+import { updateDoc, Timestamp, arrayUnion } from 'firebase/firestore';
 import { useCollection } from '../../Hooks/useCollection';
 //import { db } from '../../components/firebase/config';
 import { AuthContext } from '../authcontext/AuthContext';
@@ -23,78 +12,152 @@ const TkimoviesContext = createContext();
 //Provider, Consumer -TkimoviesContext.Provider
 
 const TkimoviesProvider = ({ children }) => {
+  //resources from firebase
   const { documents: news } = useCollection('Posts', ['createdAt', 'desc']);
-  const { documents: content } = useCollection('movies', ['createdAt', 'desc']);
+  const { documents: movies } = useCollection('movies', ['createdAt', 'desc']);
   const { documents: shows } = useCollection('shows', ['createdAt', 'desc']);
   const { documents: users } = useCollection('users', ['createdAt', 'desc']);
+  const { documents: commentss } = useCollection('comments', [
+    'createdAt',
+    'asc',
+  ]);
   const { user } = useContext(AuthContext);
+  //variables for this context
   const [waiting, setWaiting] = useState(true);
   const [Loading, setLoading] = useState(false);
-  const [movieIndex, setMovieIndex] = useState([]); //indexof films category
-  const [films, setFilms] = useState([]);
+  const [movieIndex, setMovieIndex] = useState(null); //indexof films category
+  const [showIndex, setShowIndex] = useState(null); //indexof films category
+  //const [films, setFilms] = useState([]);
   const [posts, setPosts] = useState(null);
   //const [ifmaRates, setIfmaRates] = useState(null);
   const [addLinks, setAddLinks] = useState(false);
   const [rating, setRating] = useState(0);
-
+  //const [commentss, setCommentss] = useState(null);
   const [theShows, setTheShows] = useState([]);
   const [theUsers, setTheUsers] = useState([]);
   const [showLinksModal, setShowLinksModal] = useState(false);
   const [filteredMovies, setFilteredMovies] = useState(null);
-  const [filteredShows, setFilteredShows] = useState(null);
+  const [activePage, setActivePage] = useState(null);
+  //const [filteredShows, setFilteredShows] = useState(null);
   const [showRating, setShowRating] = useState(false);
+  //search functionality variables
+  const [searchFilmText, setSearchFilmText] = useState('');
+  const [searchSeriesText, setSearchSeriesText] = useState('');
+  const [searcResults, setSearchResults] = useState(null);
+  const [badSearch, setBadSearch] = useState('');
+
+  //handlesearch click
+  const handleSearch = () => {
+    setBadSearch('');
+    if (searchFilmText && searchFilmText.length > 0 && movies) {
+      setSearchResults(
+        movies.filter((film) =>
+          film.title.toLowerCase().includes(searchFilmText.toLowerCase())
+        )
+      );
+    } else {
+      console.log('No such film was found');
+    }
+
+    if (searchSeriesText && shows) {
+      setSearchResults(
+        shows.filter((show) =>
+          show.title.toLowerCase().includes(searchSeriesText.toLowerCase())
+        )
+      );
+    } else {
+      console.log('No such film was found');
+    }
+  };
+
+  //console.log(searcResults);
 
   useEffect(() => {
-    if (content) {
-      const results = content.filter((doc) => doc.contentType === 'movie');
-      setFilteredMovies(results);
-
-      /* const results2 = content.filter((doc) => doc.contentType === 'series');
-      setTheShows(results2); */
+    //Checking if there is a search
+    if (
+      searcResults &&
+      searcResults.length > 0 &&
+      window.location.href.includes('movie')
+    ) {
+      setFilteredMovies(searcResults);
+      setSearchFilmText('');
     }
-    if (shows) {
+    if (
+      searcResults &&
+      searcResults.length < 1 &&
+      window.location.href.includes('movie')
+    ) {
+      setBadSearch('Film Not Found');
+    }
+
+    if (
+      searcResults &&
+      searcResults.length > 1 &&
+      window.location.href.includes('tvshow')
+    ) {
+      setTheShows(searcResults);
+      setSearchSeriesText('');
+    }
+    if (
+      searcResults &&
+      searcResults.length < 1 &&
+      window.location.href.includes('tvshow')
+    ) {
+      setBadSearch('Series Not Found');
+    }
+
+    return () => {
+      setSearchResults(null);
+    };
+  }, [searchFilmText, searchSeriesText, searcResults]);
+
+  //fetching resources
+  useEffect(() => {
+    setBadSearch(null);
+    if (movies && !searcResults) {
+      setFilteredMovies(movies);
+    }
+    if (shows && !searcResults) {
       setTheShows(shows);
     }
     if (users) {
       setTheUsers(users);
     }
-    /* setLoading(true);
-    setWaiting(false);
-    const ref = collection(db, 'movies');
 
-    try {
-      getDocs(ref).then((snapshot) => {
-        let results = [];
-        snapshot.docs.forEach((doc) => {
-          results.push({ id: doc.id, ...doc.data() });
-        });
-        setMyFilms(results);
-        setLoading(false);
-        setWaiting(false);
-      });
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      setWaiting(true);
-    } */
-    console.log(content, filteredMovies);
+    console.log(movies, filteredMovies);
 
     //if sidebar button or index is activated by user
-    if (movieIndex && content) {
-      const results = content.filter((doc) => doc.contentType === 'movie');
-      console.log(results, movieIndex);
+    if (movieIndex && movies) {
+      /* const results = content.filter((doc) => doc.contentType === 'movie');
+      console.log(results, movieIndex); */
 
       setFilteredMovies(
-        results.filter((film) => film.contentIndex.includes(movieIndex))
+        movies.filter(
+          (film) =>
+            film.contentIndex.includes(movieIndex) ||
+            film.genre.includes(movieIndex)
+        )
       );
+      console.log(filteredMovies);
     }
 
-    if (movieIndex && shows) {
+    /* if (comments) {
+      setCommentss(comments);
+    } */
+  }, [movieIndex, movies, showIndex]);
+
+  //filtering shows in by keywords
+  useEffect(() => {
+    if (showIndex && shows) {
       setTheShows(
-        shows.filter((show) => show.contentIndex.includes(movieIndex))
+        shows.filter(
+          (show) =>
+            show.contentIndex.includes(showIndex) ||
+            show.genre.includes(showIndex)
+        )
       );
     }
-  }, [movieIndex, content]);
+  }, [showIndex]);
 
   //IFMA ratings by IFMA followers
   const handleRating = (theRef) => {
@@ -123,7 +186,6 @@ const TkimoviesProvider = ({ children }) => {
   return (
     <TkimoviesContext.Provider
       value={{
-        films,
         movieIndex,
         setMovieIndex,
         indices,
@@ -135,7 +197,6 @@ const TkimoviesProvider = ({ children }) => {
         showLinksModal,
         setShowLinksModal,
         filteredMovies,
-        theShows,
         handleRating,
         showRating,
         setShowRating,
@@ -144,6 +205,18 @@ const TkimoviesProvider = ({ children }) => {
         users,
         rating,
         setRating,
+        movies,
+        handleSearch,
+        searchFilmText,
+        setSearchFilmText,
+        searchSeriesText,
+        setSearchSeriesText,
+        badSearch,
+        commentss,
+        showIndex,
+        setShowIndex,
+        activePage,
+        setActivePage,
       }}
     >
       {children}

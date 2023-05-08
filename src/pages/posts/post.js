@@ -1,51 +1,49 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import Youtubeplayer from './youtubeplayer';
 import { arrayUnion, Timestamp, updateDoc, doc } from 'firebase/firestore';
-import { db } from '../../components/firebase/config';
-import { Container } from '@mui/system';
 //import { doc, updateDoc } from 'firebase/firestore';
+
+//MUI stuff
 import { useFiresotre } from '../../Hooks/useFirestore';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
-import { red } from '@mui/material/colors';
 import formatDistanceToNow from 'date-fns/esm/formatDistanceToNow/index.js';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CommentIcon from '@mui/icons-material/Comment';
-
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useCollection } from '../../Hooks/useCollection';
-
+import { Card, CardContent } from '@mui/material';
+//import { useCollection } from '../../Hooks/useCollection';
 import { makeStyles } from '@mui/styles';
-
-import { Helmet } from 'react-helmet';
-import Headtags from '../../components/Headtags';
-import Comments from './comments';
-import Commentsmodal from './commentsmodal';
-import { Card, CardContent, Grid } from '@mui/material';
 import {
   FacebookShareButton,
   WhatsappShareButton,
-  TwitterShareButton,
+  //TwitterShareButton,
   FacebookIcon,
   WhatsappIcon,
-  TwitterIcon,
+  //TwitterIcon,
 } from 'react-share';
+
+//SwiperJS stuff
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react.js';
-
 // Styles must use direct files imports
 import 'swiper/swiper.scss'; // core Swiper
 import 'swiper/modules/navigation/navigation.scss'; // Navigation module
 import 'swiper/modules/pagination/pagination.scss'; // Pagination module
+
+//components & Hooks
+import { Helmet } from 'react-helmet';
+import Headtags from '../../components/Headtags';
+//import Comments from './comments';
+import Commentsmodal from './commentsmodal';
+import { useAddDocs } from '../../Hooks/useAddDocs';
+import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
+import { db } from '../../components/firebase/config';
+
 import './post.css';
 
 const useStyles = makeStyles({
@@ -56,26 +54,12 @@ const useStyles = makeStyles({
 
     paddingTop: '100%',
   },
-  swiperContainer: {
-    height: 'auto',
-    objectFit: 'cover !important',
-    width: '100% !important',
-    maxWidth: 'none !important',
-    paddingBottom: 3,
-    '& .swiper-pagination-bullet': {
-      background: 'blue',
-    },
-    '& .swiper-button-next:after': {
-      fontSize: 3,
-    },
-    '& .swiper-button-prev:after': {
-      fontSize: 13,
-    },
+  swiper: {
+    maxWidth: '100%',
+    width: '100%',
+    height: '100%',
   },
 });
-//import { deleteDoc } from 'firebase/firestore';
-
-//import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 export default function Post({
   description,
@@ -89,18 +73,24 @@ export default function Post({
   user,
   id,
   likes,
-  comments,
 }) {
   const [index, setIndex] = useState(0);
   const [readMore, setReadMore] = useState(false);
+  const [descLength, setDescLength] = useState(null);
+  //const [longrShort, setLongrShort] = useState(false);
   const [showComment, setShowComment] = useState(false);
-  const [newComment, setNewComment] = useState(null);
-  const { deleteDocument, response } = useFiresotre('Posts');
+  const [newComment, setNewComment] = useState('');
+  const [inputError, setInputError] = useState(null);
+  const { deleteDocument } = useFiresotre('Posts');
+  const [theComments, setTheComments] = useState(null);
   const { media, swiperContainer } = useStyles();
-  const { documents: users } = useCollection('users');
+  const { addDocument, response } = useAddDocs('comments');
+  const { commentss } = useContext(TkimoviesContext);
+  // const { documents: users } = useCollection('users');
 
   const theRef = doc(db, 'Posts', id);
   const navigate = useNavigate();
+  const postComments = useRef(theComments).current;
 
   //permission to see comments
   const seeComments = () => {
@@ -113,74 +103,61 @@ export default function Post({
     }
   };
 
-  //adding comments
-  const addComment = () => {
-    if (user) {
-      const person = user.uid;
-      const commentId = `${Math.random()},${person}`;
+  useEffect(() => {
+    if (commentss) {
+      setTheComments(commentss.filter((coment) => coment.postId === id));
+    }
+    if (description) {
+      setDescLength(description.length);
+    }
+  }, [postComments, response, commentss]);
 
-      const commentToAdd = {
-        createdAt: Timestamp.fromDate(new Date()),
-        content: newComment,
-        user: user.uid,
-        display: user.displayName,
-        img: user.photoURL,
-        commId: commentId,
-      };
-      updateDoc(theRef, {
-        comments: arrayUnion(commentToAdd),
-      });
-      console.log(commentToAdd);
-      //setShowComment(false);
+  //Checks desciption length and sets readmore to true/false
+  /* if (descLength && descLength > 200) {
+    setLongrShort(true);
+  } */
+  /* 
+  if (theComments || descLength) {
+    console.log(theComments);
+  } */
+
+  //Add Comments
+  const addComment = async (e) => {
+    e.preventDefault();
+    if (user) {
+      if (newComment) {
+        await addDocument({
+          createdAt: Timestamp.fromDate(new Date()),
+          content: newComment,
+          user: user.uid,
+          display: user.displayName,
+          photoURL: user.photoURL,
+          postId: id,
+        });
+        //incase comments modal isn't opened
+        if (!showComment) {
+          setShowComment(true);
+        }
+      } else {
+        setInputError('you must input a comment');
+        console.log(inputError);
+      }
     } else {
       navigate('/login');
       console.log('login to comment');
     }
+    console.log(response);
   };
 
-  //slidding images
-  const checkNumber = (number) => {
-    if (number > postImgUrl.length - 1) {
-      return 0;
+  //resetting addcomment textfield
+  useEffect(() => {
+    if (response) {
+      console.log(response);
+      setNewComment('');
     }
-    if (number < 0) {
-      return postImgUrl.length - 1;
-    }
-    return number;
-  };
-  const nextImage = () => {
-    setIndex((index) => {
-      let newIndex = index + 1;
-      return checkNumber(newIndex);
-    });
-  };
-  const prevImage = () => {
-    setIndex((index) => {
-      let newIndex = index - 1;
-      return checkNumber(newIndex);
-    });
-  };
+  }, [response]);
 
-  /*   useEffect(() => {
-    if (comments || likes) {
-      setNumOfComments(comments.length);
-      setNumOfLikes(likes.length);
-    }
-  }, []); */
-
-  //delete post
-  /*  const deletePost = async (id) => {
-    const ref = doc(db, 'Posts', id);
-    console.log(ref);
-
-    try {
-      await deleteDoc(ref);
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
-
-  // Likes
+  // Adding Likes
   const handleLike = () => {
     if (user) {
       console.log(id);
@@ -212,15 +189,24 @@ export default function Post({
         postTilte={postTilte}
         copyright={copyright}
         createdAt={createdAt}
+        addComment={addComment}
+        handleLike={handleLike}
+        theComments={theComments}
+        seeComments={seeComments}
+        id={id}
+        user={user}
+        likes={likes}
       />
     );
   }
 
   return (
     <main className="post-main">
-      <Headtags postImgUrl={postImgUrl[0]} description={description}></Headtags>
+      <Headtags description={description} postTilte={postTilte}></Headtags>
       <Helmet>
-        <meta property="og:image" key="og:image" content={postImgUrl[0]} />
+        {postImgUrl && (
+          <meta property="og:image" key="og:image" content={postImgUrl[0]} />
+        )}
         <meta property="og:type" content="article" />
         <meta property="og:title" name={postTilte} />
         <meta property="og:description" description={description} />
@@ -245,33 +231,59 @@ export default function Post({
             )
           }
           title={copyright}
-          subheader={formatDistanceToNow(createdAt.toDate(), {
+          subheader={
+            <span style={{ fontSize: 12, marginBottom: 0, marginTop: 0 }}>
+              {formatDistanceToNow(createdAt.toDate(), {
+                addSuffix: true,
+              })}
+            </span>
+          }
+          /* subheader={formatDistanceToNow(createdAt.toDate(), {
             addSuffix: true,
-          })}
+          })} */
         />
 
         <CardContent>
-          <Typography variant="body" color="text.primary">
-            {description}
+          {postTilte && (
+            <Typography
+              sx={{ textDecoration: 'underline', fontStyle: 'italic' }}
+              variant="h6"
+            >
+              {postTilte}
+            </Typography>
+          )}
+          <Typography
+            onClick={() => setReadMore(true)}
+            // variant="body"
+            color="text.primary"
+          >
+            {readMore ? description : `${description.substring(0, 200)}`}
           </Typography>
+          {!readMore && descLength > 200 && <h3>...</h3>}
         </CardContent>
 
         {/*  displays images in a swiper*/}
-        <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          /*  onSwiper={(swiper) => console.log(swiper)}
+        <div className="swiper-container">
+          <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            className="swiper-container"
+
+            /*  onSwiper={(swiper) => console.log(swiper)}
           onSlideChange={() => console.log('slide change')} */
-          /* className={swiperContainer} */
-        >
-          {postImgUrl.map((image, index) => (
-            <SwiperSlide key={index}>
-              <img className="postimage" src={image} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            /* className={swiperContainer} */
+          >
+            {postImgUrl.map((image, index) => (
+              <SwiperSlide key={index}>
+                <div className="image-div">
+                  <img className="postimage" src={image} />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
         {/* Bottom of Postcard */}
 
@@ -305,11 +317,15 @@ export default function Post({
               </IconButton>
             </div>
           )}
+          {theComments && (
+            <>
+              <IconButton onClick={seeComments}>
+                {theComments.length || 0}
+                <CommentIcon />
+              </IconButton>
+            </>
+          )}
 
-          <IconButton onClick={seeComments}>
-            {comments.length}
-            <CommentIcon />
-          </IconButton>
           <div className="facebook">
             <FacebookShareButton
               url={postImgUrl[index]}
@@ -332,17 +348,16 @@ export default function Post({
           </div>
         </CardActions>
       </Card>
-      {comments.length === 0 && (
-        <form className="add-comment" onSubmit={addComment}>
-          <label>
-            <textarea
-              required
-              onChange={(e) => setNewComment(e.target.value)}
-            ></textarea>
-            <button className="addbtn">add</button>
-          </label>
-        </form>
-      )}
+
+      <form className="add-comment" onSubmit={addComment}>
+        <label>
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          ></textarea>
+          <button className="addbtn">comment</button>
+        </label>
+      </form>
 
       {/*  Comments Section */}
       {showComment && user && (
@@ -352,10 +367,11 @@ export default function Post({
             id={id}
             setShowComment={setShowComment}
             showComment={showComment}
-            comments={comments}
+            theComments={theComments}
             newComment={newComment}
             setNewComment={setNewComment}
             addComment={addComment}
+            response={response}
           />
         </>
       )}

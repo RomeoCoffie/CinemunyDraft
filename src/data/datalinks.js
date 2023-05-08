@@ -101,105 +101,130 @@ export const indices = [
     text: 'Most anticipated movies',
     index: 'most anticipated',
   },
-  /* {
+  {
     id: 2,
-    text: 'Best Movies of 2022',
-    index: '2022',
-  }, */
+    text: 'Best Movies ',
+    index: 'best',
+  },
 
   {
     id: 3,
     text: 'Greatest Movies',
-    index: 'great',
+    index: 'greatest',
   },
 
   {
     id: 4,
     text: 'Romantic Movies',
-    index: 'romantic',
+    index: 'romance',
   },
   {
     id: 5,
+    text: 'Golden Age classics',
+    index: 'golden',
+  },
+  {
+    id: 6,
     text: 'Animations',
     index: 'animation',
   },
   {
-    id: 6,
-    text: 'Sci-fi Movies',
-    index: 'best, scifi',
+    id: 7,
+    text: 'Best of Marvel',
+    index: 'marvel',
   },
   {
-    id: 7,
+    id: 8,
+    text: 'Best of DC',
+    index: 'dc',
+  },
+  {
+    id: 9,
+    text: 'Classic Nollywood',
+    index: 'old',
+  },
+  {
+    id: 10,
+    text: 'Sci-fi Movies',
+    index: 'scifi',
+  },
+  {
+    id: 11,
     text: 'Classics',
     index: 'classics',
   },
   {
-    id: 24,
+    id: 12,
     text: 'Action Movies',
     index: 'action',
   },
   {
-    id: 8,
+    id: 13,
     text: 'Teen Movies',
-    index: 'Teen and High school',
+    index: 'teen and high school',
   },
   {
-    id: 9,
-    text: 'Adventure/Fantasy Movies',
-    index: 'Adventure',
+    id: 14,
+    text: 'Epic/Adventure/Fantasy Movies',
+    index: 'adventure',
   },
 
   {
-    id: 10,
+    id: 15,
     text: ' Inspirational Movies',
     index: 'inspirational',
   },
 
   {
-    id: 11,
-    text: 'Spy and Mystery movies',
-    index: 'Spy detective, mystery',
-  },
-  {
-    id: 12,
-    text: 'Crying Movies',
-    index: 'Cry',
-  },
-  {
-    id: 13,
-    text: 'Comedy Movies',
-    index: 'laugh',
-  },
-  {
-    id: 14,
-    text: 'Afro American Movies',
-    index: 'Black American',
-  },
-  {
-    id: 15,
-    text: 'Nostalgia',
-    index: 'Nostalgia',
-  },
-  {
     id: 16,
+    text: 'Spy and Mystery movies',
+    index: 'spy,detective, mystery',
+  },
+  {
+    id: 17,
+    text: 'Crying Movies',
+    index: 'cry',
+  },
+  {
+    id: 18,
+    text: 'Comedy Movies',
+    index: 'comedy',
+  },
+  {
+    id: 19,
+    text: 'Afro American Movies',
+    index: 'black american',
+  },
+  {
+    id: 20,
+    text: 'Nostalgia',
+    index: 'nostalgia',
+  },
+  {
+    id: 21,
     text: 'Korean Movies',
     index: 'Korean',
   },
   {
-    id: 17,
+    id: 22,
     text: 'Bollywood Movies',
-    index: 'Bollywood',
+    index: 'bollywood',
   },
   {
-    id: 18,
+    id: 23,
     text: ' African Cinema',
-    index: 'African, nollywood ',
+    index: 'african, nollywood ',
   },
 
   {
-    id: 20,
+    id: 24,
     text: 'Documentaries',
-    index: 'Documentary',
+    index: 'documentary',
+  },
+  {
+    id: 25,
+    text: 'Intelligent Movies',
+    index: 'intelligent',
   } /* ,
   {s
     id: 21,
@@ -236,67 +261,72 @@ export const showDices = [
   },
   {
     id: 4,
+    text: 'Best Marvel  Shows',
+    index: 'marvel',
+  },
+  {
+    id: 5,
     text: 'Best Shows on Netflix',
     index: 'netflix',
   },
   {
-    id: 5,
+    id: 6,
     text: 'Best Shows on HBO',
     index: 'hbo',
   },
   {
-    id: 6,
-    text: 'Best Romantic Tv Shows',
-    index: 'hulu',
-  },
-  {
     id: 7,
-    text: 'Must Watch Shows on Amazon Prime',
-    index: 'amazon',
+    text: 'Best Romantic Tv Shows',
+    index: 'romance',
   },
   {
     id: 8,
+    text: 'Best Shows on Amazon Prime',
+    index: 'amazon',
+  },
+  {
+    id: 9,
     text: 'Best Shows on Apple Plus',
     index: 'netflix',
   },
   {
-    id: 9,
-    text: 'Best Shows on Disney Plus',
+    id: 10,
+    text: 'Top Shows on Disney Plus',
     index: 'disney',
   },
   {
-    id: 10,
-    text: 'Best Documentaries To Watch ',
+    id: 11,
+    text: 'Best Documentaries ',
     index: 'action',
   },
   {
-    id: 11,
+    id: 12,
     text: 'Best Sci-Fi Tv Shows ',
-    index: 'sci-fi',
+    index: 'scifi',
   },
   {
-    id: 12,
+    id: 13,
     text: 'Best Action Tv Shows ',
     index: 'action',
   },
 
   {
-    id: 13,
+    id: 14,
     text: 'Best African Tv Shows ',
-    index: 'afro',
+    index: 'african',
   },
   {
-    id: 14,
+    id: 15,
     text: 'Best Bollywood Tv Shows ',
     index: 'bollywood',
   },
   {
-    id: 15,
+    id: 16,
     text: 'Best Korean Tv Shows ',
     index: 'korean',
   },
   {
-    id: 16,
+    id: 17,
     text: 'Best Shows on Hulu',
     index: 'hulu',
   },

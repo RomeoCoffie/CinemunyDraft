@@ -7,15 +7,19 @@
 }
 
 .quizheading {
-  margin: 3rem auto;
+  margin: 3.5rem auto;
+  align-items: center;
+  vertical-align: center;
+  justify-content: center;
+  width: 90%;
 }
 .setupform {
   margin: 0 auto;
 }
 
 .setup {
-  margin-top: 0rem;
-  margin-bottom: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
 }
 
 .words {

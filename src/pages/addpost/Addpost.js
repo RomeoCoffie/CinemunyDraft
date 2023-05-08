@@ -1,74 +1,98 @@
-import React, { useContext, useEffect } from 'react';
-import { useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 //import useFetch from '../../Hooks/useFetch';
 import { db } from '../../components/firebase/config';
 import { updateDoc, doc } from 'firebase/firestore';
-import { useCollection } from '../../Hooks/useCollection';
-//import { useFiresotre } from '../../Hooks/useFirestore';
-import { useAddDocs } from '../../Hooks/useAddDocs';
-import { useUpdateDoc } from '../../Hooks/useUpdateDoc';
-
+//import { useAddDocs } from '../../Hooks/useAddDocs';
+import { useFiresotre } from '../../Hooks/useFirestore';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { storage } from '../../components/firebase/config';
-import { getDownloadURL, ref, getStorage } from '@firebase/storage';
-
-import './addpost.css';
-import { uploadBytesResumable, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref } from '@firebase/storage';
+import { uploadBytesResumable } from 'firebase/storage';
 import { urlPatterns } from '../../data/datalinks';
-import { async } from '@firebase/util';
+
+//addpost Styles
+import './addpost.css';
 
 export default function Addpost() {
-  const [postTilte, setPostTitle] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [postTilte, setPostTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [postType, setPostType] = useState('images');
   const [postImgUrl, setPostImgUrl] = useState(null);
   const [postImges, setPostImges] = useState([]);
   const [source, setSource] = useState('');
-  const [copyright, setCopyright] = useState(null);
+  const [copyright, setCopyright] = useState('');
   const [youTubeLink, setYouTubeLink] = useState(null);
   const [groupThumbnail, setGroupThumbnail] = useState(null);
   const [thumbnailError, setThumbnailError] = useState(null);
   const [inputError, setInputError] = useState(null);
   const [grpLinkError, setGrpLinkError] = useState(null);
-  const [comments, setComments] = useState([]);
+  //const [comments, setComments] = useState([]);
+  // const [theDocumment, setTheDocument] = useState(null);
   // const [progress, setProgress] = useState(null);
-  const optionsInput = useRef(null);
+  // const optionsInput = useRef(null);
   //const { documents: Groups } = useCollection('Groups');
-  const { addDocument, response } = useAddDocs('Posts');
-  const { authIsReady, user } = useContext(AuthContext);
+  //const { addDocument, response } = useAddDocs('Posts');
+  const { addDocument, theDocument } = useFiresotre('Posts');
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setYouTubeLink(null);
     setGrpLinkError(null);
+    setInputError(null);
     let person = user.uid;
 
     if (youTubeLink) {
-      if (youTubeLink.match(urlPatterns.youtube)) {
-        setPostImgUrl(youTubeLink);
-        await addDocument({
-          postTilte,
-          description,
-          source,
-          youTubeLink,
-          copyright,
-          person,
-          postType,
-          comments,
-        });
-
-        navigate('/');
-      } else {
-        setYouTubeLink('Please Enter a Valid Link');
-        setGrpLinkError('Please Enter a Valid Link');
+      if (!youTubeLink.match(urlPatterns.youtube)) {
+        setInputError('invalid YouTube Link');
+        return;
       }
+      //setPostImgUrl(youTubeLink);
+      if (!postTilte && !description) {
+        setInputError('you must enter film title & description');
+        return;
+      }
+      addDocument({
+        postTilte,
+        description,
+        source,
+        youTubeLink,
+        copyright,
+        person,
+        postType,
+      });
+
+      navigate('/');
+    }
+
+    if (
+      !postTilte.length === 0 ||
+      !description.length === 0 ||
+      !copyright.length === 0
+    ) {
+      setInputError('input error, kindly check all fields');
+      console.log(inputError);
       return;
     }
 
-    if (postTilte || description) {
-      await addDocument({
+    addDocument({
+      postTilte,
+      description,
+      source,
+      postImgUrl,
+      copyright,
+      person,
+      postType,
+    });
+
+    /*  if (
+      !postTilte.length === 0 ||
+      !description.length === 0 ||
+      !source.length === 0
+    ) {
+      addDocument({
         postTilte,
         description,
         source,
@@ -76,12 +100,11 @@ export default function Addpost() {
         copyright,
         person,
         postType,
-        comments,
       });
     } else {
       setInputError('input error, kindly check all fields');
       console.log(inputError);
-    }
+    } */
   };
 
   //handle image upload if question has an image
@@ -112,7 +135,7 @@ export default function Addpost() {
   };
 
   useEffect(() => {
-    console.log(postImges);
+    //console.log(postImges);
     if (postImges.length > 10) {
       setThumbnailError('you can only add upto 10 images ');
 
@@ -151,7 +174,7 @@ export default function Addpost() {
 
         console.log(image);
         promises.push(storageUpload); //to get reponses
-        const updatingRef = doc(db, 'Posts', response);
+        const updatingRef = doc(db, 'Posts', theDocument);
         const posturls = [];
 
         const imageRes = await Promise.all(promises); //updating the post with
@@ -171,6 +194,13 @@ export default function Addpost() {
     });
   }, [postImges]);
 
+  //resetting addcomment textfield
+  useEffect(() => {
+    if (theDocument) {
+      console.log(theDocument);
+    }
+  }, [theDocument]);
+
   //reseting fields after submission
   const resetFields = () => {
     setPostTitle('');
@@ -181,12 +211,11 @@ export default function Addpost() {
 
     //inputClear.current.value = '';
   };
-  console.log(postImges, postImgUrl, response);
+  //console.log(postImges, postImgUrl, response);
 
   return (
     <section className="post-main">
       <main className="post-main">
-        {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
         <h3 className="group-head">Add Post</h3>
         <form className="form-container" onSubmit={handleSubmit}>
           <br />
@@ -220,8 +249,9 @@ export default function Addpost() {
               <option value="audio">podcast</option>
             </select>
           </div>
+          {inputError && <span style={{ color: 'red' }}>{inputError}</span>}
 
-          <span>Copyright:</span>
+          <span>Source:</span>
           <input
             type="text"
             onChange={(e) => setCopyright(e.target.value)}
@@ -229,31 +259,31 @@ export default function Addpost() {
           />
           <span>Link To:</span>
           <input
+            value={source}
             className={`${grpLinkError ? 'invalid-link' : 'valid-link'}`}
             type="text"
             onChange={(e) => {
               setSource(e.target.value);
             }}
-            value={source}
           />
 
           {postType === 'trailer' && (
             <div>
               <span>Youtube:</span>
               <input
+                value={youTubeLink}
                 className={`${grpLinkError ? 'invalid-link' : 'valid-link'}`}
                 type="text"
                 onChange={(e) => {
                   setYouTubeLink(e.target.value);
                 }}
-                value={youTubeLink}
               />
             </div>
           )}
 
           {thumbnailError && <p style={{ color: 'red' }}>{thumbnailError}</p>}
 
-          {response && postType === 'images' && (
+          {theDocument && postType === 'images' && (
             <div className="grpimg">
               <span className="addimg">Add Image:</span>
               <input
@@ -266,9 +296,9 @@ export default function Addpost() {
             </div>
           )}
 
-          {!response && <button className="btn">submit</button>}
+          {!theDocument && <button className="btn">continue</button>}
 
-          {response && (
+          {theDocument && (
             <button onClick={resetFields} className="submit-btn ">
               Done
             </button>

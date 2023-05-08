@@ -46,6 +46,7 @@ tvshows styles
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-top: 0.3rem;
 }
 .show-head h2 {
   align-items: center;
@@ -75,11 +76,15 @@ tvshows styles
   transition: all 0.1s linear;
 }
 
-.tvshow li img {
+/* .tvshow li img {
   width: 100%;
   height: 11rem;
   max-height: 70%;
   margin: 0.3 auto;
+} */
+
+.show-poster {
+  max-width: 100%;
 }
 
 .tvshow-footer {
@@ -103,7 +108,7 @@ Responsive design
 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 ======
 */
-@media screen and (max-width: 900px) {
+/* @media screen and (max-width: 900px) {
   .movie li img {
     width: 40%;
     width: 9rem;
@@ -162,3 +167,4 @@ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-column: span 3;
   }
 }
+ */

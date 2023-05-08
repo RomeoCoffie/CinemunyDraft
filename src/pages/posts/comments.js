@@ -1,80 +1,61 @@
-import React from 'react';
-import { useState } from 'react';
-
+import React, { Fragment, useState } from 'react';
 import formatDistanceToNow from 'date-fns/esm/formatDistanceToNow/index.js';
 import {
-  deleteDoc,
+  //deleteDoc,
   updateDoc,
-  deleteField,
+  //deleteField,
   doc,
-  arrayRemove,
-  arrayUnion,
-  Timestamp,
-  FieldValue,
+  //arrayRemove,
+  //arrayUnion,
+  //Timestamp,
+  //FieldValue,
 } from 'firebase/firestore';
+//import { useAddDocs } from '../../Hooks/useAddDocs';
 //import { useFiresotre } from '../../Hooks/useFirestore';
 import { db } from '../../components/firebase/config';
-import { useCollection } from '../../Hooks/useCollection';
+//import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
+//import { useCollection } from '../../Hooks/useCollection';
+import { useFiresotre } from '../../Hooks/useFirestore';
 import { useNavigate } from 'react-router-dom';
-import Container from '@mui/material/Container';
+//MUI Stuff
+import { Grid, Typography, Link } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import './comments.css';
 
 export default function Comments({
   id,
   user,
-  setShowComment,
+  /* setShowComment,
   showComment,
-  comments,
+  comments, */
+  theComments,
 }) {
   const [edittComment, setEdittComment] = useState(null);
   const [isEditing, setIsEditting] = useState(false);
   const [theComment, setTheComment] = useState(null);
+  //const [theUser, setTheUser] = useState(null); //stores the user who made the comment
+  // const [theCommenter, setTheCommenter] = useState(); //stores the id of the commenter
+  const { deleteDocument } = useFiresotre('comments');
+  //const { documents: users } = useCollection('users'); //get users snapshot from firebase
+  const url =
+    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
+  //const currentUser = useRef();
+
   const person = user.uid;
-  const { documents: content } = useCollection('Posts');
-  // const { deleteDocument, response } = useFiresotre('Posts');
+  // const { addDocument, response } = useAddDocs('comments');
+
   const navigate = useNavigate();
 
-  const deleteComment = async (id, commId) => {
-    //delete the comment from memory
+  //editing comments
+  const editComment = (theComment) => {
     if (user) {
-      const ref = doc(db, 'Posts', id);
-      const commentNotDeleted = comments.filter((comment) => {
-        return comment.commId != commId;
-      });
-      console.log(commentNotDeleted);
-
-      //update firebase
-
-      try {
-        await updateDoc(ref, {
-          comments: commentNotDeleted,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      navigate('/login');
-    }
-  };
-
-  //ing comments
-  const editComment = () => {
-    if (user) {
-      const editRef = doc(db, 'Posts', id);
-
-      const commentToEdit = {
-        createdAt: Timestamp.fromDate(new Date()),
-        content: edittComment,
-        user: user.uid,
-        display: user.displayName,
-        img: user.photoURL,
-        commId: theComment.commId,
-      };
+      const editRef = doc(db, 'comments', theComment);
 
       try {
         updateDoc(editRef, {
-          comments: arrayUnion(commentToEdit),
+          content: edittComment,
         });
       } catch (error) {
         console.log(error);
@@ -87,79 +68,99 @@ export default function Comments({
 
   return (
     <div>
-      <Container>
-        {user && isEditing && (
-          <div>
-            <textarea
-              required
-              value={edittComment}
-              onChange={(e) => setEdittComment(e.target.value)}
-            ></textarea>
-            <button onClick={editComment} className="addbtn">
-              Edit
-            </button>
-          </div>
-        )}
-        <ul>
-          {comments.length > 0 &&
-            comments.map((comment) => {
-              const { content, commId, display, user, createdAt } = comment;
+      {user && isEditing && (
+        <div>
+          {/* EditComment Function is Called here, intial edit button sets the parameters to be edited */}
+          <textarea
+            required
+            value={edittComment}
+            onChange={(e) => setEdittComment(e.target.value)}
+          ></textarea>
+          <button onClick={() => editComment(theComment)} className="addbtn">
+            Edit
+          </button>
+        </div>
+      )}
+      {theComments &&
+        theComments.map((comment) => {
+          const {
+            id,
+            content,
+            // postId,
+            display,
+            photoURL,
+            createdAt,
+            user,
+          } = comment;
 
-              return (
-                <Container>
-                  <div>
-                    <li key={commId}>
-                      <div className="comment">
-                        <p
-                          className="dispname"
-                          style={{ marginTop: 0, fontWeight: 'bold' }}
-                        >
-                          {display}
-                        </p>
-                        <div className="comment-section">
-                          <p>{content}</p>
-                          <div className="comment-content">
-                            {user && person === user && (
-                              <button
-                                onClick={() => deleteComment(id, commId)}
-                                className="del-comm"
-                              >
-                                X
-                              </button>
-                            )}
-                            {user && person === user && (
-                              <button
-                                onClick={() => {
-                                  setIsEditting(true);
-                                  setEdittComment(content);
-                                  setTheComment(comment);
-                                  deleteComment(id, commId);
-                                }}
-                                className="edit-comm"
-                              >
-                                edit
-                              </button>
-                            )}
-                            {comment && (
-                              <p
-                                className="comment-time"
-                                style={{ fontSize: 10 }}
-                              >
-                                {formatDistanceToNow(createdAt.toDate(), {
-                                  addSuffix: true,
-                                })}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+          return (
+            <Fragment key={createdAt}>
+              <Grid item sm={12}>
+                <Grid item sm={2} component={Link} sx={{ marginLeft: 0 }}>
+                  {photoURL && (
+                    <div>
+                      <img
+                        src={photoURL}
+                        alt={display}
+                        className="comm-img"
+                        onClick={() => navigate(`/users/${user}`)}
+                      />
+                    </div>
+                  )}
+                  {!photoURL && (
+                    <div>
+                      <img
+                        src={url}
+                        alt={display}
+                        className="comm-img"
+                        onClick={() => navigate(`/users/${user}`)}
+                      />
+                    </div>
+                  )}
+
+                  <div className="comment-content">
+                    {user && person === user && (
+                      <IconButton
+                        onClick={() => deleteDocument(id)}
+                        aria-label="delcomnt"
+                      >
+                        <DeleteIcon sx={{ fontSize: 15, color: 'brown' }} />
+                      </IconButton>
+                    )}
+                    {/* {user && person === user && (
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          setIsEditting(true);
+                          setEdittComment(content);
+                          setTheComment(id);
+                        }}
+                        className="edit-comm"
+                      >
+                        edit
+                      </button>
+                    )} */}
                   </div>
-                </Container>
-              );
-            })}
-        </ul>
-      </Container>
+                </Grid>
+                <Grid>
+                  <div key={id}>
+                    <a href={`/users/${user}`} style={{ color: 'blue' }}>
+                      {display}
+                    </a>
+
+                    <Typography variant="body2" color="textSecondary">
+                      {formatDistanceToNow(createdAt.toDate(), {
+                        addSuffix: true,
+                      })}
+                    </Typography>
+                    <Typography variant="body1">{content}</Typography>
+                  </div>
+                </Grid>
+              </Grid>
+              <hr className="horizon" />
+            </Fragment>
+          );
+        })}
     </div>
   );
 }

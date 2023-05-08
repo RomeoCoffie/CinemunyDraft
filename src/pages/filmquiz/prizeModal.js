@@ -13,11 +13,11 @@ export default function Prizemodal({ showPrizeModal, setShowPrizeModal }) {
     >
       <section className="modal-content">
         <div className="prizes">
-          <p> Average:</p>
+          <p style={{ color: 'black' }}> Average:</p>
           <GoStar style={{ color: 'crimson' }} />
         </div>
         <div className="prizes">
-          <p> Beyond Average:</p>
+          <p style={{ color: 'black' }}> Beyond Average:</p>
           <GoStar style={{ color: 'crimson' }} />
           <GoStar style={{ color: 'crimson' }} />
         </div>
@@ -28,7 +28,7 @@ export default function Prizemodal({ showPrizeModal, setShowPrizeModal }) {
           <GoStar style={{ color: 'crimson' }} />
           <GoStar style={{ color: 'crimson' }} />
         </div>
-        <img src="/img/capb.png" className="prize-img" />
+        <img src="/img/capb.png" alt="pricehat" className="prize-img" />
 
         <div>
           <p> Guru</p>
@@ -38,8 +38,8 @@ export default function Prizemodal({ showPrizeModal, setShowPrizeModal }) {
           <GoStar style={{ color: 'crimson' }} />
           <GoStar style={{ color: 'crimson' }} />
         </div>
-        <img src="/img/capb.png" className="prize-img" />
-        <img src="/img/mcrb.jpg" className="prize-img" />
+        <img src="/img/capb.png" alt="prizehat" className="prize-img" />
+        <img src="/img/mcrb.jpg" alt="shirt" className="prize-img" />
 
         <button className="close-btn" onClick={() => setShowPrizeModal(false)}>
           ok

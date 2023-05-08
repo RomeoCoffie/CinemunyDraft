@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { auth } from '../components/firebase/config';
 import { AuthContext } from '../context/authcontext/AuthContext';

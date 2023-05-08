@@ -73,7 +73,7 @@ p > span {
 
 div img {
   width: 70%;
-  border: 0.3rem solid crimson;
+  /*   border: 0.3rem solid crimson; */
   margin: 1rem auto;
   object-fit: contain;
 }

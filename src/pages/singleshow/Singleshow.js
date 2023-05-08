@@ -39,7 +39,7 @@ export default function Singleshow() {
     rating,
     setRating,
   } = useContext(TkimoviesContext);
-  const { deleteDocument, response } = useFiresotre('shows');
+  const { deleteDocument } = useFiresotre('shows');
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -56,7 +56,8 @@ export default function Singleshow() {
   const [wowLink, setWowLink] = useState(null);
   const [linkType, setLinkType] = useState('tkimovies');
   const [theLinks, setTheLinks] = useState(null);
-  const [timeLine, setTimeLine] = useState(null);
+  const contentType = 'show';
+  //const [timeLine, setTimeLine] = useState(null);
 
   //const { data, error, ispending } = useFetch(`${url}${id}`);
   // const { title, img, year, rating, genre, cast, trailer, description } = show;
@@ -181,7 +182,7 @@ export default function Singleshow() {
 
   return (
     <section className="singleshow-container">
-      <Container>
+      <Container sx={{ marginTop: 11 }}>
         {show && (
           <Grid container sx={{ marginBottom: 11, backgroundColor: 'white' }}>
             <Grid item xs={11} sm={11} md={6}>
@@ -218,13 +219,6 @@ export default function Singleshow() {
                   >
                     submit
                   </Button>
-
-                  {/*  <button
-                    onClick={() => handleRating(theRef)}
-                    className="rating-btn"
-                  >
-                    submit
-                  </button> */}
                 </div>
               )}
             </Grid>
@@ -278,16 +272,21 @@ export default function Singleshow() {
               <p>
                 <span className="keys">genre:</span>
 
-                {show.genre.map((type) => {
-                  return <span className="values"> {type},</span>;
+                {show.genre.map((type, index) => {
+                  return (
+                    <span key={index} className="values">
+                      {' '}
+                      {type},
+                    </span>
+                  );
                 })}
               </p>
               <p className="actors">
                 <span className="keys">cast:</span>
 
-                {show.cast.map((actor) => {
+                {show.cast.map((actor, index) => {
                   return (
-                    <span span className="values">
+                    <span key={index} className="values">
                       {actor},
                     </span>
                   );
@@ -333,7 +332,7 @@ export default function Singleshow() {
                         navigate('/tvshows');
                       }}
                     >
-                      Delete Movie
+                      Delete Series
                     </Button>
                   </div>
                 </div>
@@ -446,6 +445,7 @@ export default function Singleshow() {
             theLinks={theLinks}
             showLinksModal={showLinksModal}
             setShowLinksModal={setShowLinksModal}
+            contentType={contentType}
           />
         )}
       </Container>

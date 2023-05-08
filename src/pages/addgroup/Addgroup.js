@@ -18,17 +18,17 @@ import { uploadBytesResumable } from 'firebase/storage';
 import { urlPatterns } from '../../data/datalinks';
 
 export default function Addgroup() {
-  const [grpName, setGrpName] = useState();
-  const [about, setAbout] = useState();
+  const [grpName, setGrpName] = useState(null);
+  const [about, setAbout] = useState(null);
   const [category, setCategory] = useState('movies');
   const [groupImgUrl, setGroupImgUrl] = useState(null);
   const [groupLink, setGroupLink] = useState('');
-  const [platform, setPlatform] = useState(null);
+  const [platform, setPlatform] = useState('whatsapp');
   const [ppleOnline, setPpleOnline] = useState(150);
   const [groupThumbnail, setGroupThumbnail] = useState(null);
   const [thumbnailError, setThumbnailError] = useState(null);
   const [grpLinkError, setGrpLinkError] = useState(null);
-  const [showAddImage, setShowAddImage] = useState(false);
+  //const [showAddImage, setShowAddImage] = useState(false);
   const [progress, setProgress] = useState(null);
   const optionsInput = useRef(null);
   //const { documents: Groups } = useCollection('Groups');
@@ -43,11 +43,20 @@ export default function Addgroup() {
     setGroupLink(null);
     setGrpLinkError(null);
     let person = user.uid;
-    if (
-      groupLink.match(urlPatterns.whatsapp) ||
-      groupLink.match(urlPatterns.telegram) ||
-      groupLink.match(urlPatterns.youtube)
-    ) {
+
+    if (platform === 'Telegram' && groupLink.match(urlPatterns.telegram)) {
+      setGroupLink('Please Enter a Valid Link');
+      setGrpLinkError('Please Enter a Valid Link');
+      return;
+    }
+
+    if (platform === 'whatsapp' && groupLink.match(urlPatterns.telegram)) {
+      setGroupLink('Please Enter a Valid Link');
+      setGrpLinkError('Please Enter a Valid Link');
+      return;
+    }
+
+    if (groupImgUrl) {
       await addDocument({
         grpName,
         about,
@@ -55,11 +64,11 @@ export default function Addgroup() {
         ppleOnline,
         person,
         groupLink,
+        groupImgUrl,
+        platform,
       });
-    } else {
-      setGroupLink('Please Enter a Valid Link');
-      setGrpLinkError('Please Enter a Valid Link');
     }
+    navigate('/groups');
 
     console.log(grpName, about, category, ppleOnline, person, response);
   };
@@ -68,7 +77,6 @@ export default function Addgroup() {
   const addOptions = (e) => {
     e.preventDefault();
     const ops = newOption.trim();
-
     if (ops && !option.includes(ops)) {
       setOption((prevOption) => [...prevOption, ops]);
     }
@@ -78,13 +86,13 @@ export default function Addgroup() {
 
   {
     /* <h3>Whatsapp sharing</h3>
-  
-    <a href=
+  
+    <a href=
 "whatsapp://send?text=GFG Example for whatsapp sharing"
-        data-action="share/whatsapp/share"
-        target="_blank">
-        Share to whatsapp
-    </a> */
+        data-action="share/whatsapp/share"
+        target="_blank">
+        Share to whatsapp
+    </a> */
   }
 
   //handle image upload if question has an image
@@ -99,7 +107,7 @@ export default function Addgroup() {
         return;
       }
 
-      if (selected.size > 500000) {
+      if (selected.size > 900000) {
         setThumbnailError('Selected file size must be less than 500kb');
         return;
       }
@@ -109,10 +117,16 @@ export default function Addgroup() {
       const metadata = {
         contentType: selected.type,
         customMetadata: {
-          name: response,
+          grpName: grpName,
+          // description: desc,
+          // year: year,
         },
       };
-      const storageRef = ref(storage, `/GroupsImgs/${selected.name}`);
+
+      const storageRef = ref(
+        storage,
+        `/GroupsImgs/${grpName}/${selected.name}`
+      );
       const storageUpload = uploadBytesResumable(
         storageRef,
         selected,
@@ -130,18 +144,13 @@ export default function Addgroup() {
         },
         (err) => console.log(err),
         () => {
-          const updatingRef = doc(db, 'Groups', response);
-
           getDownloadURL(storageUpload.snapshot.ref).then((url) => {
-            updateDoc(updatingRef, {
-              img: url,
-            });
             setGroupImgUrl(url);
+            console.log(url, groupImgUrl);
           });
         }
       );
     }
-    console.log(groupImgUrl);
 
     return;
   };
@@ -163,7 +172,6 @@ export default function Addgroup() {
       setTitle(thesequestions);
     } */
   /* const ref = collection(db, 'movies');
-
     getDocs(ref).then((snapshot) => {
       let results = [];
       snapshot.docs.forEach((doc) => {
@@ -240,7 +248,7 @@ export default function Addgroup() {
           >
             <option value="whatsapp">Whatsapp</option>
             <option value="telegram">Telegram</option>
-            <option value="facebook">Facebook</option>
+            {/* <option value="facebook">Facebook</option> */}
           </select>
 
           <br />
@@ -255,7 +263,7 @@ export default function Addgroup() {
             value={groupLink}
             required
           />
-          {response && (
+          {grpName && about && (
             <div className="grpimg">
               <span className="addimg">Add Image:</span>
               <input
@@ -264,16 +272,21 @@ export default function Addgroup() {
                 accept="image/*"
                 required
               />
+              {progress && (
+                <span style={{ color: 'red' }}>
+                  progress: &nbsp;{progress}%
+                </span>
+              )}
             </div>
           )}
 
-          <button className="btn">Next</button>
+          <button className="btn">submit</button>
 
-          {groupImgUrl && (
+          {/* {groupImgUrl && (
             <button onClick={resetFields} className="submit-btn ">
               submit
             </button>
-          )}
+          )} */}
         </form>
       </main>
     </section>

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { db } from '../components/firebase/config';
 import {
-  Timestamp,
-  collection,
+  //Timestamp,
+  //collection,
   updateDoc,
   doc,
-  deleteDoc,
+  //deleteDoc,
 } from 'firebase/firestore';
-import { async } from '@firebase/util';
+//import { async } from '@firebase/util';
 
 export const useUpdateDoc = (c, response) => {
   const [isCancelled, setIsCancelled] = useState(false);

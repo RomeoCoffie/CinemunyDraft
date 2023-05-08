@@ -16,7 +16,7 @@
   width: 5rem;
 }
 
-.form {
+.login-form {
   max-width: 100%;
   padding: 1rem;
   border: 0.3rem solid #212121;
@@ -24,6 +24,7 @@
   background-color: white;
   align-items: center;
   justify-content: center;
+  margin-top: 9rem;
 }
 .form-row {
   padding: 0.5rem;
@@ -44,7 +45,12 @@ input {
 }
 
 .form-input {
-  width: 70%;
+  font-size: 1em;
+  width: 90%;
+  padding: 0.3rem;
+  margin-left: 1rem;
+  background-color: white;
+  border: 0.3rem solid #212121;
 }
 
 .btn:hover {
