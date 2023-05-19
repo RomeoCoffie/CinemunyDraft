@@ -204,17 +204,24 @@ export default function Post({
     <main className="post-main">
       <Headtags description={description} postTilte={postTilte}></Headtags>
       <Helmet>
-        {postImgUrl && (
-          <meta property="og:image" key="og:image" content={postImgUrl[0]} />
-        )}
-        <meta property="og:type" content="article" />
-        <meta property="og:title" name={postTilte} />
-        <meta property="og:description" description={description} />
+        <meta property="og:type" content="website"></meta>
         <meta
-          name={postTilte}
-          key={postTilte || description}
-          content={postTilte || description}
+          property="og:url"
+          content="https://takling-movies.web.app/"
+        ></meta>
+
+        <meta property="og:type" content="article" />
+        <meta property="og:title" name={postTilte || description} />
+        <meta
+          property="og:description"
+          description={description || postTilte}
         />
+        {postImgUrl && <meta property="og:image" content={postImgUrl[0]} />}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        {postImgUrl && <meta property="og:image" content={postImgUrl[0]} />}
+        <meta property="og:image:width" content="400" />
+        <meta property="og:image:height" content="400" />
       </Helmet>
       <Card>
         <CardHeader
@@ -328,7 +335,7 @@ export default function Post({
 
           <div className="facebook">
             <FacebookShareButton
-              url={postImgUrl[index]}
+              url="https://takling-movies.web.app/"
               quote={postTilte || description}
               hashtag={description}
               className="facebook"
@@ -339,7 +346,7 @@ export default function Post({
             <ShareIcon />
 
             <WhatsappShareButton
-              url={postImgUrl[index]}
+              url="https://takling-movies.web.app/"
               quote={description}
               className="facebook"
             >

@@ -1,5 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Multiselect from 'multiselect-react-dropdown';
 
 //import { db } from '../../components/firebase/config';
 import { Timestamp } from 'firebase/firestore';
@@ -9,10 +10,11 @@ import { getDownloadURL, ref } from '@firebase/storage';
 import { uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../components/firebase/config';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { urlPatterns } from '../../data/datalinks';
+import { urlPatterns, genreList, keywordsListTv } from '../../data/datalinks';
 import { useCollection } from '../../Hooks/useCollection';
 
 import './addshow.css';
+import { Container } from '@mui/material';
 
 export default function Addshow() {
   const [title, setTitle] = useState(null);
@@ -249,7 +251,7 @@ export default function Addshow() {
   //}, [thesequestions]);
 
   return (
-    <main className="addmovie-section">
+    <Container sx={{ padding: 0, marginBottom: 15 }}>
       {/*  <main className="addmovie-main"> */}
       {/* <p className="salute">Hi,&nbsp;{user?.name}</p> */}
       <h3 className="title">Add Show</h3>
@@ -315,20 +317,12 @@ export default function Addshow() {
           })}
 
         <span>Genre:</span>
-        <input
-          type="text"
-          className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
-          onChange={(e) => setNewGenre(e.target.value)}
-          value={newGenre}
-          ref={genreInput}
+        <Multiselect
+          isObject={false}
+          onRemove={(e) => setGenre(e)}
+          onSelect={(e) => setGenre(e)}
+          options={genreList}
         />
-        <button onClick={(e) => addGenre(e, setGenre)}>
-          <AiOutlinePlus />
-        </button>
-        {genre &&
-          genre.map((gen) => {
-            return <span className="genre">{gen},&nbsp;</span>;
-          })}
 
         <span>Rating:</span>
         <input
@@ -386,21 +380,15 @@ export default function Addshow() {
         />
 
         <span>Keywords:</span>
-
-        <input
-          type="text"
-          className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
-          onChange={(e) => setNewKeyword(e.target.value)}
-          value={newKeyword}
-          ref={keywordInput}
+        <Multiselect
+          isObject={false}
+          selectedValues={[]}
+          /*  onKeyPressFn={(e) => console.log(e.target.value)} */
+          onRemove={(e) => setContentIndex(e)}
+          // onSearch={(e) => console.log(e.target.value)}
+          onSelect={(e) => setContentIndex(e)}
+          options={keywordsListTv}
         />
-        <button onClick={addKeywords}>
-          <AiOutlinePlus />
-        </button>
-        {contentIndex &&
-          contentIndex.map((indi) => {
-            return <span className="genre">{indi},&nbsp;</span>;
-          })}
 
         {title && desc && contentIndex.length > 1 && (
           <div>
@@ -425,6 +413,6 @@ export default function Addshow() {
         <button className="btn">submit</button>
       </form>
       {/* </main> */}
-    </main>
+    </Container>
   );
 }

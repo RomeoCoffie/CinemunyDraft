@@ -5,6 +5,7 @@ import { updateDoc, Timestamp, arrayUnion } from 'firebase/firestore';
 import { useCollection } from '../../Hooks/useCollection';
 //import { db } from '../../components/firebase/config';
 import { AuthContext } from '../authcontext/AuthContext';
+import { useAddDocs } from '../../Hooks/useAddDocs';
 //import { useNavigate } from 'react-router-dom';
 
 const TkimoviesContext = createContext();
@@ -21,12 +22,13 @@ const TkimoviesProvider = ({ children }) => {
     'createdAt',
     'asc',
   ]);
+  const { addDocument, response } = useAddDocs('ratings');
   const { user } = useContext(AuthContext);
   //variables for this context
   const [waiting, setWaiting] = useState(true);
   const [Loading, setLoading] = useState(false);
   const [movieIndex, setMovieIndex] = useState(null); //indexof films category
-  const [showIndex, setShowIndex] = useState(null); //indexof films category
+  const [showIndex, setShowIndex] = useState(null); //indexof shows category
   //const [films, setFilms] = useState([]);
   const [posts, setPosts] = useState(null);
   //const [ifmaRates, setIfmaRates] = useState(null);
@@ -160,21 +162,20 @@ const TkimoviesProvider = ({ children }) => {
   }, [showIndex]);
 
   //IFMA ratings by IFMA followers
-  const handleRating = (theRef) => {
+  const handleRating = async () => {
     if (user) {
       const rateId = `${Math.random()},${user.uid}`;
 
-      const ratingToAdd = {
+      await addDocument({
         createdAt: Timestamp.fromDate(new Date()),
         ourRate: rating,
         rater: user.uid,
         display: user.displayName,
         img: user.photoURL,
         ratingId: rateId,
-      };
-      updateDoc(theRef, {
-        ifmaRating: arrayUnion(ratingToAdd),
       });
+
+      console.log(response);
 
       setShowRating(false);
     } else {
@@ -182,6 +183,35 @@ const TkimoviesProvider = ({ children }) => {
       console.log('login to rate');
     }
   };
+
+  //editing comments
+  //Add Comments
+  /* const addComment = async (e) => {
+    e.preventDefault();
+    if (user) {
+      if (newComment) {
+        await addDocument({
+          createdAt: Timestamp.fromDate(new Date()),
+          content: newComment,
+          user: user.uid,
+          display: user.displayName,
+          photoURL: user.photoURL,
+          postId: id,
+        });
+        //incase comments modal isn't opened
+        if (!showComment) {
+          setShowComment(true);
+        }
+      } else {
+        setInputError('you must input a comment');
+        console.log(inputError);
+      }
+    } else {
+      navigate('/login');
+      console.log('login to comment');
+    }
+    console.log(response);
+  }; */
 
   return (
     <TkimoviesContext.Provider

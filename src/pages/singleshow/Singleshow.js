@@ -1,22 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GoStar } from 'react-icons/go';
-import {
-  arrayRemove,
-  doc,
-  getDoc,
-  updateDoc,
-  Timestamp,
-} from 'firebase/firestore';
+
+//Firebase imports
+import { doc, getDoc, updateDoc, Timestamp } from 'firebase/firestore';
+
+//Components & Hooks
 import { db } from '../../components/firebase/config';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { useFiresotre } from '../../Hooks/useFirestore';
+import { useCollection } from '../../Hooks/useCollection';
+import { useAddDocs } from '../../Hooks/useAddDocs';
 import { urlPatterns } from '../../data/datalinks';
 import Linksmodal from '../singlemovie/Linksmodal';
+//MUI Stuff
 import { Grid } from '@mui/material';
-
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
@@ -29,7 +28,7 @@ export default function Singleshow() {
   const theRef = doc(db, 'shows', id);
   const { user } = useContext(AuthContext);
   const {
-    handleRating,
+    //handleRating,
     showRating,
     setShowRating,
     addLinks,
@@ -57,40 +56,35 @@ export default function Singleshow() {
   const [linkType, setLinkType] = useState('tkimovies');
   const [theLinks, setTheLinks] = useState(null);
   const contentType = 'show';
+  const { addDocument, response } = useAddDocs('ratings');
+  const { documents: ratings } = useCollection('ratings');
+  const [theShowRatings, setTheShowRatings] = useState(null);
+  const [yourRate, setYourRate] = useState(null);
   //const [timeLine, setTimeLine] = useState(null);
 
   //const { data, error, ispending } = useFetch(`${url}${id}`);
   // const { title, img, year, rating, genre, cast, trailer, description } = show;
+  //IFMA ratings by IFMA followers
+  const handleRating = async () => {
+    if (user) {
+      await addDocument({
+        createdAt: Timestamp.fromDate(new Date()),
+        ourRate: rating,
+        title: show.title,
+        rater: user.uid,
+        display: user.displayName,
+        img: user.photoURL,
+        ratingId: id,
+      });
 
-  // get single movie and check if user already rated this movie or not
-  useEffect(() => {
-    setLoading(true);
+      console.log(response);
 
-    getDoc(theRef).then((doc) => {
-      if (doc.data() && doc.data().movieLinks) {
-        setTheLinks(Object.entries(doc.data().movieLinks));
-      } else {
-        console.log('no links');
-      }
-
-      setShow(doc.data());
-      //setTimeLine(doc.data().showStatus);
-      // console.log(theLinks);
-
-      if (user) {
-        const alreadyRated = doc.data().ifmaRating.filter((rate) => {
-          return rate.rater === user.uid;
-        });
-
-        if (alreadyRated && alreadyRated.length > 0) {
-          setShowRating(false);
-        } else {
-          setShowRating(true);
-        }
-        console.log(alreadyRated);
-      }
-    });
-  }, [id]);
+      setShowRating(false);
+    } else {
+      // navigate('/login'); use a modal
+      console.log('login to rate');
+    }
+  };
 
   //add movie links streams/downloads
   const addmovieLinks = async () => {
@@ -179,12 +173,52 @@ export default function Singleshow() {
 
     setAddLinks(false);
   };
+  // get single movie and check if user already rated this movie or not
+  useEffect(() => {
+    setLoading(true);
+
+    getDoc(theRef).then((doc) => {
+      if (doc.data() && doc.data().movieLinks) {
+        setTheLinks(Object.entries(doc.data().movieLinks));
+      }
+      setShow(doc.data());
+      console.log(theLinks);
+    });
+    //Filterout how many times this movie has been rated
+    if (ratings) {
+      setTheShowRatings(ratings.filter((rate) => rate.ratingId === id));
+    }
+  }, [id, ratings]);
+
+  //checks if user isalready part of the raters of this film
+  useEffect(() => {
+    if (theShowRatings) {
+      console.log(theShowRatings);
+      const alreadyRated = theShowRatings.filter(
+        (rate) => rate.rater === user.uid
+      );
+      console.log(alreadyRated);
+
+      if (alreadyRated.length > 0) {
+        setShowRating(false);
+        setYourRate(alreadyRated);
+      } else {
+        setShowRating(true);
+      }
+    }
+  }, [theShowRatings]);
 
   return (
     <section className="singleshow-container">
       <Container sx={{ marginTop: 11 }}>
         {show && (
-          <Grid container sx={{ marginBottom: 11, backgroundColor: 'white' }}>
+          <Grid
+            container
+            sx={{
+              marginBottom: 11,
+              backgroundColor: 'white',
+            }}
+          >
             <Grid item xs={11} sm={11} md={6}>
               {showRating && (
                 <div className="rate-this">
@@ -260,7 +294,12 @@ export default function Singleshow() {
               <p>
                 <span className="keys">rating:&nbsp;</span>
                 <span className="values">
-                  {show.rating} <GoStar style={{ color: 'crimson' }} />
+                  {show.rating}{' '}
+                  <GoStar
+                    style={{
+                      color: 'crimson',
+                    }}
+                  />
                 </span>
               </p>
 
@@ -316,7 +355,9 @@ export default function Singleshow() {
                 <div className="addlinks">
                   <div>
                     <Button
-                      sx={{ marginLeft: 5 }}
+                      sx={{
+                        marginLeft: 5,
+                      }}
                       variant="contained"
                       onClick={() => setAddLinks(true)}
                     >
@@ -325,7 +366,9 @@ export default function Singleshow() {
                   </div>
                   <div>
                     <Button
-                      sx={{ marginLeft: 5 }}
+                      sx={{
+                        marginLeft: 5,
+                      }}
                       variant="contained"
                       onClick={() => {
                         deleteDocument(id);

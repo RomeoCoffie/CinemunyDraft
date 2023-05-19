@@ -10,7 +10,6 @@ export default function Linksmodal({
   contentType,
   film,
 }) {
-  console.log('it ran', theLinks);
   return (
     <section
       className={`${

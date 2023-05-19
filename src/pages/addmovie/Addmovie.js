@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
+import Multiselect from 'multiselect-react-dropdown';
 //import useFetch from '../../Hooks/useFetch';
 //import { db } from '../../components/firebase/config';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +20,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import Container from '@mui/material/Container';
 //Resource
 import { urlPatterns } from '../../data/datalinks';
+import { genreList, keywordsList } from '../../data/datalinks';
 
 import './addmovie.css';
 
@@ -40,15 +42,15 @@ export default function Addmovie() {
   const [newOption, setNewOption] = useState();
   const [newCast, setNewCast] = useState(null);
   const [genre, setGenre] = useState([]);
-  const [newGenre, setNewGenre] = useState(null);
+  // const [newGenre, setNewGenre] = useState(null);
   const [ifmaRating, setIfmaRating] = useState([]);
-  const genreInput = useRef(null);
+  // const genreInput = useRef(null);
   const inputClear = useRef(null);
   const [youtubeLinkError, setyoutubeLinkError] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [contentIndex, setContentIndex] = useState([]);
-  const [newKeyword, setNewKeyword] = useState(null);
-  const keywordInput = useRef(null);
+  // const [newKeyword, setNewKeyword] = useState(null);
+  //const keywordInput = useRef(null);
   const [ifExist, setIfExist] = useState(false);
   const [alreadExisting, setalreadyExisting] = useState(null);
 
@@ -149,7 +151,7 @@ export default function Addmovie() {
   };
 
   //handle Genre input
-  const addGenre = (e, setGenre) => {
+  /* const addGenre = (e, setGenre) => {
     e.preventDefault();
     const ops = newGenre.trim().toLowerCase();
 
@@ -158,19 +160,7 @@ export default function Addmovie() {
     }
     setNewGenre('');
     genreInput.current.focus();
-  };
-
-  //Handle Keywords input
-  const addKeywords = (e) => {
-    e.preventDefault();
-    const ops = newKeyword.trim().toLowerCase();
-
-    if (ops && !contentIndex.includes(ops)) {
-      setContentIndex((prevOption) => [...prevOption, ops]);
-    }
-    setNewKeyword('');
-    keywordInput.current.focus();
-  };
+  }; */
 
   //handle movie poster upload
   const handleFileChange = (e) => {
@@ -265,7 +255,7 @@ export default function Addmovie() {
   //}, [thesequestions]);
 
   return (
-    <Container sx={{ padding: 0 }}>
+    <Container sx={{ padding: 0, marginBottom: 15 }}>
       <div>
         <h3 className="title">Add Film</h3>
       </div>
@@ -342,20 +332,12 @@ export default function Addmovie() {
             })}
 
           <span>Genre:</span>
-          <input
-            type="text"
-            className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
-            onChange={(e) => setNewGenre(e.target.value)}
-            value={newGenre}
-            ref={genreInput}
+          <Multiselect
+            isObject={false}
+            onRemove={(e) => setGenre(e)}
+            onSelect={(e) => setGenre(e)}
+            options={genreList}
           />
-          <button onClick={(e) => addGenre(e, setGenre)}>
-            <AiOutlinePlus />
-          </button>
-          {genre &&
-            genre.map((gen) => {
-              return <span className="genre">{gen},&nbsp;</span>;
-            })}
 
           <span>Rating:</span>
           <input
@@ -387,8 +369,17 @@ export default function Addmovie() {
             value={trailer}
           />
           <span>Keywords:</span>
+          <Multiselect
+            isObject={false}
+            selectedValues={[]}
+            /*  onKeyPressFn={(e) => console.log(e.target.value)} */
+            onRemove={(e) => setContentIndex(e)}
+            // onSearch={(e) => console.log(e.target.value)}
+            onSelect={(e) => setContentIndex(e)}
+            options={keywordsList}
+          />
 
-          <input
+          {/*  <input
             type="text"
             className={`${genre.length < 1 ? 'track-input' : 'track-input1'}`}
             onChange={(e) => setNewKeyword(e.target.value)}
@@ -401,7 +392,7 @@ export default function Addmovie() {
           {contentIndex &&
             contentIndex.map((indi) => {
               return <span className="genre">{indi},&nbsp;</span>;
-            })}
+            })} */}
 
           {title && desc && contentIndex.length > 0 && (
             <div>

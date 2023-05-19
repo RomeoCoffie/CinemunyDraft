@@ -101,6 +101,10 @@ hr {
   color: red;
 }
 
+.source {
+  width: 100%;
+}
+
 .answerbtn {
   width: 100%;
   margin: 0.75rem auto;

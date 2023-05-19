@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 //imports from firebase
 import { arrayUnion, Timestamp, updateDoc, doc } from 'firebase/firestore';
 //import components
-import { QuizContext } from '../../context/quizcontext/Quizcontext';
+//import { QuizContext } from '../../context/quizcontext/Quizcontext';
 import { useCollection } from '../../Hooks/useCollection';
 import { AuthContext } from '../../context/authcontext/AuthContext';
 import { db } from '../../components/firebase/config';
@@ -13,6 +13,7 @@ import SetupForm from './SetupForm';
 //import Loading from './Loading';
 import Modal from '../../components/modal/Modal';
 import Prizemodal from './prizeModal';
+import Winnersmodal from './winnersmodal';
 //Material UI Stuff
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -40,12 +41,13 @@ export default function Filmquiz() {
   const [showTimer, setShowTimer] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [interruption, setInteruption] = useState(false); //Interruption when time is up
+  const [showWinnersModal, setShowWinnersModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [disabledButton, setDisabledButton] = useState(null);
   const { documents: users } = useCollection('users');
   const [theUsers, setTheUsers] = useState([]);
-  const [getReady, setGetReady] = useState(false);
-  const [index, setIndex] = useState(0);
+  //const [getReady, setGetReady] = useState(false);
+  //const [index, setIndex] = useState(0);
   const { user } = useContext(AuthContext);
 
   const { documents: thesequestions } = useCollection('questions');
@@ -370,6 +372,7 @@ export default function Filmquiz() {
                   setShowTimer={setShowTimer}
                   setRitAns={setRitAns}
                   ritAns={ritAns}
+                  setShowWinnersModal={setShowWinnersModal}
                 />
               )}
 
@@ -379,6 +382,8 @@ export default function Filmquiz() {
                   setShowPrizeModal={setShowPrizeModal}
                 />
               )}
+
+              {showWinnersModal && <Winnersmodal></Winnersmodal>}
             </article>
           </section>
         </div>

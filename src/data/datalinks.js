@@ -330,6 +330,98 @@ export const showDices = [
     text: 'Best Shows on Hulu',
     index: 'hulu',
   },
+  {
+    id: 18,
+    text: 'Best Animated Series',
+    index: 'animation',
+  },
+];
+
+//Genres
+export const genreList = [
+  '',
+  'action',
+  'adventure',
+  'animation',
+  'biography',
+  'comedy',
+  'crime',
+  'drama',
+  'documentaries',
+  'horror',
+  'fantasy',
+  'mystery',
+  'musical',
+  'noir',
+  'romance',
+  'spy',
+  'sci-fi',
+  'thriller',
+  'war',
+  'western',
+];
+
+//KeywordsList
+export const keywordsList = [
+  '',
+  'best',
+  'bollywood',
+  'classics',
+  'cry',
+  'dc',
+  'golden',
+  'greatest',
+  'inspirational',
+  'intelligent',
+  'korean',
+  'marvel',
+  'teen',
+
+  'newafrica',
+  'oldafrica',
+];
+
+//KeywordsList
+export const keywordsListTv = [
+  '',
+  'netflix',
+  'hbo',
+  'amazon prime',
+  'dc',
+  'disney',
+  'apple plus',
+  'korean',
+  'african',
+  'marvel',
+  'greatest',
+  'best',
+  'bollywood',
+  'classics',
+];
+
+//Creators/Source
+export const sources = [
+  '',
+  'IFMA',
+  'Netflix',
+  'Warner Bros.',
+  'Lionsgate',
+  'Sony Pictures',
+  '20th Century Studios',
+  'Penma50',
+  'The Konversation',
+  'Latest',
+  'Disney',
+  'Marvel Studios',
+  'Dc Studios',
+  'Epitonment',
+  'A24',
+  'DreamWorks Pictures',
+  'Focus Features',
+  'Magnolia Pictures',
+  'New Line Cinema',
+  'Weinstein Company',
+  'Talking Movies',
 ];
 
 export const myquestions = [

@@ -16,7 +16,7 @@ const Modal = ({
   myQuestions,
   disabledButton,
   setDisabledButton,
-
+  setShowWinnersModal,
   saveResults,
   showLogin,
   setWaiting,
@@ -69,7 +69,13 @@ const Modal = ({
     setDisabledButton(null); //select difficulty button
     if (user) {
       saveResults();
+      if (percentage > 79) {
+        setShowWinnersModal(true);
+        console.log('we have ourselves a winner');
+        navigate('/movies');
+      }
     }
+
     setIsModalOpen(false);
     setDifficultyLevel('beginner');
     setRitAns(0);
@@ -104,19 +110,23 @@ const Modal = ({
               <p>great, increase your difficulty level to win a prize</p>
             )}
 
-            {difficultyLevel === 'average' && percentage < 81 && (
-              <p>good job, keep praticing , you will soon be a guru</p>
+            {difficultyLevel === 'average' && percentage < 79 && (
+              <p>good job, keep praticing , you will soon level up</p>
             )}
 
-            {difficultyLevel === 'average' && percentage > 81 && (
-              <p>almost guru, increase Difficulty Level to level up </p>
+            {difficultyLevel === 'average' && percentage > 79 && (
+              <p>
+                congrats, Your Film Knowledge is Average, click okay to claim
+                your prize{' '}
+              </p>
             )}
-            {difficultyLevel === 'guru' && percentage < 81 && (
+            {difficultyLevel === 'guru' && percentage < 79 && (
               <p>you are almost a guru, keep playing </p>
             )}
-            {difficultyLevel === 'guru' && percentage > 81 && (
+            {difficultyLevel === 'guru' && percentage > 79 && (
               <p>
-                Your film knowledge is impressive, you are officially a guru
+                Your film knowledge is impressive, you are officially a guru.
+                Click ok to claim your prize.
               </p>
             )}
           </div>
@@ -153,22 +163,22 @@ const Modal = ({
         {user && difficultyLevel === 'average' && (
           <div>
             <button className="close-btn" onClick={save}>
-              Save Results
+              ok
             </button>
-            <button className="close-btn" onClick={dntSave}>
+            {/* <button className="close-btn" onClick={dntSave}>
               Do not Save
-            </button>
+            </button> */}
           </div>
         )}
 
         {user && difficultyLevel === 'guru' && (
           <div>
             <button className="close-btn" onClick={save}>
-              Save Results
+              ok
             </button>
-            <button className="close-btn" onClick={dntSave}>
+            {/*  <button className="close-btn" onClick={dntSave}>
               Do not Save
-            </button>
+            </button> */}
           </div>
         )}
       </div>

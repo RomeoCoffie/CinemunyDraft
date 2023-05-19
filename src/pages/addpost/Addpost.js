@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+//import Multiselect from 'multiselect-react-dropdown';
 import { useNavigate } from 'react-router-dom';
 //import useFetch from '../../Hooks/useFetch';
 import { db } from '../../components/firebase/config';
@@ -9,7 +10,7 @@ import { AuthContext } from '../../context/authcontext/AuthContext';
 import { storage } from '../../components/firebase/config';
 import { getDownloadURL, ref } from '@firebase/storage';
 import { uploadBytesResumable } from 'firebase/storage';
-import { urlPatterns } from '../../data/datalinks';
+import { urlPatterns, sources } from '../../data/datalinks';
 
 //addpost Styles
 import './addpost.css';
@@ -252,11 +253,22 @@ export default function Addpost() {
           {inputError && <span style={{ color: 'red' }}>{inputError}</span>}
 
           <span>Source:</span>
-          <input
-            type="text"
-            onChange={(e) => setCopyright(e.target.value)}
+          <select
             value={copyright}
-          />
+            onChange={(e) => {
+              setCopyright(e.target.value);
+            }}
+            className="source"
+          >
+            {sources.map((outfit, index) => {
+              return (
+                <option key={index} value={outfit}>
+                  {outfit}
+                </option>
+              );
+            })}
+          </select>
+
           <span>Link To:</span>
           <input
             value={source}

@@ -25,6 +25,13 @@ export default function Movies() {
   //setting active page
   useEffect(() => {
     setActivePage('movies');
+    window.scrollTo(0, 261);
+
+    /*  window.scroll({
+      top: 200,
+      left: 200,
+      behavior: 'smooth',
+    }); */
   }, []);
 
   return (

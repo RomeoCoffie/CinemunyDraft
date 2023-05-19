@@ -1,23 +1,29 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { GoStar } from 'react-icons/go';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { Timestamp } from 'firebase/firestore';
+import { useParams, useNavigate } from 'react-router-dom';
+
+//Components
+import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { db } from '../../components/firebase/config';
 import { AuthContext } from '../../context/authcontext/AuthContext';
-//import { useCollection } from '../../Hooks/useCollection';
+import Linksmodal from './Linksmodal';
 import { useFiresotre } from '../../Hooks/useFirestore';
-import { urlPatterns } from '../../data/datalinks';
-import { useNavigate } from 'react-router-dom';
-import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
-import { Grid } from '@mui/material';
+import { useAddDocs } from '../../Hooks/useAddDocs';
+import { useCollection } from '../../Hooks/useCollection';
 
+//Firebase
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
+//MUI Stuff
+import { GoStar } from 'react-icons/go';
+import { Grid } from '@mui/material';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-
 import Typography from '@mui/material/Typography';
+
+//resources/data
+import { urlPatterns } from '../../data/datalinks';
+
 import './Singlemovie.css';
-import Linksmodal from './Linksmodal';
 //const url = 'http://localhost:3000/films/';
 
 export default function Singlemovie() {
@@ -25,10 +31,9 @@ export default function Singlemovie() {
   const theRef = doc(db, 'movies', id);
   const docRef = doc(db, 'movies', id);
   const { user } = useContext(AuthContext);
-
   const { deleteDocument } = useFiresotre('movies');
   const {
-    handleRating,
+    // handleRating,
     showRating,
     setShowRating,
     addLinks,
@@ -54,6 +59,10 @@ export default function Singlemovie() {
   const [wowLink, setWowLink] = useState(null);
   const [theLinks, setTheLinks] = useState(null);
   const [linkType, setLinkType] = useState(null);
+  const { addDocument, response } = useAddDocs('ratings');
+  const { documents: ratings } = useCollection('ratings');
+  const [theFilmRatings, setTheFilmRatings] = useState(null);
+
   const navigate = useNavigate();
 
   //add movie links streams/downloads
@@ -144,6 +153,28 @@ export default function Singlemovie() {
     setAddLinks(false);
   };
 
+  //IFMA ratings by IFMA followers
+  const handleRating = async () => {
+    if (user) {
+      await addDocument({
+        createdAt: Timestamp.fromDate(new Date()),
+        ourRate: rating,
+        title: film.title,
+        rater: user.uid,
+        display: user.displayName,
+        img: user.photoURL,
+        ratingId: id,
+      });
+
+      console.log(response);
+
+      setShowRating(false);
+    } else {
+      // navigate('/login'); use a modal
+      console.log('login to rate');
+    }
+  };
+
   // get single movie and check if user already rated this movie or not
   useEffect(() => {
     setLoading(true);
@@ -152,26 +183,47 @@ export default function Singlemovie() {
       if (doc.data() && doc.data().movieLinks) {
         setTheLinks(Object.entries(doc.data().movieLinks));
       }
-
       setFilm(doc.data());
       console.log(theLinks);
-
-      if (user) {
-        const alreadyRated = doc.data().ifmaRating.filter((rate) => {
-          return rate.rater === user.uid;
-        });
-
-        console.log(alreadyRated);
-
-        if (alreadyRated.length > 0) {
-          setShowRating(false);
-          setYourRate(alreadyRated);
-        } else {
-          setShowRating(true);
-        }
-      }
     });
-  }, [id]);
+
+    if (ratings) {
+      setTheFilmRatings(ratings.filter((rate) => rate.ratingId === id));
+    }
+    if (theFilmRatings) {
+      console.log(theFilmRatings);
+      /*  const alreadyRated = ratings.filter(
+        (rate) => rate.rater === user.uid && film.id === rate.ratingId
+      );
+
+      console.log(alreadyRated);
+
+      if (alreadyRated.length > 0) {
+        setShowRating(false);
+        setYourRate(alreadyRated);
+      } else {
+        setShowRating(true);
+      } */
+    }
+  }, [id, ratings]);
+
+  useEffect(() => {
+    if (theFilmRatings) {
+      console.log(theFilmRatings);
+      const alreadyRated = theFilmRatings.filter(
+        (rate) => rate.rater === user.uid
+      );
+
+      console.log(alreadyRated);
+
+      if (alreadyRated.length > 0) {
+        setShowRating(false);
+        setYourRate(alreadyRated);
+      } else {
+        setShowRating(true);
+      }
+    }
+  }, [theFilmRatings]);
 
   return (
     <section className="singleshow-container">
@@ -187,7 +239,7 @@ export default function Singlemovie() {
             <Grid item xs={11} sm={11} md={6}>
               {showRating && (
                 <div className="rate-this">
-                  <Typography variant="h6">Rate This Tv Film</Typography>
+                  <Typography variant="h6">Rate This Film</Typography>
                 </div>
               )}
             </Grid>
@@ -284,7 +336,7 @@ export default function Singlemovie() {
               </p> */}
                 <button className="available">
                   <a className="trailer" href={film.trailer}>
-                    watch
+                    watch trailer
                   </a>
                 </button>
               </div>

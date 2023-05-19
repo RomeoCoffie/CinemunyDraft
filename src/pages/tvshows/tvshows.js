@@ -18,6 +18,7 @@ export default function Tvshows() {
   //setting active page
   useEffect(() => {
     setActivePage('tvshows');
+    window.scrollTo(0, 261);
   }, []);
 
   console.log(theShows);

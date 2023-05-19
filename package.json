@@ -17,6 +17,7 @@
     "date-fns": "^2.29.3",
     "firebase": "^9.15.0-canary.3ee35f9ae",
     "json-server": "^0.17.1",
+    "multiselect-react-dropdown": "^2.0.25",
     "node-sass": "npm:sass@^1.49.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
