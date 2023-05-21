@@ -87,8 +87,8 @@ export default function Addmovie() {
  */
     console.log(movieImgUrl);
     if (movieImgUrl) {
-      if (rating > 10 || rating < 1) {
-        setInputError('rating must be between 1-10');
+      if (rating > 10 || rating < 3) {
+        setInputError('rating must be between 3-10');
         return;
       }
 
@@ -153,18 +153,6 @@ export default function Addmovie() {
     setNewCast('');
     castInput.current.focus();
   };
-
-  //handle Genre input
-  /* const addGenre = (e, setGenre) => {
-    e.preventDefault();
-    const ops = newGenre.trim().toLowerCase();
-
-    if (ops && !genre.includes(ops)) {
-      setGenre((prevOption) => [...prevOption, ops]);
-    }
-    setNewGenre('');
-    genreInput.current.focus();
-  }; */
 
   //handle movie poster upload
   const handleFileChange = (e) => {

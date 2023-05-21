@@ -26,7 +26,7 @@ export default function Linksmodal({
   const { documents: users } = useCollection('users');
   const [userWatchList, setUserWatchList] = useState(null);
   const { user } = useContext(AuthContext);
-  const addShowWatchListRef = doc(db, 'users', user.uid);
+  const addToWatchListRef = doc(db, 'users', user.uid);
   const { id } = useParams();
 
   //Gettings users
@@ -47,11 +47,11 @@ export default function Linksmodal({
         return film !== temp;
       });
       let temp2 = [...newResults, id];
-      updateDoc(addShowWatchListRef, {
+      updateDoc(addToWatchListRef, {
         watchList: temp2,
       });
     } else {
-      updateDoc(addShowWatchListRef, {
+      updateDoc(addToWatchListRef, {
         watchList: arrayUnion(id),
       });
     }

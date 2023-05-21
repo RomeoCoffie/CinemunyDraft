@@ -33,7 +33,7 @@ export default function Addshow() {
   const [movieImgUrl, setMovieImgUrl] = useState(null);
   const [progress, setProgress] = useState(null);
   const [cast, setCast] = useState([]);
-  const [newOption, setNewOption] = useState();
+  const [newOption, setNewOption] = useState(null);
   const [newCast, setNewCast] = useState(null);
   const [genre, setGenre] = useState([]);
   const [newGenre, setNewGenre] = useState(null);
@@ -73,8 +73,8 @@ export default function Addshow() {
 
     console.log(movieImgUrl);
     if (movieImgUrl) {
-      if (rating > 10 || rating < 1) {
-        setInputError('rating must be between 1-10');
+      if (rating > 10 || rating < 3) {
+        setInputError('rating must be between 3-10');
         return;
       }
 
@@ -112,11 +112,15 @@ export default function Addshow() {
   //handle options input
   const addOptions = (e, setoptions) => {
     e.preventDefault();
-    const ops = newOption.trim();
 
-    if (ops && !director.includes(ops)) {
-      setoptions((prevOption) => [...prevOption, ops]);
+    if (newOption && newOption.length > 0) {
+      const ops = newOption.trim();
+
+      if (ops && !director.includes(ops)) {
+        setoptions((prevOption) => [...prevOption, ops]);
+      }
     }
+
     setNewOption('');
     optionsInput.current.focus();
   };
@@ -124,11 +128,14 @@ export default function Addshow() {
   //handle cast input
   const addCast = (e, setCast) => {
     e.preventDefault();
-    const ops = newCast.trim();
 
-    if (ops && !cast.includes(ops)) {
-      setCast((prevOption) => [...prevOption, ops]);
+    if (newCast && newCast.length > 0) {
+      const ops = newCast.trim();
+      if (ops && !cast.includes(ops)) {
+        setCast((prevOption) => [...prevOption, ops]);
+      }
     }
+
     setNewCast('');
     castInput.current.focus();
   };

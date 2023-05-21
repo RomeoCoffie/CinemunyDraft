@@ -223,6 +223,9 @@ export default function Addgroup() {
             <option value="business">Business</option>
             <option value="travel">Travel</option>
             <option value="fashion">Fashion</option>
+            <option value="music">Music</option>
+            <option value="sports">Sports</option>
+            <option value="adult">Adult</option>
           </select>
 
           <br />

@@ -1,14 +1,24 @@
 import React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { AuthContext } from '../../context/authcontext/AuthContext';
+import { useCollection } from '../../Hooks/useCollection';
 import './admin.css';
 
 export default function Adminpage() {
   const [userEmail, setUserEmail] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  const { documents: users } = useCollection('users');
   const { user } = useContext(AuthContext);
+
+  //Gettings users
+  useEffect(() => {
+    if (users) {
+      setCurrentUser(users.filter((person) => person.id === user.uid));
+    }
+  }, [users]);
 
   const makeAdmin = () => {
     const functions = getFunctions();
@@ -24,8 +34,8 @@ export default function Adminpage() {
 
   return (
     <main className="admin-main">
-      <Container>
-        {user && (
+      <Container sx={{ marginTop: 23 }}>
+        {currentUser && currentUser[0].superadmin === 'super' && (
           <div className="make-admin">
             <input
               type="email"

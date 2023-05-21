@@ -12,7 +12,13 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 //import { QuizContext } from '../../context/quizcontext/Quizcontext';
 
-export default function Group({ grpName, groupImgUrl, url, about, platform }) {
+export default function Group({
+  grpName,
+  groupImgUrl,
+  groupLink,
+  about,
+  platform,
+}) {
   // const [readMore, setReadMore] = useState(false);
   //const navigate = useNavigate();
 
@@ -31,7 +37,7 @@ export default function Group({ grpName, groupImgUrl, url, about, platform }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <a className="join" href={url}>
+          <a className="join" href={groupLink}>
             Join
           </a>
           {platform === 'whatsapp' && <WhatsAppIcon sx={{ color: 'green' }} />}
