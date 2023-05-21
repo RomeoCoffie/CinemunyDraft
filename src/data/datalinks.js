@@ -349,12 +349,14 @@ export const genreList = [
   'drama',
   'documentaries',
   'horror',
+  'historical',
   'fantasy',
   'mystery',
   'musical',
   'noir',
   'romance',
   'spy',
+  'sport',
   'sci-fi',
   'thriller',
   'war',
@@ -376,7 +378,7 @@ export const keywordsList = [
   'korean',
   'marvel',
   'teen',
-
+  'most anticipated',
   'newafrica',
   'oldafrica',
 ];
@@ -397,6 +399,7 @@ export const keywordsListTv = [
   'best',
   'bollywood',
   'classics',
+  'most anticipated',
 ];
 
 //Creators/Source

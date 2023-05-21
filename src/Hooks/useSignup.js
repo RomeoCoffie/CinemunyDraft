@@ -17,6 +17,7 @@ export default function useSignup() {
   const favMovie = 'your favorite movie';
   const location = { label: 'country', value: 'N/A' };
   const gender = 'Gender';
+  const watchList = [];
 
   const { dispatch } = useContext(AuthContext);
 
@@ -50,6 +51,7 @@ export default function useSignup() {
         bio,
         quiz,
         favMovie,
+        watchList,
         createdAt,
       });
 

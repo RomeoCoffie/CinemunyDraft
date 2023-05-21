@@ -186,34 +186,19 @@ export default function Singlemovie() {
       setFilm(doc.data());
       console.log(theLinks);
     });
-
+    //Filterout how many times this movie has been rated
     if (ratings) {
       setTheFilmRatings(ratings.filter((rate) => rate.ratingId === id));
     }
-    if (theFilmRatings) {
-      console.log(theFilmRatings);
-      /*  const alreadyRated = ratings.filter(
-        (rate) => rate.rater === user.uid && film.id === rate.ratingId
-      );
-
-      console.log(alreadyRated);
-
-      if (alreadyRated.length > 0) {
-        setShowRating(false);
-        setYourRate(alreadyRated);
-      } else {
-        setShowRating(true);
-      } */
-    }
   }, [id, ratings]);
 
+  //checks if user isalready part of the raters of this film
   useEffect(() => {
     if (theFilmRatings) {
       console.log(theFilmRatings);
       const alreadyRated = theFilmRatings.filter(
         (rate) => rate.rater === user.uid
       );
-
       console.log(alreadyRated);
 
       if (alreadyRated.length > 0) {

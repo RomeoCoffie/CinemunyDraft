@@ -3,7 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GoStar } from 'react-icons/go';
 
 //Firebase imports
-import { doc, getDoc, updateDoc, Timestamp } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  Timestamp,
+  arrayUnion,
+} from 'firebase/firestore';
 
 //Components & Hooks
 import { db } from '../../components/firebase/config';
@@ -24,9 +30,11 @@ import './singleshow.css';
 //const url = 'http://localhost:3000/series/';
 
 export default function Singleshow() {
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const theRef = doc(db, 'shows', id);
-  const { user } = useContext(AuthContext);
+  const addShowWatchListRef = doc(db, 'users', user.uid);
+
   const {
     //handleRating,
     showRating,
@@ -58,12 +66,15 @@ export default function Singleshow() {
   const contentType = 'show';
   const { addDocument, response } = useAddDocs('ratings');
   const { documents: ratings } = useCollection('ratings');
+  const { documents: users } = useCollection('users');
   const [theShowRatings, setTheShowRatings] = useState(null);
+  //const [userWatchList, setUserWatchList] = useState(null);
   const [yourRate, setYourRate] = useState(null);
   //const [timeLine, setTimeLine] = useState(null);
 
   //const { data, error, ispending } = useFetch(`${url}${id}`);
   // const { title, img, year, rating, genre, cast, trailer, description } = show;
+
   //IFMA ratings by IFMA followers
   const handleRating = async () => {
     if (user) {
@@ -173,6 +184,7 @@ export default function Singleshow() {
 
     setAddLinks(false);
   };
+
   // get single movie and check if user already rated this movie or not
   useEffect(() => {
     setLoading(true);
@@ -314,7 +326,6 @@ export default function Singleshow() {
                 {show.genre.map((type, index) => {
                   return (
                     <span key={index} className="values">
-                      {' '}
                       {type},
                     </span>
                   );

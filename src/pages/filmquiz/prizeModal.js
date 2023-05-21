@@ -1,6 +1,7 @@
 import React from 'react';
-import './prizemodal.css';
 import { GoStar } from 'react-icons/go';
+
+import './prizemodal.css';
 
 export default function Prizemodal({ showPrizeModal, setShowPrizeModal }) {
   console.log(showPrizeModal);

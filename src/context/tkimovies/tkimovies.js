@@ -126,7 +126,7 @@ const TkimoviesProvider = ({ children }) => {
       setTheUsers(users);
     }
 
-    console.log(movies, filteredMovies);
+    // console.log(movies, filteredMovies);
 
     //if sidebar button or index is activated by user
     if (movieIndex && movies) {
@@ -140,7 +140,7 @@ const TkimoviesProvider = ({ children }) => {
             film.genre.includes(movieIndex)
         )
       );
-      console.log(filteredMovies);
+      //console.log(filteredMovies);
     }
 
     /* if (comments) {

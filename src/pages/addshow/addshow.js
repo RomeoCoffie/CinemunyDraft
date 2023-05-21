@@ -133,30 +133,6 @@ export default function Addshow() {
     castInput.current.focus();
   };
 
-  //handle cast input
-  const addGenre = (e, setGenre) => {
-    e.preventDefault();
-    const ops = newGenre.trim().toLowerCase();
-
-    if (ops && !genre.includes(ops)) {
-      setGenre((prevOption) => [...prevOption, ops]);
-    }
-    setNewGenre('');
-    genreInput.current.focus();
-  };
-
-  //Handle Keywords input
-  const addKeywords = (e) => {
-    e.preventDefault();
-    const ops = newKeyword.trim().toLowerCase();
-
-    if (ops && !contentIndex.includes(ops)) {
-      setContentIndex((prevOption) => [...prevOption, ops]);
-    }
-    setNewKeyword('');
-    keywordInput.current.focus();
-  };
-
   //handle image upload if question has an image
   const handleFileChange = (e) => {
     setThumbnail(null);
@@ -327,6 +303,9 @@ export default function Addshow() {
         <span>Rating:</span>
         <input
           type="number"
+          min="1"
+          max="10"
+          step="any"
           onChange={(e) => setRating(e.target.value)}
           value={rating}
           required
@@ -334,6 +313,8 @@ export default function Addshow() {
         <span>Number of Seasons:</span>
         <input
           type="number"
+          min="1"
+          max="30"
           onChange={(e) => setSeasons(e.target.value)}
           value={seasons}
           required
@@ -341,7 +322,7 @@ export default function Addshow() {
 
         <span> Start Year:</span>
         <input
-          type="number"
+          type="date"
           onChange={(e) => setYear(e.target.value)}
           value={year}
           required
@@ -360,7 +341,7 @@ export default function Addshow() {
           <div>
             <span> End Year:</span>
             <input
-              type="number"
+              type="date"
               onChange={(e) => setEndYear(e.target.value)}
               value={endYear}
             />

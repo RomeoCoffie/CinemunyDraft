@@ -27,11 +27,6 @@ export default function Sidebar() {
     activePage,
   } = useContext(TkimoviesContext);
 
-  window.scroll({
-    top: 200,
-    left: 200,
-    behavior: 'smooth',
-  });
   //const [activeUrl, setActiveUrl] = useState(null);
 
   //const navigate = useNavigate();

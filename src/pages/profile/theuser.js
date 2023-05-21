@@ -1,3 +1,94 @@
+import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useCollection } from '../../Hooks/useCollection';
+import { AuthContext } from '../../context/authcontext/AuthContext';
+import Userform from './userform';
+
+import './profile.scss';
+
+function Theuser({ handleFileChange }) {
+  const [userWatchList, setUserWatchList] = useState([]);
+  const { documents: users } = useCollection('users');
+  const { user } = useContext(AuthContext);
+
+  //Gettings users
+  useEffect(() => {
+    if (users) {
+      setUserWatchList(users.filter((person) => person.id === user.uid));
+    }
+  }, [users]);
+
+  console.log(user, 'user from theuser page');
+  return (
+    <>
+      <div className="userProfilePage">
+        <div className="profileSideBar">
+          <div className="sideBarImage">
+            <img
+              src={
+                user
+                  ? user.photoURL
+                  : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+              }
+              alt="profile"
+              className="userProfileImage"
+            />
+          </div>
+          <input
+            type="file"
+            onChange={(e) => handleFileChange(e)}
+            accept="image/*"
+          />
+        </div>
+        <div className="userProfile">
+          <div className="bio">
+            <div>
+              <label>Name: </label>
+              <span>{user.displayName}</span>
+            </div>
+            <div>
+              <label>Email: </label>
+              <span>{user.email}</span>
+            </div>
+            <div>
+              <label>Phone Number: </label>
+              <span>{user.phoneNumber}</span>
+            </div>
+            <div>
+              <label>Bio: </label>
+              <span>{user.metadata.creationTime}</span>
+            </div>
+            <div>
+              <label>favMovie: </label>
+              <span>{user.tenantId}</span>
+            </div>
+          </div>
+          <div className="activities">
+            <div className="watchList">
+              <h3 className="watchListHeader">Your Watch List</h3>
+              {userWatchList.length > 0 &&
+                userWatchList[0].watchList.map((film) => {
+                  return (
+                    <div className="watchBox">
+                      <Link to={`/tvshows/${film}`} className="watchtag">
+                        {film}
+                      </Link>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <Userform />
+      </div>
+    </>
+  );
+}
+
+export default Theuser;
+
 /* import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';

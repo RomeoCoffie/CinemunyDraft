@@ -1,4 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCollection } from '../../Hooks/useCollection';
+import { useAddDocs } from '../../Hooks/useAddDocs';
+import { AuthContext } from '../../context/authcontext/AuthContext';
+import { db } from '../../components/firebase/config';
+//Firebase imports
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  Timestamp,
+  arrayUnion,
+} from 'firebase/firestore';
 import './linksmodal.css';
 
 //this modal displays links to shows or movies
@@ -10,6 +23,48 @@ export default function Linksmodal({
   contentType,
   film,
 }) {
+  const { documents: users } = useCollection('users');
+  const [userWatchList, setUserWatchList] = useState(null);
+  const { user } = useContext(AuthContext);
+  const addShowWatchListRef = doc(db, 'users', user.uid);
+  const { id } = useParams();
+
+  //Gettings users
+  useEffect(() => {
+    if (users) {
+      setUserWatchList(users.filter((person) => person.id === user.uid));
+    }
+  }, [users]);
+
+  //AddMovies to WatchList
+  const addToWatchList = async () => {
+    if (userWatchList && userWatchList[0].watchList.length > 5) {
+      let temp = userWatchList[0].watchList.shift(); //gets oldest score
+      console.log(temp);
+
+      //delete oldest score from memory
+      const newResults = userWatchList[0].watchList.filter((film) => {
+        return film !== temp;
+      });
+      let temp2 = [...newResults, id];
+      updateDoc(addShowWatchListRef, {
+        watchList: temp2,
+      });
+    } else {
+      updateDoc(addShowWatchListRef, {
+        watchList: arrayUnion(id),
+      });
+    }
+
+    setShowLinksModal(true);
+  };
+
+  /*  useEffect(() => {
+    if (userWatchList) {
+      console.log(userWatchList[0].watchList);
+    }
+  }, [userWatchList]);
+ */
   return (
     <section
       className={`${
@@ -53,7 +108,9 @@ export default function Linksmodal({
             </a>
           </div>
         )}
-
+        <button className="btn" onClick={() => addToWatchList()}>
+          Add to Watchlist
+        </button>
         <button className="close-btn" onClick={() => setShowLinksModal(false)}>
           ok
         </button>

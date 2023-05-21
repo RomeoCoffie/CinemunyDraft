@@ -26,9 +26,10 @@ import Posts from './pages/posts/Posts';
 import Singleshow from './pages/singleshow/Singleshow';
 import Adminpage from './pages/admin/admin';
 import Userform from './pages/profile/userform';
-import Userpage from './pages/profile/userpage';
+import Theuser from './pages/profile/theuser';
 import Users from './pages/profile/users';
 import SingleUser from './pages/profile/singleUser';
+import Winnerspage from './pages/filmquiz/winnerspage';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -66,6 +67,14 @@ function App() {
                   element={
                     <Proroutes user={user}>
                       <Adminpage />
+                    </Proroutes>
+                  }
+                />
+                <Route
+                  path="winners"
+                  element={
+                    <Proroutes user={user}>
+                      <Winnerspage></Winnerspage>
                     </Proroutes>
                   }
                 />
@@ -138,7 +147,7 @@ function App() {
                   path="profile"
                   element={
                     <Proroutes user={user}>
-                      <Userpage />
+                      <Theuser />
                     </Proroutes>
                   }
                 />

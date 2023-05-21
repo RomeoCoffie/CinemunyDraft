@@ -13,7 +13,7 @@ import SetupForm from './SetupForm';
 //import Loading from './Loading';
 import Modal from '../../components/modal/Modal';
 import Prizemodal from './prizeModal';
-import Winnersmodal from './winnersmodal';
+//import Winnersmodal from './winnerspage';
 //Material UI Stuff
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -29,19 +29,19 @@ export default function Filmquiz() {
   const [difficultyLevel, setDifficultyLevel] = useState('beginner');
   const [percentage, setPercentage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [yourQuestion, setYourQuestion] = useState(null);
+  //const [yourQuestion, setYourQuestion] = useState(null);
   //const [theQuestions, setTheQuestions] = useState(null);
   const [myQuestions, setMyQuestions] = useState(null);
-  const [theOptions, setTheOptions] = useState(null);
-  const [queistionID, setQuestionID] = useState(null);
-  const [rightAnswer, setRightAnswer] = useState(null);
+  // const [theOptions, setTheOptions] = useState(null);
+  // const [queistionID, setQuestionID] = useState(null);
+  //const [rightAnswer, setRightAnswer] = useState(null);
   const [showPrizeModal, setShowPrizeModal] = useState(false);
   const [theIndex, setTheIndex] = useState(0);
   const [ritAns, setRitAns] = useState(0);
   const [showTimer, setShowTimer] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [interruption, setInteruption] = useState(false); //Interruption when time is up
-  const [showWinnersModal, setShowWinnersModal] = useState(false);
+  //const [showWinnersModal, setShowWinnersModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [disabledButton, setDisabledButton] = useState(null);
   const { documents: users } = useCollection('users');
@@ -372,7 +372,7 @@ export default function Filmquiz() {
                   setShowTimer={setShowTimer}
                   setRitAns={setRitAns}
                   ritAns={ritAns}
-                  setShowWinnersModal={setShowWinnersModal}
+                  // setShowWinnersModal={setShowWinnersModal}
                 />
               )}
 
@@ -383,7 +383,7 @@ export default function Filmquiz() {
                 />
               )}
 
-              {showWinnersModal && <Winnersmodal></Winnersmodal>}
+              {/*  {showWinnersModal && <Winnersmodal></Winnersmodal>} */}
             </article>
           </section>
         </div>

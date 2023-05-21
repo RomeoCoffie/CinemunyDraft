@@ -16,7 +16,6 @@ const Modal = ({
   myQuestions,
   disabledButton,
   setDisabledButton,
-  setShowWinnersModal,
   saveResults,
   showLogin,
   setWaiting,
@@ -26,25 +25,6 @@ const Modal = ({
   setPercentage,
   percentage,
 }) => {
-  //const [timeScore, settimedScore]=useState(null)
-  /*  const {
-    isModalOpen,
-    setIsModalOpen,
-    correct,
-    percentage,
-    interrupt,
-    difficultyLevel,
-    //myQuestions,
-    //disabledButton,
-    setDisabledButton,
-    //setShowTimer,
-    saveResults,
-    showLogin,
-    setDifficultyLevel,
-    setCorrect,
-    setWaiting,
-  } = useContext(QuizContext); */
-
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -64,13 +44,13 @@ const Modal = ({
     );
   }
 
-  //if user saves results
+  // saves results
   const save = () => {
     setDisabledButton(null); //select difficulty button
     if (user) {
       saveResults();
       if (percentage > 79) {
-        setShowWinnersModal(true);
+        // setShowWinnersModal(true);
         console.log('we have ourselves a winner');
         navigate('/movies');
       }

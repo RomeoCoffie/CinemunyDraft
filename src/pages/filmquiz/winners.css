@@ -1,0 +1,20 @@
+.winner-head {
+  margin-top: 11rem;
+  align-items: center;
+  justify-content: center;
+  width: '80%';
+  background-color: white;
+  padding: 0.3rem;
+}
+
+.winner-head > input {
+  padding: 0.3rem;
+}
+
+.title {
+  display: block;
+}
+
+.the-email {
+  margin-left: 2.3rem;
+}

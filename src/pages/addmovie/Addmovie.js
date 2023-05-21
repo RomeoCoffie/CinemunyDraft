@@ -39,7 +39,7 @@ export default function Addmovie() {
   const [movieImgUrl, setMovieImgUrl] = useState(null);
   const [progress, setProgress] = useState(null);
   const [cast, setCast] = useState([]);
-  const [newOption, setNewOption] = useState();
+  const [newOption, setNewOption] = useState(null);
   const [newCast, setNewCast] = useState(null);
   const [genre, setGenre] = useState([]);
   // const [newGenre, setNewGenre] = useState(null);
@@ -129,10 +129,12 @@ export default function Addmovie() {
   //handle options input
   const addOptions = (e, setoptions) => {
     e.preventDefault();
-    const ops = newOption.trim();
+    if (newOption && newOption.length > 0) {
+      const ops = newOption.trim();
 
-    if (ops && !director.includes(ops)) {
-      setoptions((prevOption) => [...prevOption, ops]);
+      if (ops && !director.includes(ops)) {
+        setoptions((prevOption) => [...prevOption, ops]);
+      }
     }
     setNewOption('');
     optionsInput.current.focus();
@@ -141,10 +143,12 @@ export default function Addmovie() {
   //handle cast input
   const addCast = (e, setCast) => {
     e.preventDefault();
-    const ops = newCast.trim();
+    if (newCast && newCast.length > 0) {
+      const ops = newCast.trim();
 
-    if (ops && !cast.includes(ops)) {
-      setCast((prevOption) => [...prevOption, ops]);
+      if (ops && !cast.includes(ops)) {
+        setCast((prevOption) => [...prevOption, ops]);
+      }
     }
     setNewCast('');
     castInput.current.focus();
@@ -174,8 +178,8 @@ export default function Addmovie() {
         return;
       }
 
-      if (selected.size > 900000) {
-        setThumbnailError('Selected file size must be less than 500kb');
+      if (selected.size > 9999999) {
+        setThumbnailError('Selected file size must be less than 1Mb');
         return;
       }
 
@@ -342,6 +346,9 @@ export default function Addmovie() {
           <span>Rating:</span>
           <input
             type="number"
+            min="1"
+            max="10"
+            step="any"
             onChange={(e) => setRating(e.target.value)}
             value={rating}
             required
@@ -349,7 +356,7 @@ export default function Addmovie() {
 
           <span>Year:</span>
           <input
-            type="number"
+            type="date"
             onChange={(e) => setYear(e.target.value)}
             value={year}
             required
