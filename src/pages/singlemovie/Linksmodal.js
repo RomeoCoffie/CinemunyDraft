@@ -3,7 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCollection } from '../../Hooks/useCollection';
 import { useAddDocs } from '../../Hooks/useAddDocs';
 import { AuthContext } from '../../context/authcontext/AuthContext';
+import { TkimoviesContext } from '../../context/tkimovies/tkimovies';
 import { db } from '../../components/firebase/config';
+
+
 //Firebase imports
 import {
   doc,
@@ -21,16 +24,27 @@ export default function Linksmodal({
   showLinksModal,
   setShowLinksModal,
   contentType,
-  film,
+  theFilmDetails,
+  filmId,
+  typeIs,
 }) {
   const { documents: users } = useCollection('users');
   const [userWatchList, setUserWatchList] = useState(null);
   const { user } = useContext(AuthContext);
+  const { film } = useContext(TkimoviesContext)
   const addToWatchListRef = doc(db, 'users', user.uid);
   const { id } = useParams();
 
+console.log(theFilmDetails,'thefilm')
+console.log(filmId,'filmId')
+console.log(typeIs,'showtype')
+const shipThese={
+  title: theFilmDetails.title,
+  id: filmId,
+  productionType: typeIs
+}
+useEffect(() => {
   //Gettings users
-  useEffect(() => {
     if (users) {
       setUserWatchList(users.filter((person) => person.id === user.uid));
     }
@@ -46,18 +60,19 @@ export default function Linksmodal({
       const newResults = userWatchList[0].watchList.filter((film) => {
         return film !== temp;
       });
-      let temp2 = [...newResults, id];
+      let temp2 = [...newResults, shipThese];
       updateDoc(addToWatchListRef, {
         watchList: temp2,
       });
     } else {
       updateDoc(addToWatchListRef, {
-        watchList: arrayUnion(id),
+        watchList: arrayUnion(shipThese),
       });
     }
 
     setShowLinksModal(true);
   };
+  console.log(userWatchList,'from linksmodal')
 
   /*  useEffect(() => {
     if (userWatchList) {

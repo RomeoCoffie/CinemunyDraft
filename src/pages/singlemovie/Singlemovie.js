@@ -63,6 +63,8 @@ export default function Singlemovie() {
   const { documents: ratings } = useCollection('ratings');
   const [theFilmRatings, setTheFilmRatings] = useState(null);
 
+  let viewType='movies'
+
   const navigate = useNavigate();
 
   //add movie links streams/downloads
@@ -209,6 +211,8 @@ export default function Singlemovie() {
       }
     }
   }, [theFilmRatings]);
+
+  console.log(film, 'film object')
 
   return (
     <section className="singleshow-container">
@@ -483,7 +487,9 @@ export default function Singlemovie() {
             theLinks={theLinks}
             showLinksModal={showLinksModal}
             setShowLinksModal={setShowLinksModal}
-            film={film}
+            theFilmDetails={film}
+            filmId={id}
+            typeIs={viewType}
           />
         )}
       </Container>

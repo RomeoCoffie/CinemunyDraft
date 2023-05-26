@@ -30,6 +30,9 @@ export default function Header() {
       setshowHeaderModal(false);
     } else {
       setshowHeaderModal(true);
+      setTimeout(() => {
+        setshowHeaderModal(false);
+      }, 7000);
     }
   };
 

@@ -34,6 +34,7 @@ export default function Singleshow() {
   const { id } = useParams();
   const theRef = doc(db, 'shows', id);
   const addShowWatchListRef = doc(db, 'users', user.uid);
+  let viewType='tvshows'
 
   const {
     //handleRating,
@@ -219,6 +220,9 @@ export default function Singleshow() {
       }
     }
   }, [theShowRatings]);
+
+
+  console.log(show,'theshow')
 
   return (
     <section className="singleshow-container">
@@ -500,6 +504,9 @@ export default function Singleshow() {
             showLinksModal={showLinksModal}
             setShowLinksModal={setShowLinksModal}
             contentType={contentType}
+            filmId={id}
+            theFilmDetails={show}
+            typeIs={viewType}
           />
         )}
       </Container>

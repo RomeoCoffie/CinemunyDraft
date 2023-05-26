@@ -1,15 +1,116 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCollection } from '../../Hooks/useCollection';
 import { AuthContext } from '../../context/authcontext/AuthContext';
-import Userform from './userform';
+
+
+//Firebase stuff
+import { db } from '../../components/firebase/config';
+import { updateDoc, doc } from 'firebase/firestore';
+
+
 
 import './profile.scss';
 
 function Theuser({ handleFileChange }) {
+  const navigate=useNavigate()
+
+  const { documents: movies } = useCollection('movies', ['createdAt', 'desc']);
+  const { documents: shows } = useCollection('shows', ['createdAt', 'desc']);
+
+
+//Handling scan for movie or show specific
+const [specificMovie, setSpecificMovie]=useState(null)
+const [specificLink, setSpecificLink]=useState(null)
+
+
   const [userWatchList, setUserWatchList] = useState([]);
   const { documents: users } = useCollection('users');
   const { user } = useContext(AuthContext);
+
+
+  //Show and hide edit blocks
+  const [showNameEdit, setShowNameEdit]=useState(false)
+  const [showFavMovieEdit, setShowFavMovieEdit]=useState(false)
+  const [showBioEdit, setShowBioEdit]=useState(false)
+
+
+  //Grabbing the values from edit block
+  const [nameValue, setNameValue]=useState('')
+  const [favMovieValue, setFavMovieValue]=useState('')
+  const [bioValue, setBioValue]=useState('')
+
+
+
+//Hide and reveal inputs for edit
+  const profileNameGoEdit = ()=>{
+    setShowNameEdit(true);
+  }
+
+  const profileFavMovieGoEdit = ()=>{
+    setShowFavMovieEdit(true);
+  }
+
+  const profileBioGoEdit=()=>{
+    setShowBioEdit(true);
+  }
+
+
+//functions for submitting edits to firebase
+  const editProfileName = async ()=>{
+    const theRef = doc(db, 'users', user.uid);
+    if (nameValue==='') {
+      alert('Please input a new name')
+      return;
+    }
+    //this updates user details with either new/already existing data
+    try {
+      await updateDoc(theRef, {
+        displayName: nameValue
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    setShowNameEdit(false)
+  }
+
+  const editProfileFavMovie = async ()=>{
+    const theRef = doc(db, 'users', user.uid);
+    if (favMovieValue==='') {
+      alert('Please input a title')
+      return;
+    }
+    //this updates user details with either new/already existing data
+    try {
+      await updateDoc(theRef, {
+        favMovie: favMovieValue
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    setShowFavMovieEdit(false)
+  }
+
+  const editProfileBio = async()=>{
+    const theRef = doc(db, 'users', user.uid);
+    if (bioValue==='') {
+      alert('Please input something')
+      return;
+    }
+    //this updates user details with either new/already existing data
+    try {
+      await updateDoc(theRef, {
+        bio: bioValue
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    setShowBioEdit(false)
+  }
+
 
   //Gettings users
   useEffect(() => {
@@ -19,6 +120,7 @@ function Theuser({ handleFileChange }) {
   }, [users]);
 
   console.log(user, 'user from theuser page');
+  console.log(userWatchList, 'actual')
   return (
     <>
       <div className="userProfilePage">
@@ -34,55 +136,114 @@ function Theuser({ handleFileChange }) {
               className="userProfileImage"
             />
           </div>
-          <input
+          <label className='editImageInput'>
+            <input
             type="file"
             onChange={(e) => handleFileChange(e)}
             accept="image/*"
           />
+          Change Image
+          </label>
+          
         </div>
         <div className="userProfile">
           <div className="bio">
-            <div>
-              <label>Name: </label>
-              <span>{user.displayName}</span>
+            <div className='proDetailDivs'>
+            <label>Name: </label>
+              {
+                showNameEdit === false ?
+                (
+                  userWatchList.length > 0 ?
+                  (
+                    <div>
+                    <span>{userWatchList[0].displayName}</span>
+                    <button onClick={profileNameGoEdit} style={{ float: 'right', backgroundColor: 'rgb(218, 248, 255)', padding: '2px', color: 'rgb(63, 35, 2)', border: '1px solid gainsboro' }} >Edit</button>
+                  </div>
+                  ) :  <span>Loading</span>
+                ) : (<div>
+                      <input type='text' placeholder='New Name' onChange={(e)=>setNameValue(e.target.value)}/>
+                      <button className='profileNameGoEditButton' onClick={editProfileName} style={{ float: 'right', backgroundColor: 'rgb(218, 248, 255)', padding: '2px', color: 'rgb(63, 35, 2)', border: '1px solid gainsboro' }} >Save</button>
+                    </div>)
+              }
             </div>
-            <div>
-              <label>Email: </label>
-              <span>{user.email}</span>
+            <div className='proDetailDivs'>
+              <label>Country: </label>
+              {
+                userWatchList.length > 0  ? 
+                (
+                  <span>{userWatchList[0].location.value}</span>
+                ) : <span>Loading</span>
+              }
+              
             </div>
-            <div>
-              <label>Phone Number: </label>
-              <span>{user.phoneNumber}</span>
+            <div className='proDetailDivs'>
+              <label>fav-Movie: </label>
+              {
+                showFavMovieEdit === false ?
+                (
+                  userWatchList.length > 0  ? 
+                  (
+                    <div>
+                      <span>{userWatchList[0].favMovie}</span>
+                      <button onClick={profileFavMovieGoEdit} style={{ float: 'right', backgroundColor: 'rgb(218, 248, 255)', padding: '2px', color: 'rgb(63, 35, 2)', border: '1px solid gainsboro' }}>Edit</button>
+                    </div>
+                  ) : <span>Loading</span>
+                ) : (<div>
+                      <input type='text' placeholder='Favorite Movie' onChange={(e)=>setFavMovieValue(e.target.value)}/>
+                      <button className='profileFavMovieGoEditButton' onClick={editProfileFavMovie} style={{ float: 'right', backgroundColor: 'rgb(218, 248, 255)', padding: '2px', color: 'rgb(63, 35, 2)', border: '1px solid gainsboro' }} >Save</button>
+                    </div>)
+              }
+              
             </div>
-            <div>
+            <div className='proDetailDivs'>
               <label>Bio: </label>
-              <span>{user.metadata.creationTime}</span>
+              {
+                showBioEdit === false ?
+                (
+                  userWatchList.length > 0  ? 
+                  (
+                    <div>
+                      <span>{userWatchList[0].bio}</span>
+                      <button onClick={profileBioGoEdit} style={{ float: 'right', backgroundColor: 'rgb(218, 248, 255)', padding: '2px', color: 'rgb(63, 35, 2)', border: '1px solid gainsboro' }}>Edit</button>
+                    </div>
+                  ) : <span>Loading</span>
+                ) : (<div>
+                      <input type='text' placeholder='Describe yourself' onChange={(e)=>setBioValue(e.target.value)}/>
+                      <button className='profileBioGoEditButton' onClick={editProfileBio} style={{ float: 'right', backgroundColor: 'rgb(218, 248, 255)', padding: '2px', color: 'rgb(63, 35, 2)', border: '1px solid gainsboro' }} >Save</button>
+                    </div>)
+              }
             </div>
             <div>
-              <label>favMovie: </label>
-              <span>{user.tenantId}</span>
+              <label>Quiz Level: </label>
+              {
+                userWatchList.length > 0  ? 
+                (
+                  <span>{userWatchList[0].quiz[userWatchList[0].quiz.length-1].level}</span>
+                ) : <span>Loading</span>
+              }
             </div>
           </div>
           <div className="activities">
             <div className="watchList">
-              <h3 className="watchListHeader">Your Watch List</h3>
-              {userWatchList.length > 0 &&
-                userWatchList[0].watchList.map((film) => {
-                  return (
-                    <div className="watchBox">
-                      <Link to={`/tvshows/${film}`} className="watchtag">
-                        {film}
-                      </Link>
-                    </div>
-                  );
-                })}
+              <h3 className="watchListHeader">Your Movie Watch List</h3>
+              <div className="watchBox">
+
+                {userWatchList.length > 0 && movies &&
+                  userWatchList[0].watchList.map((film) => {
+                    return (
+                        <Link to={`/${film.productionType}/${film.id}`}
+                        className="watchtag">
+                          {film.title}
+                        </Link>
+                    );
+                  })
+                }
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <Userform />
-      </div>
+      
     </>
   );
 }

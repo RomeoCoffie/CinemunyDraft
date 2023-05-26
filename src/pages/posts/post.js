@@ -29,11 +29,11 @@ import {
 
 //SwiperJS stuff
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react/swiper-react.js';
+import { Swiper, SwiperSlide } from 'swiper/react';
 // Styles must use direct files imports
-import 'swiper/swiper.scss'; // core Swiper
-import 'swiper/modules/navigation/navigation.scss'; // Navigation module
-import 'swiper/modules/pagination/pagination.scss'; // Pagination module
+import 'swiper/scss'; // core Swiper
+import 'swiper/scss/navigation'; // Navigation module
+import 'swiper/scss/pagination'; // Pagination module
 
 //components & Hooks
 import { Helmet } from 'react-helmet';

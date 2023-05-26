@@ -26,10 +26,11 @@ import Posts from './pages/posts/Posts';
 import Singleshow from './pages/singleshow/Singleshow';
 import Adminpage from './pages/admin/admin';
 import Userform from './pages/profile/userform';
-import Theuser from './pages/profile/theuser';
+// import Theuser from './pages/profile/theuser';
 import Users from './pages/profile/users';
 import SingleUser from './pages/profile/singleUser';
 import Winnerspage from './pages/filmquiz/winnerspage';
+import Userpage from './pages/profile/userpage';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -147,7 +148,8 @@ function App() {
                   path="profile"
                   element={
                     <Proroutes user={user}>
-                      <Theuser />
+                    <Userpage />
+                      {/* <Theuser /> */}
                     </Proroutes>
                   }
                 />

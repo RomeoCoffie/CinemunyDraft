@@ -124,15 +124,14 @@ export default function Userpage() {
 
   return (
     <section className="profile-section">
-      <h1> Out put user details</h1>
-      {/*       <Theuser
+            <Theuser
         cinemunyUser={cinemunyUser}
         changeImg={changeImg}
         setChangeImg={setChangeImg}
         user={user}
         handleFileChange={handleFileChange}
-        userQuiz={userQuiz}
-      ></Theuser> */}
+        // userQuiz={userQuiz}
+      ></Theuser>
     </section>
   );
 }
