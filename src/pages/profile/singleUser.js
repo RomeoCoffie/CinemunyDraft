@@ -1,70 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useCollection } from '../../Hooks/useCollection';
+import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import './profile.scss'
 
-//MUI Stuff
-import { Container, Grid } from '@mui/material';
-
-//import styles
-import './user.css';
-export default function SingleUser() {
-  const { id } = useParams(); //get the userId being linked
-  const [theUser, setTheUser] = useState(null); //stores the user
-  const { documents: users } = useCollection('users'); //get users snapshot from firebase
-  const url =
-    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
-
-  //useeffect to filter out the user
-  useEffect(() => {
-    if (id && users) {
-      const user = users.filter((person) => person.id === id);
-      setTheUser(user);
-    }
-  }, [id, users]);
-
-  if (id) {
-    console.log(id);
-  }
-
+function SingleUser() {
+  const navigate = useNavigate()
+  let { state }=useLocation();
+  console.log(state.userDetails)
+  let headImageStyle={
+    backgroundImage: 'url(' + state.userDetails.photoURL + ')',
+    height: '8em',
+    width: '8em',
+    borderBottom: '1px solid gray',
+    borderRadius: '50%',
+    flex: 1,
+    backgroundSize: 'cover'
+  };
   return (
-    <div style={{ marginTop: 20 }}>
-      {theUser && <h5>Profile of {theUser[0].displayName || 'User'}</h5>}
+    <div className='singleUserPage'>
+      <div className='singleUserHeader'>
+        <div style={headImageStyle}></div>
+        <div className='singleHeadDetails'>
+          <h2>{state.userDetails.displayName}</h2><br/>
+          <h3>Online:{state.userDetails.online}</h3>
+        </div>
+      </div>
+      <hr/>
+      <div className='singleUserBody'>
+        <h2>Meta Data</h2>
+        <div>
+          <h3>Bio</h3><br/>
+          <label>Full Name: <span>{state.userDetails.displayName}</span></label><br/>
+          <label>Gender: <span>{state.userDetails.gender}</span></label><br/>
+          <label>Location: <span>{state.userDetails.location.label}</span></label><br/>
+          <label>Favorite Movie: <span>{state.userDetails.favMovie}</span></label><br/>
+          <label>Account Created at: <span>{state.userDetails.createdAt.seconds}</span></label><br/>
+          <label>Bio: <span>{state.userDetails.bio}</span></label>
+        </div><br/>
+        <div>
+          <h3>Quiz Details</h3><br/>
+          <label>Quiz Level: <span>{state.userDetails.quiz[state.userDetails.quiz.length-1].level}</span></label><br/>
+          <label>Quiz Percent: <span>{state.userDetails.quiz[state.userDetails.quiz.length-1].percent}</span></label><br/>
+          <label>Quiz Score: <span>{state.userDetails.quiz[state.userDetails.quiz.length-1].score}</span></label>
 
-      {theUser &&
-        theUser.map((user, index) => {
-          const { displayName, location, bio, photoURL } = user;
-          return (
-            <Container
-              key={index}
-              sx={{ backgroundColor: 'white', width: '90%' }}
-            >
-              <Grid container style={{ marginTop: 15 }}>
-                <Grid item xs={12} md={12}>
-                  {!photoURL && (
-                    <img src={url} alt={displayName} className="user-image" />
-                  )}
-                  {photoURL && (
-                    <img
-                      src={photoURL}
-                      alt={displayName}
-                      className="user-image"
-                    />
-                  )}
-
-                  <span>Level:</span>
-                  <span>Beginner</span>
-                  <span>Country:</span>
-                  <span>{location.value}</span>
-                </Grid>
-                <Grid item xs={7} md={7}>
-                  <div className="pro-details">
-                    <p>{bio}</p>
-                  </div>
-                </Grid>
-              </Grid>
-            </Container>
-          );
-        })}
+        </div>
+      </div>
+      <div className='singleUserFooter'></div>
     </div>
-  );
+    
+  )
 }
+
+export default SingleUser

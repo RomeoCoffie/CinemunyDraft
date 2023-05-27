@@ -68,6 +68,26 @@ export default function Adminpage() {
         <div className="admin-btn">
           <Link to="/users">users</Link>
         </div>
+
+        <div>
+          <div className="admin-btn">
+          <Link to="/films">See Film List</Link>
+          </div>
+          <div className="admin-btn">
+            <Link to="/shows">See Show List</Link>
+          </div>
+          <div className="admin-btn">
+            <Link to="/groups">See Group List</Link>
+          </div>
+          <div className="admin-btn">
+            <Link to="/posts">See Post List</Link>
+          </div>
+          <div className="admin-btn">
+            <Link to="/questions">See Question List</Link>
+          </div>
+        </div>
+        
+
       </Container>
     </main>
   );

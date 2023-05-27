@@ -20,3 +20,39 @@
 .make-admin {
   margin-top: 7rem;
 }
+.movieListPage{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 6em 1em 2em 1em;
+
+}
+
+.MovieListTab{
+  height: 10.1em;
+  width: 22em;
+  display: flex;
+  border: 1px solid gray;
+  margin: 0em 1em 1em 0em;
+  border-radius: 5px;
+}
+
+.movieListDetails{
+  flex: 1.5;
+  height: 8.5em;
+}
+
+.movieListDetails div div{
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+.movieListDetails div label{
+  margin-right: 5px;
+  font-weight: bold;
+  font-size: 1em;
+}
+.itemDeleteButton{
+  width: 100%;
+  height: 1.5em;
+  background-color: aquamarine;
+}

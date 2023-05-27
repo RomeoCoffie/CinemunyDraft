@@ -16,7 +16,7 @@ import { db } from '../../components/firebase/config';
 //import Card from '@mui/material/Card';
 
 //Styles
-import './user.css';
+import './profile.scss';
 import Theuser from './theuser';
 
 export default function Userpage() {

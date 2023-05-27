@@ -31,6 +31,11 @@ import Users from './pages/profile/users';
 import SingleUser from './pages/profile/singleUser';
 import Winnerspage from './pages/filmquiz/winnerspage';
 import Userpage from './pages/profile/userpage';
+import FilmList from './pages/admin/Lists/FilmList';
+import ShowList from './pages/admin/Lists/ShowList';
+import ShowGroups from './pages/admin/Lists/ShowGroups';
+import ShowPosts from './pages/admin/Lists/ShowPosts';
+import ShowQuestions from './pages/admin/Lists/ShowQuestions';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -90,6 +95,51 @@ function App() {
                 />
 
                 <Route
+                  path="films"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <FilmList />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="shows"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <ShowList />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="groups"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <ShowGroups />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="posts"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <ShowPosts />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="questions"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <ShowQuestions />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
                   path="users/:id"
                   element={
                     <Proroutes user={user}>
@@ -144,6 +194,7 @@ function App() {
                     </Proroutes>
                   }
                 />
+
                 <Route
                   path="profile"
                   element={
