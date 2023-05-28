@@ -25,6 +25,7 @@ function SingleUser() {
         </div>
       </div>
       <hr/>
+      
       <div className='singleUserBody'>
         <h2>Meta Data</h2>
         <div>
