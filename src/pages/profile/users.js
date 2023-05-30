@@ -6,31 +6,52 @@ import { Link } from 'react-router-dom';
 
 
 function Users() {
-  const { documents: users } = useCollection('users', ['createdAt', 'desc']);
+  const { documents: users } = useCollection('users');
+  const [displayResults, setDisplayResults] = useState(null)
 
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(true);
   const [country, setCountry] = useState('');
   const [gender, setGender] = useState('');
 
-  console.log(users, 'usersPage')
+  let finalCountryList=[]
+  let filteredCountries=(users)=>{
+    console.log('1')
+    for (let i = 0; i < users.length; i++) {
+      console.log('2')
+      if(finalCountryList.includes(users[i].location.label.toLowerCase())===false){
+        finalCountryList.push(users[i].location.label.toLowerCase())
+      }
+    }
+  }
+  filteredCountries(users)
+
 
   useEffect(() => {
     setDisplayResults(users)
   }, [users])
 
-  const [displayResults, setDisplayResults] = useState(null)
 
   const getFilteredResults = (e) => {
     e.preventDefault();
     let results = users.filter(function(person) {
-      return (person.location.value.toLowerCase().includes(country.toLowerCase()),
-      person.online === status.toLowerCase(),
-      person.gender.toLowerCase().includes(gender.toLowerCase()))
+      return (
+        (
+          person.online ?
+          (person.online===status) : []
+        ),
+          (
+            person.gender ?
+            (person.gender.toLowerCase() === gender.toLowerCase()) : []
+          ),
+          (
+            person.location ?
+            (person.location.label.toLowerCase().includes(country.toLowerCase())) : []
+          )
+        )
     });
       setDisplayResults(results);
   };
-
-
+console.log(finalCountryList,'filteredCountries')
   return (
     <div className='userspagethings'>
       <div className='usersFilterBar'>
@@ -41,8 +62,8 @@ function Users() {
               <h3>Status</h3>
               <ul>
                 <li>
-                  <div><input type='radio' name='status' value={true} onChange={(e) => setStatus(e.currentTarget.value)} /><label htmlFor='Online'>Online</label></div>
-                  <div><input type='radio' name='status' value={false} onChange={(e) => setStatus(e.currentTarget.value)} /><label htmlFor='Offline'>Offline</label></div>
+                  <div><input type='radio' name='status' onChange={(e) => setStatus(true)} /><label htmlFor='Online'>Online</label></div>
+                  <div><input type='radio' name='status'  onChange={(e) => setStatus(false)} /><label htmlFor='Offline'>Offline</label></div>
                 </li>
               </ul>
             </div>
@@ -51,10 +72,11 @@ function Users() {
               <h3 for='country'>Filter by Country:</h3>
               <select name='country' onChange={(e) => setCountry(e.target.value)} >
                 {
-                 users ? 
-                  users.map((country)=>(
-                    <option value={country.location.value} >{country.location.value}</option>
-                  )) : <option value='countries' >countries</option>
+                  finalCountryList.length > 0 ? 
+                  finalCountryList.map((country)=>{
+                    return (
+                    <option value={country} >{country}</option>
+                  )}) : <option value='countries' >Choose</option>
                 }
               </select>
             </div>
@@ -77,8 +99,14 @@ function Users() {
         {
           displayResults ?
             displayResults.map((user) => {
+              let eachUsersPic
+              if(user.photoURL){
+                eachUsersPic=user.photoURL
+              }else{
+                eachUsersPic='https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+              }
               let backImageStyle = {
-                backgroundImage: 'url(' + user.photoURL + ')',
+                backgroundImage: 'url(' + eachUsersPic + ')',
                 height: '6em',
                 width: '7.9em',
                 borderBottom: '1px solid gray',
