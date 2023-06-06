@@ -41,7 +41,7 @@ console.log(typeIs,'showtype')
 const shipThese={
   title: theFilmDetails.title,
   id: filmId,
-  productionType: typeIs
+  contentType: typeIs
 }
 useEffect(() => {
   //Gettings users

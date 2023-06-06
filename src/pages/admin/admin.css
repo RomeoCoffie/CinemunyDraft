@@ -28,7 +28,6 @@
 }
 
 .MovieListTab{
-  height: 10.1em;
   width: 22em;
   display: flex;
   border: 1px solid gray;
@@ -55,4 +54,26 @@
   width: 100%;
   height: 1.5em;
   background-color: aquamarine;
+  color: black;
+  text-align: center;
+}
+.itemDeleteButtonDiv{
+  display: flex;
+  gap: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.filmEditPage{
+  padding-top: 6em;
+}
+.editWhere{
+  margin-left: 5px;
+}
+.editWhere label{
+  font-size: 1em;
+  font-weight: 500;
+}
+.editWhere select{
+  width: 10em;
+  padding: 2px;
 }

@@ -36,6 +36,11 @@ import ShowList from './pages/admin/Lists/ShowList';
 import ShowGroups from './pages/admin/Lists/ShowGroups';
 import ShowPosts from './pages/admin/Lists/ShowPosts';
 import ShowQuestions from './pages/admin/Lists/ShowQuestions';
+import FilmEdits from './pages/admin/Edits/FilmEdits';
+import ShowEdits from './pages/admin/Edits/ShowEdits';
+import PostsEdit from './pages/admin/Edits/PostsEdit';
+import GroupEdits from './pages/admin/Edits/GroupEdits';
+import QuestionEdit from './pages/admin/Edits/QuestionEdit'
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -99,6 +104,51 @@ function App() {
                   element={
                     <Prosuperadmin user={user}>
                       <FilmList />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="films/1/:id"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <FilmEdits />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="shows/2/:id"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <ShowEdits />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="groups/3/:id"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <GroupEdits />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="posts/4/:id"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <PostsEdit />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="questions/5/:id"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <QuestionEdit />
                     </Prosuperadmin>
                   }
                 />
