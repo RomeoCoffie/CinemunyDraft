@@ -3,6 +3,9 @@ import { useCollection } from '../../../Hooks/useCollection';
 import { db } from '../../../components/firebase/config';
 import { useFiresotre } from '../../../Hooks/useFirestore';
 import { storage } from '../../../components/firebase/config';
+import { Link } from 'react-router-dom';
+import '../admin.css'
+
 import {
   Timestamp,
   collection,
@@ -45,8 +48,11 @@ function ShowList() {
                         <div><label>Rating: </label><span>{show.rating}</span></div>
                         <div><label>Year</label><span>{show.year}</span></div>
                     </div>
-                        
-                        <button className='itemDeleteButton' onClick={handleDelete}>Delete</button>
+                        <div className='itemDeleteButtonDiv'>
+                            <button className='itemDeleteButton' onClick={handleDelete}>Delete</button>
+                            <Link to={`2/:${show.id}`} state={{ showDetails: show }} className='itemDeleteButton'>Edit</Link>
+                        </div>
+
 
                     </div>
                 </div>

@@ -35,6 +35,7 @@ export const useUpdateDoc = (c, response) => {
         img: imgUrl,
       });
 
+      
       if (!isCancelled) {
         setIsPending(false);
         setError(null);

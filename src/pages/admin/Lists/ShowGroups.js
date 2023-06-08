@@ -1,5 +1,7 @@
 import React from 'react'
 import { useCollection } from '../../../Hooks/useCollection';
+import { Link } from 'react-router-dom';
+
 import '../admin.css'
 
 import { db } from '../../../components/firebase/config';
@@ -48,8 +50,10 @@ function ShowGroups() {
                         <div><label>Platform</label><span>{group.platform}</span></div>
                     </div>
                         
-                        <button className='itemDeleteButton' onClick={handleDelete}>Delete</button>
-
+                    <div className='itemDeleteButtonDiv'>
+                            <button className='itemDeleteButton' onClick={handleDelete}>Delete</button>
+                            <Link to={`3/:${group.id}`} state={{ groupDetails: group }} className='itemDeleteButton'>Edit</Link>
+                    </div>
                     </div>
                 </div>
             )}) : <h2>Loading...</h2>

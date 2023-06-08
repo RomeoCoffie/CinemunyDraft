@@ -6,7 +6,7 @@ import { genreList, keywordsList } from '../../../data/datalinks';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { db, storage } from '../../../components/firebase/config';
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, doc, setDoc } from 'firebase/firestore';
 
 import { getDownloadURL, ref } from '@firebase/storage';
 import { uploadBytesResumable } from 'firebase/storage';
@@ -35,6 +35,7 @@ console.log(dirOption,'option')
 
   let submitNewTitle= async (newTitle)=>{
     const theRef = doc(db, 'movies', theMovie.id);
+    console.log(theRef,'theRef')
     console.log(newTitle,'theNewTitle')
     if (newTitle==='' || newTitle===undefined) {
       alert('Please input a new Title')
@@ -454,6 +455,7 @@ console.log(dirOption,'option')
       <div className='editWhere'>
         <label htmlFor='editTypes'>Where do you want to make the edit?</label>
           <select name='editTypes' onChange={(e)=>setWhereEdit(e.target.value)} >
+          <option value={null}>Choose...</option>
             <option value='title'>Title</option>
             <option value='description'>Description</option>
             <option value='directors'>Directors</option>
