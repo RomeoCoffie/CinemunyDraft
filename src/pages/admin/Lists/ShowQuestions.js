@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useCollection } from '../../../Hooks/useCollection';
 import '../admin.css'
 
@@ -16,11 +16,23 @@ import {
 function ShowQuestions() {
     const { documents: thesequestions } = useCollection('questions');
     console.log(thesequestions,'thequestions')
+    const [currentPage, setCurrentPage]=useState(1)
+    const [questionsPerPage, setQuestionsPerPage]=useState(20)
+    const  indexOfLastQuestion= currentPage * questionsPerPage
+    const indexOfFirstQuestion= indexOfLastQuestion - questionsPerPage
+    const currentQuestions=thesequestions.slice(indexOfFirstQuestion, indexOfLastQuestion)
+    
+    const pageNumbers=[]
+    for (let i=1; i <= Math.ceil(thesequestions.length / questionsPerPage); i++){
+        pageNumbers.push(i)
+    }
+
+    const paginate=(number)=> setCurrentPage(number);
   return (
     <div className='movieListPage'>
         {
-          thesequestions ?
-          thesequestions.map((question)=>{
+          currentQuestions ?
+          currentQuestions.map((question)=>{
             let ref = doc(db, 'questions', question.id);
                 const handleDelete = async ()=>{
                     try {
@@ -46,6 +58,18 @@ function ShowQuestions() {
                 </div>
             )}) : <h2>Loading...</h2>
         }
+        <ul className='pagination'>
+            {
+                pageNumbers ?
+                pageNumbers.map(number=>(
+                    <li className='pageNum'>
+                        <a href="#" onClick={()=>paginate(number)}>
+                            {number}
+                        </a>
+                    </li>
+                )) : <label>1</label>
+            }
+        </ul>
     </div>
   )
 }

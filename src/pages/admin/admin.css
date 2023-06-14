@@ -1,3 +1,6 @@
+.admin-main{
+  margin-bottom: 4em;
+}
 .admin-section {
   padding: 2.5rem;
   margin-top: 7.5rem;
@@ -20,14 +23,13 @@
 .make-admin {
   margin-top: 7rem;
 }
-.movieListPage{
+.movieListPage {
   display: flex;
   flex-wrap: wrap;
   padding: 6em 1em 2em 1em;
-
 }
 
-.MovieListTab{
+.MovieListTab {
   width: 22em;
   display: flex;
   border: 1px solid gray;
@@ -35,45 +37,56 @@
   border-radius: 5px;
 }
 
-.movieListDetails{
+.movieListDetails {
   flex: 1.5;
   height: 8.5em;
 }
 
-.movieListDetails div div{
+.movieListDetails div div {
   display: flex;
   align-items: center;
   margin-left: 5px;
 }
-.movieListDetails div label{
+.movieListDetails div label {
   margin-right: 5px;
   font-weight: bold;
   font-size: 1em;
 }
-.itemDeleteButton{
+.itemDeleteButton {
   width: 100%;
   height: 1.5em;
   background-color: aquamarine;
   color: black;
   text-align: center;
 }
-.itemDeleteButtonDiv{
+.itemDeleteButtonDiv {
   display: flex;
   gap: 2px;
   margin-left: 2px;
   margin-right: 2px;
 }
-.filmEditPage{
+.filmEditPage {
   padding-top: 6em;
 }
-.editWhere{
+.editWhere {
   margin-left: 5px;
 }
-.editWhere label{
+.editWhere label {
   font-size: 1em;
   font-weight: 500;
 }
-.editWhere select{
+.editWhere select {
   width: 10em;
   padding: 2px;
+}
+.pagination {
+  margin-bottom: 2em;
+}
+.pageNum {
+  padding: 2px;
+  background-color: blueviolet;
+  margin: 1px;
+}
+.pageNum a{
+  font-size: 1rem;
 }

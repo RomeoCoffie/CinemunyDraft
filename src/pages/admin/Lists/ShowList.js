@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useCollection } from '../../../Hooks/useCollection';
 import { db } from '../../../components/firebase/config';
 import { useFiresotre } from '../../../Hooks/useFirestore';
@@ -17,11 +17,23 @@ import {
 function ShowList() {
     const { documents: shows } = useCollection('shows', ['createdAt', 'desc']);
     console.log(shows,'theshows')
+    const [currentPage, setCurrentPage]=useState(1)
+    const [showsPerPage, setShowsPerPage]=useState(20)
+    const  indexOfLastShow= currentPage * showsPerPage
+    const indexOfFirstShow= indexOfLastShow - showsPerPage
+    const currentShows=shows.slice(indexOfFirstShow, indexOfLastShow)
+    
+    const pageNumbers=[]
+    for (let i=1; i <= Math.ceil(shows.length / showsPerPage); i++){
+        pageNumbers.push(i)
+    }
+
+    const paginate=(number)=> setCurrentPage(number);
   return (
     <div className='movieListPage'>
         {
-            shows ?
-            shows.map((show)=>{
+            currentShows ?
+            currentShows.map((show)=>{
                 let ref = doc(db, 'shows', show.id);
                 const handleDelete = async ()=>{
                     try {
@@ -58,6 +70,18 @@ function ShowList() {
                 </div>
             )}) : <h2>Loading...</h2>
         }
+        <ul className='pagination'>
+            {
+                pageNumbers ?
+                pageNumbers.map(number=>(
+                    <li className='pageNum'>
+                        <a href="#" onClick={()=>paginate(number)}>
+                            {number}
+                        </a>
+                    </li>
+                )) : <label>1</label>
+            }
+        </ul>
     </div>
   )
 }

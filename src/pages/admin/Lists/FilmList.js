@@ -22,6 +22,19 @@ function FilmList() {
     const { documents: movies } = useCollection('movies', ['createdAt', 'desc']);
     const [showTitleEdit, setShowTitleEdit]=useState(false)
     const [movieTitle, setMovieTitle]=useState('')
+    const [currentPage, setCurrentPage]=useState(1)
+    const [moviesPerPage, setMoviesPerPage]=useState(20)
+    const  indexOfLastMovie= currentPage * moviesPerPage
+    const indexOfFirstMovie= indexOfLastMovie - moviesPerPage
+    const currentMovies=movies.slice(indexOfFirstMovie, indexOfLastMovie)
+    
+    const pageNumbers=[]
+    for (let i=1; i <= Math.ceil(movies.length / moviesPerPage); i++){
+        pageNumbers.push(i)
+    }
+
+    const paginate=(number)=> setCurrentPage(number);
+
     const movieTitleGoEdit=()=>setShowTitleEdit(true)
     const editProfileBio=()=>{
 
@@ -31,8 +44,8 @@ function FilmList() {
   return (
     <div className='movieListPage'>
         {
-            movies ?
-            movies.map((movie)=>{
+            currentMovies ?
+            currentMovies.map((movie)=>{
                 let ref = doc(db, 'movies', movie.id);
                 const handleDelete = async ()=>{
                     try {
@@ -85,6 +98,18 @@ function FilmList() {
                 </div>
             )}) : <h2>Loading...</h2>
         }
+        <ul className='pagination'>
+            {
+                pageNumbers ?
+                pageNumbers.map(number=>(
+                    <li className='pageNum'>
+                        <a href="#" onClick={()=>paginate(number)}>
+                            {number}
+                        </a>
+                    </li>
+                )) : <label>1</label>
+            }
+        </ul>
     </div>
   )
 }

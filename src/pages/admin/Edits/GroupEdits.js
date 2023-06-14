@@ -4,7 +4,7 @@ import '../admin.css'
 
 import { db, storage } from '../../../components/firebase/config';
 import { updateDoc, doc, setDoc } from 'firebase/firestore';
-
+import { useUpdateDoc } from '../../../Hooks/useUpdateDoc';
 import { getDownloadURL, ref } from '@firebase/storage';
 import { uploadBytesResumable } from 'firebase/storage';
 

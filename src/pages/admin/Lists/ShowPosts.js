@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { TkimoviesContext } from '../../../context/tkimovies/tkimovies';
+import '../admin.css'
 
 import { db } from '../../../components/firebase/config';
 import { useCollection } from '../../../Hooks/useCollection';
@@ -17,11 +18,23 @@ import {
 function ShowPosts() {
   const { documents: news } = useCollection('Posts', ['createdAt', 'desc']);
   console.log(news, 'thenews')
+  const [currentPage, setCurrentPage]=useState(1)
+    const [postsPerPage, setPostsPerPage]=useState(20)
+    const  indexOfLastPost= currentPage * postsPerPage
+    const indexOfFirstPost= indexOfLastPost - postsPerPage
+    const currentPosts=news.slice(indexOfFirstPost, indexOfLastPost)
+    
+    const pageNumbers=[]
+    for (let i=1; i <= Math.ceil(news.length / postsPerPage); i++){
+        pageNumbers.push(i)
+    }
+
+    const paginate=(number)=> setCurrentPage(number);
   return (
     <div className='movieListPage'>
         {
-          news ?
-          news.map((item) => {
+          currentPosts ?
+          currentPosts.map((item) => {
             let ref = doc(db, 'posts', item.id);
                 const handleDelete = async ()=>{
                     try {
@@ -60,6 +73,18 @@ function ShowPosts() {
                 </div>
             )}) : <h2>Loading...</h2>
         }
+        <ul className='pagination'>
+            {
+                pageNumbers ?
+                pageNumbers.map(number=>(
+                    <li className='pageNum'>
+                        <a href="#" onClick={()=>paginate(number)}>
+                            {number}
+                        </a>
+                    </li>
+                )) : <label>1</label>
+            }
+        </ul>
     </div>
   )
 }

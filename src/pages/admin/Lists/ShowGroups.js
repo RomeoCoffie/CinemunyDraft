@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useCollection } from '../../../Hooks/useCollection';
 import { Link } from 'react-router-dom';
 
@@ -18,11 +18,23 @@ import {
 function ShowGroups() {
   const { documents: data } = useCollection('Groups', ['createdAt', 'desc']); //get groups
   console.log(data,'thegroups')
+  const [currentPage, setCurrentPage]=useState(1)
+    const [groupsPerPage, setGroupsPerPage]=useState(20)
+    const  indexOfLastGroup= currentPage * groupsPerPage
+    const indexOfFirstGroup= indexOfLastGroup - groupsPerPage
+    const currentGroups=data.slice(indexOfFirstGroup, indexOfLastGroup)
+    
+    const pageNumbers=[]
+    for (let i=1; i <= Math.ceil(data.length / groupsPerPage); i++){
+        pageNumbers.push(i)
+    }
+
+    const paginate=(number)=> setCurrentPage(number);
   return (
     <div className='movieListPage'>
         {
-          data ?
-          data.map((group)=>{
+          currentGroups ?
+          currentGroups.map((group)=>{
             let ref = doc(db, 'Groups', group.id);
                 const handleDelete = async ()=>{
                     try {
@@ -58,6 +70,18 @@ function ShowGroups() {
                 </div>
             )}) : <h2>Loading...</h2>
         }
+        <ul className='pagination'>
+            {
+                pageNumbers ?
+                pageNumbers.map(number=>(
+                    <li className='pageNum'>
+                        <a href="#" onClick={()=>paginate(number)}>
+                            {number}
+                        </a>
+                    </li>
+                )) : <label>1</label>
+            }
+        </ul>
     </div>
   )
 }
