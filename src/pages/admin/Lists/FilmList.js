@@ -1,4 +1,4 @@
-import React, { useState }  from 'react'
+import React, { useState, useEffect }  from 'react'
 import { Link } from 'react-router-dom';
 
 import { useCollection } from '../../../Hooks/useCollection';
@@ -6,11 +6,9 @@ import '../admin.css'
 
 import { db } from '../../../components/firebase/config';
 import { useFiresotre } from '../../../Hooks/useFirestore';
-import { storage } from '../../../components/firebase/config';
+import { keywordsList } from '../../../data/datalinks';
+
 import {
-  Timestamp,
-  collection,
-  addDoc,
   doc,
   deleteDoc,
 } from 'firebase/firestore';
@@ -24,12 +22,18 @@ function FilmList() {
     const [movieTitle, setMovieTitle]=useState('')
     const [currentPage, setCurrentPage]=useState(1)
     const [moviesPerPage, setMoviesPerPage]=useState(20)
+    const [keywordOption, setKeywordOption]=useState('')
+    const [showResults, setShowResults]=useState(movies)
     const  indexOfLastMovie= currentPage * moviesPerPage
     const indexOfFirstMovie= indexOfLastMovie - moviesPerPage
-    const currentMovies=movies.slice(indexOfFirstMovie, indexOfLastMovie)
-    
+    let currentMovies=showResults.slice(indexOfFirstMovie, indexOfLastMovie)
+
+    useEffect(()=>{
+        setShowResults(movies)
+    }, [movies])
+
     const pageNumbers=[]
-    for (let i=1; i <= Math.ceil(movies.length / moviesPerPage); i++){
+    for (let i=1; i <= Math.ceil(showResults.length / moviesPerPage); i++){
         pageNumbers.push(i)
     }
 
@@ -37,12 +41,45 @@ function FilmList() {
 
     const movieTitleGoEdit=()=>setShowTitleEdit(true)
     const editProfileBio=()=>{
-
     }
 
+    const getFilteredResults = (keywordOption) => {
+        let results = showResults.filter(function(movie) {
+          return (
+              movie.contentIndex.includes(keywordOption)
+            )
+        });
+        console.log(results,'taResult')
+        setShowResults(results);
+    };
+    console.log(keywordOption, 'option')
     console.log(movies,'these are the movies')
+    console.log(currentMovies,'sliced')
   return (
     <div className='movieListPage'>
+        <div>
+        <label>Filter by Keywords:</label>
+            <select name='keywordFilterOptions' onChange={(e)=>
+
+            {
+                console.log(e.target.value,'twist')
+                if(e.target.value===''){
+                    setShowResults(movies)
+                }else{
+                    setKeywordOption(e.target.value)
+                    getFilteredResults(keywordOption)
+                }
+            }
+            }>
+                {
+                  keywordsList.length > 0 ? 
+                  keywordsList.map((keyword)=>{
+                    return (
+                    <option value={keyword} >{keyword}</option>
+                  )}) : <label></label>
+                }
+            </select>
+        </div>
         {
             currentMovies ?
             currentMovies.map((movie)=>{

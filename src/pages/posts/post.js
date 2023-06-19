@@ -201,7 +201,7 @@ export default function Post({
   }
 
   return (
-    <main className="post-main">
+    <main className="post-main" >
       <Headtags description={description} postTilte={postTilte}></Headtags>
       <Helmet>
         <meta property="og:type" content="website"></meta>
@@ -223,7 +223,7 @@ export default function Post({
         <meta property="og:image:width" content="400" />
         <meta property="og:image:height" content="400" />
       </Helmet>
-      <Card>
+      <Card id={id}>
         <CardHeader
           // avatar={<Avatar sx={{ bgcolor: red[500] }}>Cine</Avatar>}
           action={
@@ -334,8 +334,10 @@ export default function Post({
           )}
 
           <div className="facebook">
+          <ShareIcon />
+
             <FacebookShareButton
-              url="https://takling-movies.web.app/"
+              url={`https://takling-movies.web.app/#${id}/`}
               quote={postTilte || description}
               hashtag={description}
               className="facebook"
@@ -343,7 +345,6 @@ export default function Post({
               <FacebookIcon size={17} />
             </FacebookShareButton>
 
-            <ShareIcon />
 
             <WhatsappShareButton
               url="https://takling-movies.web.app/"
