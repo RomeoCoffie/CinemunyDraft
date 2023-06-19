@@ -1,36 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useCollection } from '../../../Hooks/useCollection';
 import { db } from '../../../components/firebase/config';
-import { useFiresotre } from '../../../Hooks/useFirestore';
-import { storage } from '../../../components/firebase/config';
 import { Link } from 'react-router-dom';
+import { keywordsListTv } from '../../../data/datalinks';
+
+
 import '../admin.css'
 
 import {
-  Timestamp,
-  collection,
-  addDoc,
   doc,
   deleteDoc,
 } from 'firebase/firestore';
 
 function ShowList() {
     const { documents: shows } = useCollection('shows', ['createdAt', 'desc']);
+
     console.log(shows,'theshows')
     const [currentPage, setCurrentPage]=useState(1)
     const [showsPerPage, setShowsPerPage]=useState(20)
+    const [keywordOption, setKeywordOption]=useState('')
+    const [showResults, setShowResults]=useState(shows)
+
     const  indexOfLastShow= currentPage * showsPerPage
     const indexOfFirstShow= indexOfLastShow - showsPerPage
-    const currentShows=shows.slice(indexOfFirstShow, indexOfLastShow)
+    const currentShows=showResults.slice(indexOfFirstShow, indexOfLastShow)
     
+    useEffect(()=>{
+        setShowResults(shows)
+    }, [shows])
+
     const pageNumbers=[]
-    for (let i=1; i <= Math.ceil(shows.length / showsPerPage); i++){
+    for (let i=1; i <= Math.ceil(showResults.length / showsPerPage); i++){
         pageNumbers.push(i)
     }
-
     const paginate=(number)=> setCurrentPage(number);
+
+    const getFilteredResults = (e) => {
+        let results = shows.filter(function(show) {
+          return (
+              show.contentIndex.includes(e.target.value)
+            )
+        });
+        console.log(results,'taResult')
+        setShowResults(results);
+    };
+
   return (
     <div className='movieListPage'>
+    <div>
+        <label>Filter by Keywords:</label>
+            <select name='keywordFilterOptions' onChange={(e)=>
+            {
+                console.log(e.target.value, 'twist')
+                if(e.target.value===''){
+                    setShowResults(shows)
+                }else{
+                    getFilteredResults(e)
+                }
+            }
+            }>
+                {
+                    keywordsListTv.length > 0 ? 
+                    keywordsListTv.map((keyword)=>{
+                    return (
+                    <option value={keyword} >{keyword}</option>
+                  )}) : <label></label>
+                }
+            </select>
+        </div>
         {
             currentShows ?
             currentShows.map((show)=>{

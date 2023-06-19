@@ -363,6 +363,19 @@ export const genreList = [
   'western',
 ];
 
+//GroupCategories
+export const groupCategories=[
+  '',
+  'movies',
+  'relationships',
+  'business',
+  'travel',
+  'fashion',
+  'music',
+  'sports',
+  'adult'
+]
+
 //KeywordsList
 export const keywordsList = [
   '',

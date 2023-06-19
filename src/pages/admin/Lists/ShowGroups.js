@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useCollection } from '../../../Hooks/useCollection';
 import { Link } from 'react-router-dom';
+import { groupCategories } from '../../../data/datalinks';
+
 
 import '../admin.css'
 
 import { db } from '../../../components/firebase/config';
-import { useFiresotre } from '../../../Hooks/useFirestore';
-import { storage } from '../../../components/firebase/config';
 import {
-  Timestamp,
-  collection,
-  addDoc,
   doc,
   deleteDoc,
 } from 'firebase/firestore';
@@ -20,9 +17,13 @@ function ShowGroups() {
   console.log(data,'thegroups')
   const [currentPage, setCurrentPage]=useState(1)
     const [groupsPerPage, setGroupsPerPage]=useState(20)
+    const [showResults, setShowResults]=useState(data)
     const  indexOfLastGroup= currentPage * groupsPerPage
     const indexOfFirstGroup= indexOfLastGroup - groupsPerPage
-    const currentGroups=data.slice(indexOfFirstGroup, indexOfLastGroup)
+    const currentGroups=showResults.slice(indexOfFirstGroup, indexOfLastGroup)
+    useEffect(()=>{
+        setShowResults(data)
+    }, [data])
     
     const pageNumbers=[]
     for (let i=1; i <= Math.ceil(data.length / groupsPerPage); i++){
@@ -30,8 +31,38 @@ function ShowGroups() {
     }
 
     const paginate=(number)=> setCurrentPage(number);
+    const getFilteredResults = (e) => {
+        let results = data.filter(function(group) {
+          return (
+              group.category===e.target.value
+            )
+        });
+        console.log(results,'taResult')
+        setShowResults(results);
+    };
   return (
     <div className='movieListPage'>
+    <div>
+        <label>Filter by Category:</label>
+            <select name='keywordFilterOptions' onChange={(e)=>
+            {
+                console.log(e.target.value, 'twist')
+                if(e.target.value===''){
+                    setShowResults(data)
+                }else{
+                    getFilteredResults(e)
+                }
+            }
+            }>
+                {
+                    groupCategories.length > 0 ? 
+                    groupCategories.map((keyword)=>{
+                    return (
+                    <option value={keyword} >{keyword}</option>
+                  )}) : <label></label>
+                }
+            </select>
+        </div>
         {
           currentGroups ?
           currentGroups.map((group)=>{

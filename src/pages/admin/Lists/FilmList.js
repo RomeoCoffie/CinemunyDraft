@@ -43,18 +43,15 @@ function FilmList() {
     const editProfileBio=()=>{
     }
 
-    const getFilteredResults = (keywordOption) => {
-        let results = showResults.filter(function(movie) {
+    const getFilteredResults = (e) => {
+        let results = movies.filter(function(movie) {
           return (
-              movie.contentIndex.includes(keywordOption)
+              movie.contentIndex.includes(e.target.value)
             )
         });
         console.log(results,'taResult')
         setShowResults(results);
     };
-    console.log(keywordOption, 'option')
-    console.log(movies,'these are the movies')
-    console.log(currentMovies,'sliced')
   return (
     <div className='movieListPage'>
         <div>
@@ -66,8 +63,7 @@ function FilmList() {
                 if(e.target.value===''){
                     setShowResults(movies)
                 }else{
-                    setKeywordOption(e.target.value)
-                    getFilteredResults(keywordOption)
+                    getFilteredResults(e)
                 }
             }
             }>
