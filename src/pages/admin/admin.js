@@ -71,19 +71,22 @@ export default function Adminpage() {
 
         <div>
           <div className="admin-btn">
-          <Link to="/films">See Film List</Link>
+          <Link to="/films">Film List</Link>
           </div>
           <div className="admin-btn">
-            <Link to="/shows">See Show List</Link>
+            <Link to="/shows">Show List</Link>
           </div>
           <div className="admin-btn">
-            <Link to="/groups">See Group List</Link>
+            <Link to="/groups">Group List</Link>
           </div>
           <div className="admin-btn">
-            <Link to="/posts">See Post List</Link>
+            <Link to="/posts">Post List</Link>
           </div>
           <div className="admin-btn">
-            <Link to="/questions">See Question List</Link>
+            <Link to="/questions">Question List</Link>
+          </div>
+          <div className="admin-btn">
+            <Link to="/winnerslist">Winners List</Link>
           </div>
         </div>
         

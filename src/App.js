@@ -41,6 +41,7 @@ import ShowEdits from './pages/admin/Edits/ShowEdits';
 import PostsEdit from './pages/admin/Edits/PostsEdit';
 import GroupEdits from './pages/admin/Edits/GroupEdits';
 import QuestionEdit from './pages/admin/Edits/QuestionEdit'
+import WinnersList from './pages/admin/Lists/WinnersList';
 
 function App() {
   const { authIsReady, user } = useContext(AuthContext);
@@ -95,6 +96,15 @@ function App() {
                   element={
                     <Prosuperadmin user={user}>
                       <Users />
+                    </Prosuperadmin>
+                  }
+                />
+
+                <Route
+                  path="winnerslist"
+                  element={
+                    <Prosuperadmin user={user}>
+                      <WinnersList />
                     </Prosuperadmin>
                   }
                 />

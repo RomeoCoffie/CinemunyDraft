@@ -90,3 +90,13 @@
 .pageNum a{
   font-size: 1rem;
 }
+.winListPage{
+  padding: 6em 1em 2em 1em;
+}
+.winnerslisttab{
+  margin-bottom: 1rem;
+}
+.winnerslisttab div{
+  display: flex;
+  align-items: center;
+}
